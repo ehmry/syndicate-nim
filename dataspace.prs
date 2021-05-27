@@ -1,0 +1,9 @@
+version 1 .
+embeddedType Actor.Ref .
+
+;As implemented
+Observe = <Observe @label symbol @observer embedded>.
+
+; ;As will be implemented soon
+; Observe = <Observe @pattern Pattern @observer embedded>.
+.

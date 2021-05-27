@@ -1,0 +1,14 @@
+version 1 .
+embeddedType Actor.Ref .
+
+UserId = int .
+
+Join = <joinedUser @uid UserId @handle embedded>.
+
+NickClaim = <claimNick @uid UserId @name string @k embedded>.
+
+UserInfo = <user @uid UserId @name string>.
+
+Says = <says @who UserId @what string>.
+
+NickConflict = <nickConflict>.

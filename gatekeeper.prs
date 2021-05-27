@@ -1,0 +1,5 @@
+version 1 .
+embeddedType Actor.Ref .
+
+Resolve = <resolve @sturdyref sturdy.SturdyRef @observer embedded>.
+Bind = <bind @oid any @key bytes @target embedded>.
