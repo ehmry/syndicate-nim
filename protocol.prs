@@ -11,4 +11,4 @@ TurnEvent = [@oid Oid @event Event].
 Assert = <assert @assertion Assertion @handle Handle>.
 Retract = <retract @handle Handle>.
 Message = <message @body Assertion>.
-Sync = <sync @peer embedded>.
+Sync = <sync @peer #!#t>.

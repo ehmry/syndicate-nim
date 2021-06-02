@@ -3,9 +3,16 @@ embeddedType Actor.Ref .
 
 UserId = int .
 
-Join = <joinedUser @uid UserId @handle embedded>.
+Join = <joinedUser @uid UserId @handle #!Session>.
 
-NickClaim = <claimNick @uid UserId @name string @k embedded>.
+Session = @observeUsers <Observe =user @observer #!UserInfo>
+        / @observeSpeech <Observe =says @observer #!Says>
+        / NickClaim
+        / Says
+.
+
+NickClaim = <claimNick @uid UserId @name string @k #!NickClaimResponse>.
+NickClaimResponse = #t / NickConflict .
 
 UserInfo = <user @uid UserId @name string>.
 

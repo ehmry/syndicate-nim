@@ -1,0 +1,11 @@
+version 1 .
+
+; Dataspace patterns: a sublanguage of attenuation patterns.
+Pattern = DDiscard / DBind / DLit / DCompound .
+
+DDiscard = <_>.
+DBind = <bind @name symbol @pattern Pattern>.
+DLit = <lit @value any>.
+DCompound = @rec  <compound <rec @label any @arity int> @members { int: Pattern ...:... }>
+          / @arr  <compound <arr @arity int>            @members { int: Pattern ...:... }>
+          / @dict <compound <dict>                      @members { any: Pattern ...:... }> .
