@@ -1,9 +1,0 @@
-version 1 .
-embeddedType Actor.Ref .
-
-BoxState = <BoxState @value int>.
-SetBox = <SetBox @value int>.
-
-; BoxCap = BoxState / <Observe =SetBox @observer embedded>.
-; ClientCap = SetBox / <Observe =BoxState @observer embedded>.
-.
