@@ -1,5 +1,5 @@
 version 1 .
-embeddedType Actor.Ref .
+embeddedType EntityRef.Ref .
 
 Present = <Present @username string>.
 Says = <Says @who string @what string>.

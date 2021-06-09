@@ -1,4 +1,4 @@
 version 1 .
-embeddedType Actor.Ref .
+embeddedType EntityRef.Ref .
 
 Instance = <Instance @name string @argument any>.

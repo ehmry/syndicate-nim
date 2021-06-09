@@ -36,7 +36,8 @@ PNot = <not @pattern Pattern>.
 PCompound = <compound @ctor ConstructorSpec @members PCompoundMembers>.
 PCompoundMembers = { any: Pattern ...:... }.
 
-Template = TRef / Lit / TCompound .
+Template = TAttenuate / TRef / Lit / TCompound .
+TAttenuate = <attenuate @template Template @attenuation Attenuation>.
 TRef = <ref @name symbol>.
 TCompound = <compound @ctor ConstructorSpec @members TCompoundMembers>.
 TCompoundMembers = { any: Template ...:... }.
