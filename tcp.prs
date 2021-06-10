@@ -9,7 +9,7 @@ TcpInbound = <inbound @host string @port int>.
 
 ActiveSocket =
   / <controller @controller #!Sink>
-  / <close @reason any>
+  / <close @message string>
   / Socket
 .
 
