@@ -1,0 +1,17 @@
+version 1 .
+embeddedType EntityRef.Ref .
+
+Connection = <connection @handle #!ActiveSocket @spec any>.
+ConnectionPeer = <connection-peer @handle #!ActiveSocket @spec any>.
+
+TcpOutbound = <outbound @host string @port int>.
+TcpInbound = <inbound @host string @port int>.
+
+ActiveSocket =
+  / <controller @controller #!Sink>
+  / <close @reason any>
+  / Socket
+.
+
+; TODO: <credit @amount int>
+Socket = <data @payload bytes>.
