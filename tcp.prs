@@ -13,5 +13,15 @@ ActiveSocket =
   / Socket
 .
 
-; TODO: <credit @amount int>
-Socket = <data @payload bytes>.
+Socket =
+  / Credit
+  / <line @text string @mode LineMode>
+  / <data @payload bytes>
+  / <eof>
+.
+
+LineMode = =lf / =crlf .
+
+Credit = <credit @amount CreditAmount @unit CreditMode>.
+CreditMode = =bytes / @lines LineMode .
+CreditAmount = @count int / @unbounded =unbounded .
