@@ -14,14 +14,12 @@ ActiveSocket =
 .
 
 Socket =
-  / Credit
-  / <line @text string @mode LineMode>
-  / <data @payload bytes>
+  / <credit @amount CreditAmount @mode Mode>
+  / <data @payload bytes @mode Mode>
   / <eof>
 .
 
-LineMode = =lf / =crlf .
-
-Credit = <credit @amount CreditAmount @unit CreditMode>.
-CreditMode = =bytes / @lines LineMode .
 CreditAmount = @count int / @unbounded =unbounded .
+
+Mode = =bytes / @lines LineMode .
+LineMode = =lf / =crlf .
