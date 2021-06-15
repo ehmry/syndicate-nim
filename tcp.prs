@@ -4,8 +4,8 @@ embeddedType EntityRef.Ref .
 Connection = <connection @handle #!ActiveSocket @spec any>.
 ConnectionPeer = <connection-peer @handle #!ActiveSocket @spec any>.
 
-TcpOutbound = <outbound @host string @port int>.
-TcpInbound = <inbound @host string @port int>.
+TcpRemote = <remote @host string @port int>.
+TcpLocal = <local @host string @port int>.
 
 ActiveSocket =
   / <controller @controller #!Sink>
