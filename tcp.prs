@@ -1,25 +1,7 @@
 version 1 .
 embeddedType EntityRef.Ref .
 
-Connection = <connection @handle #!ActiveSocket @spec any>.
-ConnectionPeer = <connection-peer @handle #!ActiveSocket @spec any>.
+TcpRemote = <tcp-remote @host string @port int>.
+TcpLocal = <tcp-local @host string @port int>.
 
-TcpRemote = <remote @host string @port int>.
-TcpLocal = <local @host string @port int>.
-
-ActiveSocket =
-  / <controller @controller #!Sink>
-  / <close @message string>
-  / Socket
-.
-
-Socket =
-  / <credit @amount CreditAmount @mode Mode>
-  / <data @payload bytes @mode Mode>
-  / <eof>
-.
-
-CreditAmount = @count int / @unbounded =unbounded .
-
-Mode = =bytes / @lines LineMode / <packet @size int>.
-LineMode = =lf / =crlf .
+TcpPeerInfo = <tcp-peer @handle #!any @local TcpLocal @remote TcpRemote>.
