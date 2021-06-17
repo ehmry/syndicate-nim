@@ -5,3 +5,5 @@ TcpRemote = <tcp-remote @host string @port int>.
 TcpLocal = <tcp-local @host string @port int>.
 
 TcpPeerInfo = <tcp-peer @handle #!any @local TcpLocal @remote TcpRemote>.
+
+TcpListenError = <tcp-listen-error @spec TcpLocal @message string>.

@@ -1,7 +1,10 @@
 version 1 .
 embeddedType EntityRef.Ref .
 
+; Assertions
 StreamConnection = <stream-connection @source #!Source @sink #!Sink @spec any>.
+StreamSpecListenable = <stream-spec-listenable @spec any>.
+StreamSpecConnectable = <stream-spec-connectable @spec any>.
 
 ; Assertion
 StreamListener = <stream-listener @spec any @handle #!ConnectionHandler>.
