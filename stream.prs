@@ -1,24 +1,14 @@
 version 1 .
 embeddedType EntityRef.Ref .
 
-; Assertions
+; Assertion:
 StreamConnection = <stream-connection @source #!Source @sink #!Sink @spec any>.
-StreamSpecListenable = <stream-spec-listenable @spec any>.
-StreamSpecConnectable = <stream-spec-connectable @spec any>.
 
-; Assertion
-StreamListener = <stream-listener @spec any @handle #!ConnectionHandler>.
+; Assertions:
+StreamListenerReady = <stream-listener-ready @spec any>.
+StreamListenerError = <stream-listener-error @spec any @message string>.
 
-; Assertion
-StreamConnect = <stream-connect @spec any @handle #!ConnectionHandler>.
-
-; Assertion
-ConnectionHandler =
-  / @connected <stream-connected @source #!Source @sink #!Sink>
-  / @rejected <stream-rejected @message string>
-.
-
-; Assertion
+; Assertion:
 StreamError = <error @message string>.
 
 Source =
@@ -40,7 +30,9 @@ Sink =
   / <eof>
 .
 
+; Value:
 CreditAmount = @count int / @unbounded =unbounded .
 
+; Value:
 Mode = =bytes / @lines LineMode / <packet @size int> / <object @description any>.
 LineMode = =lf / =crlf .
