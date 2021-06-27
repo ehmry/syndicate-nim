@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  preserves
+  preserves, preserves / records
 
 const
   Discard* = RecordClass(label: symbol"discard", arity: 0)
