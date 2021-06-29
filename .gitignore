@@ -1,1 +1,2 @@
 tests/test_box_and_client
+tests/test_dsl
