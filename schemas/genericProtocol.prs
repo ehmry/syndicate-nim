@@ -1,5 +1,4 @@
 version 1 .
-embeddedType sturdy.WireRef .
 
 Packet = Turn / Error .
 
