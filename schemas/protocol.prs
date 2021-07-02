@@ -1,6 +1,10 @@
 version 1 .
 embeddedType sturdy.WireRef .
 
+Packet = Turn / Error .
+
+Error = <error @message string @detail any>.
+
 Assertion = any .
 Handle    = int .
 Event     = Assert / Retract / Message / Sync .
