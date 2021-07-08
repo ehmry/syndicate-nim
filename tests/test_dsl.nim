@@ -12,7 +12,7 @@ import
 const
   BoxState = RecordClass(label: symbol"box-state", arity: 1)
   SetBox = RecordClass(label: symbol"set-box", arity: 1)
-syndicate "test_dsl":
+syndicate testDsl:
   spawn "box":
     field(currentValue, int, 0)
     assert(BoxState.init currentValue.get)
@@ -24,7 +24,7 @@ syndicate "test_dsl":
   spawn "client":
     onAsserted(BoxState % `?*`)do (v: int):
       echo "client: learned that box\'s value is now ", v
-      sendMessage(SetBox % v.pred)
+      sendMessage(SetBox % v.succ)
     onRetracted(BoxState % `? _`)do (_):
       echo "client: box state disappeared"
     onStop:

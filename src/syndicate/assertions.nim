@@ -9,3 +9,9 @@ const
   Observe* = RecordClass(label: symbol"observe", arity: 1)
   `? _`* = initRecord("discard")
   `?*`* = Capture % `? _`
+proc captureCount*(pattern: Preserve): int =
+  if Capture.isClassOf pattern:
+    result = 1
+  else:
+    for e in pattern.items:
+      result.inc captureCount(e)
