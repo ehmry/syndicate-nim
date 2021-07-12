@@ -31,7 +31,7 @@ Pattern = PDiscard / PAtom / PEmbedded / PBind / PAnd / PNot / Lit / PCompound .
 PDiscard = <_>.
 PAtom = =Boolean / =Float / =Double / =SignedInteger / =String / =ByteString / =Symbol .
 PEmbedded = =Embedded .
-PBind = <bind @name symbol @pattern Pattern>.
+PBind = <bind @pattern Pattern>.
 PAnd = <and @patterns [Pattern ...]>.
 PNot = <not @pattern Pattern>.
 PCompound = <compound @ctor ConstructorSpec @members PCompoundMembers>.
@@ -39,7 +39,6 @@ PCompoundMembers = { any: Pattern ...:... }.
 
 Template = TAttenuate / TRef / Lit / TCompound .
 TAttenuate = <attenuate @template Template @attenuation Attenuation>.
-TRef = <ref @name symbol>.
+TRef = <ref @binding int>.
 TCompound = <compound @ctor ConstructorSpec @members TCompoundMembers>.
 TCompoundMembers = { any: Template ...:... }.
-
