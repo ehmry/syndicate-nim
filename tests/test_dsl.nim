@@ -24,7 +24,7 @@ syndicate testDsl:
   spawn "client":
     onAsserted(BoxState % `?*`)do (v: int):
       echo "client: learned that box\'s value is now ", v
-      send(SetBox % v.pred)
+      send(SetBox % v.succ)
     onRetracted(BoxState % `? _`)do (_):
       echo "client: box state disappeared"
     onStop:
