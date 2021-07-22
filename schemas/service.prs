@@ -1,5 +1,5 @@
 version 1 .
-embeddedType EntityRef.Ref .
+embeddedType EntityRef.RefAny .
 
 RequireService = <require-service @serviceName any>.
 ServiceRunning = <service-running @serviceName any>.

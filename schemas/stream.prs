@@ -1,5 +1,5 @@
 version 1 .
-embeddedType EntityRef.Ref .
+embeddedType EntityRef.RefAny .
 
 ; Assertion:
 StreamConnection = <stream-connection @source #!Source @sink #!Sink @spec any>.

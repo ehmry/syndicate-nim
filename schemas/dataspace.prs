@@ -1,4 +1,4 @@
 version 1 .
-embeddedType EntityRef.Ref .
+embeddedType EntityRef.RefAny .
 
 Observe = <Observe @pattern dataspacePatterns.Pattern @observer #!any>.
