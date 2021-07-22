@@ -1,4 +1,4 @@
 version 1 .
-embeddedType EntityRef.RefAny .
+embeddedType EntityRef.Cap .
 
 Instance = <Instance @name string @argument any>.

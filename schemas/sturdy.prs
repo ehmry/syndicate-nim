@@ -1,5 +1,5 @@
 version 1 .
-embeddedType EntityRef.RefAny .
+embeddedType EntityRef.Cap .
 
 ; Each Attenuation is a stage. The sequence of Attenuations is run RIGHT-TO-LEFT.
 ; That is, the newest Attenuations are at the right.

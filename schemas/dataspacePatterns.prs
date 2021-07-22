@@ -1,5 +1,5 @@
 version 1 .
-embeddedType EntityRef.RefAny .
+embeddedType EntityRef.Cap .
 
 ; Dataspace patterns: a sublanguage of attenuation patterns.
 Pattern = DDiscard / DBind / DLit / DCompound .

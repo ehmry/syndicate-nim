@@ -1,5 +1,5 @@
 version 1 .
-embeddedType EntityRef.RefAny .
+embeddedType EntityRef.Cap .
 
 TcpRemote = <tcp-remote @host string @port int>.
 TcpLocal = <tcp-local @host string @port int>.
