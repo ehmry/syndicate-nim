@@ -5,7 +5,7 @@ embeddedType EntityRef.Cap .
 Pattern = DDiscard / DBind / DLit / DCompound .
 
 DDiscard = <_>.
-DBind = <bind @name symbol @pattern Pattern>.
+DBind = <bind @pattern Pattern>.
 DLit = <lit @value any>.
 DCompound = @rec  <compound @ctor CRec  @members { int: Pattern ...:... }>
           / @arr  <compound @ctor CArr  @members { int: Pattern ...:... }>
