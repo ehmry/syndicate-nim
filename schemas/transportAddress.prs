@@ -1,0 +1,5 @@
+version 1 .
+
+Tcp = <tcp @host string @port int>.
+Unix = <unix @path string>.
+WebSocket = <ws @url string>.
