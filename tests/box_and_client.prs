@@ -1,0 +1,5 @@
+version 1.
+
+BoxState = <box-state @value int> .
+
+SetBox = <set-box @value int> .
