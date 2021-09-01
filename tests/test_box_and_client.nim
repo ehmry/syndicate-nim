@@ -15,9 +15,9 @@ import
 
 const
   N = 100000
-const
-  `? _` = init(Discard)
-  `?$` = init(Capture, `? _`)
+let
+  `? _` = Discard().toPreserve
+  `?$` = Capture().toPreserve
 proc boot(facet: Facet) =
   facet.spawn("box")do (facet: Facet):
     facet.declareField(value, int, 0)
@@ -28,19 +28,17 @@ proc boot(facet: Facet) =
         facet.stopdo (facet: Facet):
           echo "terminated box root facet"
     facet.addEndpointdo (facet: Facet) -> EndpointSpec:
-      const
-        a = prsSetBox(`?$`)
+      let a = prsSetBox(`?$`)
       result.analysis = some analyzeAssertion(a)
       proc cb(facet: Facet; vs: seq[Value]) =
         facet.scheduleScriptdo (facet: Facet):
           value.set(vs[0])
 
       result.callback = facet.wrap(messageEvent, cb)
-      result.assertion = Observe.init(prsSetBox(`?$`))
+      result.assertion = observe(prsSetBox(`?$`))
   facet.spawn("client")do (facet: Facet):
     facet.addEndpointdo (facet: Facet) -> EndpointSpec:
-      const
-        a = prsBoxState(`?$`)
+      let a = prsBoxState(`?$`)
       result.analysis = some analyzeAssertion(a)
       proc cb(facet: Facet; vs: seq[Value]) =
         facet.scheduleScriptdo (facet: Facet):
@@ -48,17 +46,16 @@ proc boot(facet: Facet) =
           facet.send(v)
 
       result.callback = facet.wrap(addedEvent, cb)
-      result.assertion = Observe.init(prsBoxState(`?$`))
+      result.assertion = observe(prsBoxState(`?$`))
     facet.addEndpointdo (facet: Facet) -> EndpointSpec:
-      const
-        a = prsBoxState(`? _`)
+      let a = prsBoxState(`? _`)
       result.analysis = some analyzeAssertion(a)
       proc cb(facet: Facet; vs: seq[Value]) =
         facet.scheduleScriptdo (facet: Facet):
           echo "box gone"
 
       result.callback = facet.wrap(removedEvent, cb)
-      result.assertion = Observe.init(prsBoxState(`? _`))
+      result.assertion = observe(prsBoxState(`? _`))
   facet.actor.dataspace.ground.addStopHandlerdo (_: Dataspace):
     echo "stopping box-and-client"
 
