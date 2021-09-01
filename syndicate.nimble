@@ -3,7 +3,7 @@
 version       = "0.0.0"
 author        = "Emery Hemingway"
 description   = "Syndicated actors for conversational concurrency"
-license       = "ISC"
+license       = "Unlicense"
 srcDir        = "src"
 
 
