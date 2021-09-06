@@ -1,0 +1,5 @@
+PRESERVES_SRC_DIR = ../../../../preserves/src
+
+: $(PRESERVES_SRC_DIR)/preserves/private/preserves_schema_nim.nim |> nim c -o:%o %f |> preserves_schema_nim
+
+: foreach *.prs | preserves_schema_nim |> ./preserves_schema_nim %f; nim check --path:$(PRESERVES_SRC_DIR) %o |> %B.nim {gen}
