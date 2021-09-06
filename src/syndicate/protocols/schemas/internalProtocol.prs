@@ -1,0 +1,3 @@
+version 1 .
+embeddedType EntityRef.Cap .
+include "genericProtocol.prs".

@@ -1,0 +1,44 @@
+version 1 .
+embeddedType EntityRef.Cap .
+
+; Each Attenuation is a stage. The sequence of Attenuations is run RIGHT-TO-LEFT.
+; That is, the newest Attenuations are at the right.
+SturdyRef = <ref @oid any @caveatChain [Attenuation ...] @sig bytes>.
+
+; An individual Attenuation is run RIGHT-TO-LEFT.
+; That is, the newest Caveats are at the right.
+Attenuation = [Caveat ...].
+
+; embodies 1st-party caveats over assertion structure, but nothing else
+; can add 3rd-party caveats and richer predicates later
+Caveat = Rewrite / Alts .
+Rewrite = <rewrite @pattern Pattern @template Template>.
+Alts = <or @alternatives [Rewrite ...]>.
+
+Oid = int .
+WireRef = @mine [0 @oid Oid] / @yours [1 @oid Oid @attenuation Caveat ...].
+
+;---------------------------------------------------------------------------
+
+ConstructorSpec = CRec / CArr / CDict .
+CRec = <rec @label any @arity int>.
+CArr = <arr @arity int>.
+CDict = <dict>.
+
+Lit = <lit @value any>.
+
+Pattern = PDiscard / PAtom / PEmbedded / PBind / PAnd / PNot / Lit / PCompound .
+PDiscard = <_>.
+PAtom = =Boolean / =Float / =Double / =SignedInteger / =String / =ByteString / =Symbol .
+PEmbedded = =Embedded .
+PBind = <bind @pattern Pattern>.
+PAnd = <and @patterns [Pattern ...]>.
+PNot = <not @pattern Pattern>.
+PCompound = <compound @ctor ConstructorSpec @members PCompoundMembers>.
+PCompoundMembers = { any: Pattern ...:... }.
+
+Template = TAttenuate / TRef / Lit / TCompound .
+TAttenuate = <attenuate @template Template @attenuation Attenuation>.
+TRef = <ref @binding int>.
+TCompound = <compound @ctor ConstructorSpec @members TCompoundMembers>.
+TCompoundMembers = { any: Template ...:... }.

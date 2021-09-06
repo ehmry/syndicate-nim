@@ -1,0 +1,4 @@
+version 1 .
+embeddedType EntityRef.Cap .
+
+Instance = <Instance @name string @argument any>.

@@ -1,0 +1,21 @@
+version 1 .
+embeddedType EntityRef.Cap .
+
+UserId = int .
+
+Join = <joinedUser @uid UserId @handle #!Session>.
+
+Session = @observeUsers <Observe =user @observer #!UserInfo>
+        / @observeSpeech <Observe =says @observer #!Says>
+        / NickClaim
+        / Says
+.
+
+NickClaim = <claimNick @uid UserId @name string @k #!NickClaimResponse>.
+NickClaimResponse = #t / NickConflict .
+
+UserInfo = <user @uid UserId @name string>.
+
+Says = <says @who UserId @what string>.
+
+NickConflict = <nickConflict>.

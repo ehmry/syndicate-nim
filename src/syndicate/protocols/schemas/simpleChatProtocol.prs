@@ -1,0 +1,5 @@
+version 1 .
+embeddedType EntityRef.Cap .
+
+Present = <Present @username string>.
+Says = <Says @who string @what string>.

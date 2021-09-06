@@ -1,0 +1,17 @@
+version 1 .
+
+Packet = Turn / Error .
+
+Error = <error @message string @detail any>.
+
+Assertion = any .
+Handle    = int .
+Event     = Assert / Retract / Message / Sync .
+Oid       = int .
+Turn      = [TurnEvent ...].
+TurnEvent = [@oid Oid @event Event].
+
+Assert = <assert @assertion Assertion @handle Handle>.
+Retract = <retract @handle Handle>.
+Message = <message @body Assertion>.
+Sync = <sync @peer #!#t>.

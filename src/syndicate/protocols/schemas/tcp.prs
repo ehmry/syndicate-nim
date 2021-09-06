@@ -1,0 +1,7 @@
+version 1 .
+embeddedType EntityRef.Cap .
+
+TcpRemote = <tcp-remote @host string @port int>.
+TcpLocal = <tcp-local @host string @port int>.
+
+TcpPeerInfo = <tcp-peer @handle #!any @local TcpLocal @remote TcpRemote>.

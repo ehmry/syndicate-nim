@@ -1,0 +1,38 @@
+version 1 .
+embeddedType EntityRef.Cap .
+
+; Assertion:
+StreamConnection = <stream-connection @source #!Source @sink #!Sink @spec any>.
+
+; Assertions:
+StreamListenerReady = <stream-listener-ready @spec any>.
+StreamListenerError = <stream-listener-error @spec any @message string>.
+
+; Assertion:
+StreamError = <error @message string>.
+
+Source =
+  ; Assertions:
+  / <sink @controller #!Sink>
+  / StreamError
+
+  ; Messages:
+  / <credit @amount CreditAmount @mode Mode>
+.
+
+Sink =
+  ; Assertions:
+  / <source @controller #!Source>
+  / StreamError
+
+  ; Messages:
+  / <data @payload any @mode Mode>
+  / <eof>
+.
+
+; Value:
+CreditAmount = @count int / @unbounded =unbounded .
+
+; Value:
+Mode = =bytes / @lines LineMode / <packet @size int> / <object @description any>.
+LineMode = =lf / =crlf .

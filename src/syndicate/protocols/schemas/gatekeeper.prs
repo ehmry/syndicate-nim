@@ -1,0 +1,5 @@
+version 1 .
+embeddedType EntityRef.Cap .
+
+Resolve = <resolve @sturdyref sturdy.SturdyRef @observer #!#!any>.
+Bind = <bind @oid any @key bytes @target #!any>.

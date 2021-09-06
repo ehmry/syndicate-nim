@@ -1,0 +1,16 @@
+version 1 .
+embeddedType EntityRef.Cap .
+
+; Dataspace patterns: a sublanguage of attenuation patterns.
+Pattern = DDiscard / DBind / DLit / DCompound .
+
+DDiscard = <_>.
+DBind = <bind @pattern Pattern>.
+DLit = <lit @value any>.
+DCompound = @rec  <compound @ctor CRec  @members { int: Pattern ...:... }>
+          / @arr  <compound @ctor CArr  @members { int: Pattern ...:... }>
+          / @dict <compound @ctor CDict @members { any: Pattern ...:... }> .
+
+CRec = <rec @label any @arity int>.
+CArr = <arr @arity int>.
+CDict = <dict>.
