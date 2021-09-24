@@ -1,7 +1,25 @@
-preserves_schema_nim = ../../../preserves/preserves_schema_nim
+include_rules
 
-!preserves_schema_nim = | $(preserves_schema_nim) |> $(preserves_schema_nim) %f |> %B.nim
+: ../../../preserves/src/preserves/preserves_schema_nim.nim |> !nim |> preserves_schema_nim
 
-: foreach ../../../protocols/schemas/*.prs |> !preserves_schema_nim |> {gen}
+!preserves_schema_nim = | ./preserves_schema_nim |> ./preserves_schema_nim %f |> %B.nim
 
-: foreach {gen} | {gen} |> nim check %f; touch %o |> .%B.nim.check {gen}
+schemas = \
+	dataspace.nim \
+	dataspacePatterns.nim \
+	gatekeeper.nim \
+	protocol.nim \
+	racketEvent.nim \
+	secureChatProtocol.nim \
+	service.nim \
+	simpleChatProtocol.nim \
+	stream.nim \
+	sturdy.nim \
+	tcp.nim \
+	timer.nim \
+	transportAddress.nim \
+	worker.nim \
+
+: ../../../protocols/schema-bundle.bin |> !preserves_schema_nim |> $(schemas)
+
+: foreach $(schemas) | $(schemas) |> nim check %f; touch %o |> .%B.nim.check

