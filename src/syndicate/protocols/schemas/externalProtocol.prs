@@ -1,3 +1,0 @@
-version 1 .
-embeddedType sturdy.WireRef .
-include "genericProtocol.prs".

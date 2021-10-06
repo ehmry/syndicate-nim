@@ -1,0 +1,7 @@
+preserves_schema_nim = ../../../preserves/preserves_schema_nim
+
+!preserves_schema_nim = | $(preserves_schema_nim) |> $(preserves_schema_nim) %f |> %B.nim
+
+: foreach ../../../protocols/schemas/*.prs |> !preserves_schema_nim |> {gen}
+
+: foreach {gen} | {gen} |> nim check %f; touch %o |> .%B.nim.check {gen}

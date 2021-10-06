@@ -1,3 +1,6 @@
 [submodule "preserves"]
 	path = preserves
 	url = ./preserves
+[submodule "protocols"]
+	path = protocols
+	url = https://git.syndicate-lang.org/syndicate-lang/syndicate-protocols.git
