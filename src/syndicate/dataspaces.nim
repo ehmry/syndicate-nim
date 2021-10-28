@@ -34,7 +34,8 @@ type
 type
   DuringEntity = ref object of Entity
   
-method publish(de: DuringEntity; turn: var Turn; a: Assertion; h: Handle) =
+proc duringPublish(e: Entity; turn: var Turn; a: Assertion; h: Handle) =
+  var de = DuringEntity(e)
   let action = de.cb(turn, a)
   let g = de.assertionMap.getOrDefault h
   case g.kind
@@ -46,7 +47,8 @@ method publish(de: DuringEntity; turn: var Turn; a: Assertion; h: Handle) =
   of act:
     raiseAssert("during: duplicate handle in publish: " & $h)
 
-method retract(de: DuringEntity; turn: var Turn; h: Handle) =
+proc duringRetract(e: Entity; turn: var Turn; h: Handle) =
+  var de = DuringEntity(e)
   let g = de.assertionMap.getOrDefault h
   case g.kind
   of null:
@@ -59,6 +61,7 @@ method retract(de: DuringEntity; turn: var Turn; h: Handle) =
 
 proc during*(cb: DuringProc): DuringEntity =
   result = DuringEntity(cb: cb)
+  result.setProcs(publish = duringPublish, retract = duringRetract)
 
 proc observe*(turn: var Turn; ds: Ref; pat: Pattern; e: Entity): Handle =
   publish(turn, ds, Observe(pattern: pat, observer: embed newRef(turn, e)))
