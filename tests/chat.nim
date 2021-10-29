@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / [asyncdispatch, asyncfile, random, strutils]
+  std / [asyncdispatch, asyncfile, strutils]
 
 import
   preserves, preserves / parse
@@ -49,8 +49,8 @@ waitFor runActor("chat")do (turn: var Turn):
 
       onRetract
 
-    discard observe(turn, ds, toPattern(Present), during(duringPresent))
-    discard observe(turn, ds, toPattern(Says), newEntity(message = proc (
+    discard observe(turn, ds, Present ? {0: `?`()}, during(duringPresent))
+    discard observe(turn, ds, Says ? {0: `?`(), 1: `?`()}, newEntity(message = proc (
         e: Entity; turn: var Turn; v: Assertion) =
       var msg: tuple[who: string, what: string]
       assert fromPreserve(msg, v), $v
