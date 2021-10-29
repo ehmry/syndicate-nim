@@ -7,7 +7,7 @@ import
   preserves
 
 import
-  ../syndicate / protocols / [dataspacePatterns, simpleChatProtocol]
+  ../syndicate / protocols / dataspacePatterns
 
 from ./actors import Ref
 

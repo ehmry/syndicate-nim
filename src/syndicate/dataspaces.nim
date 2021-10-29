@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / [asyncdispatch, hashes, macros, options, tables]
+  std / [hashes, macros, tables]
 
 import
   preserves
@@ -15,7 +15,6 @@ import
 from ../syndicate / protocols / protocol import Handle
 
 type
-  Value = Preserve[Ref]
   Pattern* = dataspacePatterns.Pattern[Ref]
   Observe = dataspace.Observe[Ref]
   Turn = actors.Turn
