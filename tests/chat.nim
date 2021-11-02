@@ -14,13 +14,9 @@ from syndicate / protocols / protocol import Handle
 
 from os import getCurrentProcessId
 
-when defined(linux):
-  proc getentropy(buf: pointer; bufLen: csize_t): cint {.importc,
-      header: "sys/random.h".}
 proc mint(): SturdyRef =
-  let pr = parsePreserves("""<ref "syndicate" [] #x"a6480df5306611ddd0d3882b546e1977">""",
-                          Ref)
-  doAssert fromPreserve(result, pr)
+  var key: array[16, byte]
+  mint(key, "syndicate")
 
 waitFor runActor("chat")do (turn: var Turn):
   let cap = mint()
@@ -35,9 +31,11 @@ waitFor runActor("chat")do (turn: var Turn):
       usernameHandle = replace(turn, ds, usernameHandle, p)
 
     updateUsername(turn, "user" & $getCurrentProcessId())
-    onPublish(turn, ds, Present ? {0: `?`()})do (username: string):
+    onPublish(turn, ds, Present ? {0: `?*`()})do (username: string):
       echo username, " arrived"
-    onMessage(turn, ds, Says ? {0: `?`(), 1: `?`()})do (who: string;
+      onRetract:
+        echo username, " left"
+    onMessage(turn, ds, Says ? {0: `?*`(), 1: `?*`()})do (who: string;
         what: string):
       echo who, ": ", what
     message(turn, ds, Says(who: username, what: "hello"))
