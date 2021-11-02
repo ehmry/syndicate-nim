@@ -7,15 +7,11 @@ import
   preserves
 
 import
-  ../syndicate / protocols / [dataspace, dataspacePatterns]
+  ./actors, ./bags, ./patterns, ./protocols / dataspace
 
-import
-  ./actors, ./bags
-
-from ../syndicate / protocols / protocol import Handle
+from ./protocols / protocol import Handle
 
 type
-  Pattern* = dataspacePatterns.Pattern[Ref]
   Observe = dataspace.Observe[Ref]
   Turn = actors.Turn
 type

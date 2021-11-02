@@ -7,10 +7,8 @@ import
   preserves, preserves / parse
 
 import
-  syndicate, syndicate / protocols / [simpleChatProtocol]
-
-import
-  syndicate / [actors, capabilities, dataspaces, patterns, relay]
+  syndicate, syndicate / [actors, capabilities, dataspaces, patterns, relay],
+  syndicate / protocols / [simpleChatProtocol]
 
 from syndicate / protocols / protocol import Handle
 

@@ -1,0 +1,92 @@
+#!/usr/bin/env spry
+
+title = "Simple Chat Demo"
+
+# Initialize libui
+uiInit
+
+username = "user"
+
+menu = newMenu "Menu"
+
+# menu addItem: "Username" onClicked: [
+#   dialog = newWindow: "Username" width: 200 height: 40 hasBar: false
+#   entry = newEntryText: username onChanged: []
+#   quitit = newButton: "Quit" onClicked: [
+#     destroy dialog
+#     true
+#   ]
+#   layout = newHorizontalBox
+#   #layout add: entry stretch: true
+#   layout.add: quitit stretch: false
+#   group = newGroup "Username"
+#   group setChild: layout
+#   dialog setChild: quitit
+#   dialog show
+# ]
+
+menu menuAppendAboutItem
+
+menu addQuitItemShouldClose: [
+  win destroy
+  uiQuit
+  true
+]
+
+# Create a new Window
+win = newWindow: title width: 640 height: 400 hasBar: true
+win margined: true
+
+# create text boxes
+scrollback = newMultilineEntryText
+scrollback readonly: true
+
+sendEntry = newMultilineEntryText
+
+# create layouts
+layout = newVerticalBox
+sendBox = newHorizontalBox
+
+# Some buttons and their handlers
+sendButton = newButton: "Send" onClicked: [
+  msg = (sendEntry text)
+  msg != "" then: [
+    scrollback addText: (msg, "\x0a")
+    sendEntry text: ""
+  ]
+]
+
+# Group
+group = newGroup "Workspace"
+group margined: false
+group setChild: layout
+
+sendBox add: sendEntry stretch: true
+sendBox add: sendButton stretch: false
+
+# Put things in the boxes
+layout padded: true
+layout add: scrollback stretch: true
+layout add: sendBox stretch: false
+
+# Add box to window
+win setChild: group
+
+# Set initial text
+sendEntry text: "compose a message here"
+
+# Close handler
+closeHandler = [
+  win destroy
+  uiQuit
+  true
+]
+
+# Set a handler on closing window
+win onClosingShouldClose: [ true ]
+
+# Show the window
+win show
+
+# Enter libui's event loop
+uiMain

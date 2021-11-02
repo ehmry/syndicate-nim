@@ -7,7 +7,7 @@ import
   preserves
 
 import
-  ../syndicate / protocols / dataspacePatterns
+  ./protocols / dataspacePatterns
 
 from ./actors import Ref
 
@@ -21,9 +21,6 @@ type
   DLit* = dataspacePatterns.DLit[Ref]
   DCompound* = dataspacePatterns.DCompound[Ref]
   Pattern* = dataspacePatterns.Pattern[Ref]
-proc `?`*(): Pattern =
-  Pattern(orKind: PatternKind.DDiscard)
-
 proc `?`*(d: DBind): Pattern =
   Pattern(orKind: PatternKind.DBind, dbind: d)
 
@@ -33,18 +30,30 @@ proc `?`*(d: DLit): Pattern =
 proc `?`*(d: DCompound): Pattern =
   Pattern(orKind: PatternKind.DCompound, dcompound: d)
 
+proc `?`*(s: string): Pattern =
+  ?DLit(value: toPreserve(s, Ref))
+
 proc arity(T: typedesc): int =
-  var t: ptr T
-  for _ in fields(t[]):
+  var t: T
+  for _ in fields(t):
     inc result
+
+proc `? _`*(): Pattern =
+  Pattern(orKind: PatternKind.DDiscard)
+
+proc `?*`*(): Pattern =
+  ?DBind(pattern: `? _`())
 
 proc `?`*(T: typedesc; bindings: openArray[(int, Pattern)]): Pattern =
   ## Pattern constructor operator.
   when T.hasCustomPragma(preservesRecord):
-    var
-      label = tosymbol(T.getCustomPragmaVal(preservesRecord), Ref)
-      members: Table[BiggestInt, Pattern]
-    for (i, p) in bindings:
-      members[BiggestInt i] = ?DBind(pattern: p)
+    var label = tosymbol(T.getCustomPragmaVal(preservesRecord), Ref)
     result = ?DCompound(orKind: DCompoundKind.rec, rec: DCompoundRec(
-        ctor: CRec(label: label, arity: T.arity), members: members))
+        ctor: CRec(label: label, arity: T.arity), members: toTable bindings))
+  else:
+    {.error: "no custom pragma on " & $T.}
+
+proc observe*(pat: Pattern): Pattern =
+  ?DCompound(orKind: DCompoundKind.rec, rec: DCompoundRec(
+      ctor: CRec(label: toSymbol("Observe", Ref), arity: 2),
+      members: toTable {0: pat}))
