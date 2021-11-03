@@ -56,4 +56,4 @@ proc `?`*(T: typedesc; bindings: openArray[(int, Pattern)]): Pattern =
 proc observe*(pat: Pattern): Pattern =
   ?DCompound(orKind: DCompoundKind.rec, rec: DCompoundRec(
       ctor: CRec(label: toSymbol("Observe", Ref), arity: 2),
-      members: toTable {0: pat}))
+      members: toTable {0: pat, 1: `? _`()}))
