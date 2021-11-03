@@ -17,9 +17,9 @@ type
   
   TurnEvent*[E] {.preservesTuple.} = ref object
   
-  Oid* = BiggestInt
+  Oid* = int
   Assertion*[E] = Preserve[E]
-  Handle* = BiggestInt
+  Handle* = int
   PacketKind* {.pure.} = enum
     `Turn`, `Error`
   `Packet`*[E] {.preservesOr.} = ref object

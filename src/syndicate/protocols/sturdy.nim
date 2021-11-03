@@ -81,7 +81,7 @@ type
   
   TAttenuate*[E] {.preservesRecord: "attenuate".} = ref object
   
-  Oid* = BiggestInt
+  Oid* = int
   Alts*[E] {.preservesRecord: "or".} = ref object
   
   CDict* {.preservesRecord: "dict".} = object
