@@ -1,38 +1,54 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / typetraits, preserves, std / tables, std / tables
+  std / typetraits, preserves, std / tables
 
 type
-  CRec*[E] {.preservesRecord: "rec".} = ref object
+  PCompoundKind* {.pure.} = enum
+    `rec`, `arr`, `dict`
+  PCompoundRec*[E] {.preservesRecord: "rec".} = ref object
   
-  PCompound*[E] {.preservesRecord: "compound".} = ref object
+  PCompoundArr*[E] {.preservesRecord: "arr".} = ref object
   
-  ConstructorSpecKind* {.pure.} = enum
-    `CRec`, `CArr`, `CDict`
-  `ConstructorSpec`*[E] {.preservesOr.} = ref object
-    case orKind*: ConstructorSpecKind
-    of ConstructorSpecKind.`CRec`:
+  PCompoundDict*[E] {.preservesRecord: "dict".} = ref object
+  
+  `PCompound`*[E] {.preservesOr.} = ref object
+    case orKind*: PCompoundKind
+    of PCompoundKind.`rec`:
       
-    of ConstructorSpecKind.`CArr`:
+    of PCompoundKind.`arr`:
       
-    of ConstructorSpecKind.`CDict`:
+    of PCompoundKind.`dict`:
       
   
   PAnd*[E] {.preservesRecord: "and".} = ref object
   
   Rewrite*[E] {.preservesRecord: "rewrite".} = ref object
   
-  TCompoundMembers*[E] = Table[Preserve[E], Template[E]]
   TRef* {.preservesRecord: "ref".} = object
   
   PBind*[E] {.preservesRecord: "bind".} = ref object
   
   Lit*[E] {.preservesRecord: "lit".} = ref object
   
-  TCompound*[E] {.preservesRecord: "compound".} = ref object
+  TCompoundKind* {.pure.} = enum
+    `rec`, `arr`, `dict`
+  TCompoundRec*[E] {.preservesRecord: "rec".} = ref object
   
-  `PAtom`* {.preservesOr.} = enum
+  TCompoundArr*[E] {.preservesRecord: "arr".} = ref object
+  
+  TCompoundDict*[E] {.preservesRecord: "dict".} = ref object
+  
+  `TCompound`*[E] {.preservesOr.} = ref object
+    case orKind*: TCompoundKind
+    of TCompoundKind.`rec`:
+      
+    of TCompoundKind.`arr`:
+      
+    of TCompoundKind.`dict`:
+      
+  
+  `PAtom`* {.preservesOr, pure.} = enum
     `Boolean`, `Float`, `Double`, `SignedInteger`, `String`, `ByteString`,
     `Symbol`
   Attenuation*[E] = seq[Caveat[E]]
@@ -59,9 +75,6 @@ type
     of CaveatKind.`Alts`:
       
   
-  CArr* {.preservesRecord: "arr".} = object
-  
-  PCompoundMembers*[E] = Table[Preserve[E], Pattern[E]]
   PNot*[E] {.preservesRecord: "not".} = ref object
   
   SturdyRef*[E] {.preservesRecord: "ref".} = ref object
@@ -84,7 +97,6 @@ type
   Oid* = int
   Alts*[E] {.preservesRecord: "or".} = ref object
   
-  CDict* {.preservesRecord: "dict".} = object
   PatternKind* {.pure.} = enum
     `PDiscard`, `PAtom`, `PEmbedded`, `PBind`, `PAnd`, `PNot`, `Lit`,
     `PCompound`
@@ -107,16 +119,11 @@ type
     of PatternKind.`PCompound`:
       
   
-proc `$`*[E](x: CRec[E] | PCompound[E] | ConstructorSpec[E] | PAnd[E] |
-    Rewrite[E] |
-    TCompoundMembers[E] |
-    PBind[E] |
-    Lit[E] |
+proc `$`*[E](x: PCompound[E] | PAnd[E] | Rewrite[E] | PBind[E] | Lit[E] |
     TCompound[E] |
     Attenuation[E] |
     Template[E] |
     Caveat[E] |
-    PCompoundMembers[E] |
     PNot[E] |
     SturdyRef[E] |
     WireRef[E] |
@@ -125,16 +132,11 @@ proc `$`*[E](x: CRec[E] | PCompound[E] | ConstructorSpec[E] | PAnd[E] |
     Pattern[E]): string =
   `$`(toPreserve(x, E))
 
-proc encode*[E](x: CRec[E] | PCompound[E] | ConstructorSpec[E] | PAnd[E] |
-    Rewrite[E] |
-    TCompoundMembers[E] |
-    PBind[E] |
-    Lit[E] |
+proc encode*[E](x: PCompound[E] | PAnd[E] | Rewrite[E] | PBind[E] | Lit[E] |
     TCompound[E] |
     Attenuation[E] |
     Template[E] |
     Caveat[E] |
-    PCompoundMembers[E] |
     PNot[E] |
     SturdyRef[E] |
     WireRef[E] |
@@ -143,8 +145,8 @@ proc encode*[E](x: CRec[E] | PCompound[E] | ConstructorSpec[E] | PAnd[E] |
     Pattern[E]): seq[byte] =
   encode(toPreserve(x, E))
 
-proc `$`*(x: TRef | PDiscard | CArr | Oid | CDict): string =
+proc `$`*(x: TRef | PDiscard | Oid): string =
   `$`(toPreserve(x))
 
-proc encode*(x: TRef | PDiscard | CArr | Oid | CDict): seq[byte] =
+proc encode*(x: TRef | PDiscard | Oid): seq[byte] =
   encode(toPreserve(x))

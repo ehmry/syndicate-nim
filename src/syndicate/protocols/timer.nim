@@ -8,7 +8,7 @@ type
   
   SetTimer*[E] {.preservesRecord: "set-timer".} = ref object
   
-  `TimerKind`* {.preservesOr.} = enum
+  `TimerKind`* {.preservesOr, pure.} = enum
     `relative`, `absolute`, `clear`
   LaterThan* {.preservesRecord: "later-than".} = object
   

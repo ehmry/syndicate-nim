@@ -20,7 +20,7 @@ type
   
   StreamConnection*[E] {.preservesRecord: "stream-connection".} = ref object
   
-  `LineMode`* {.preservesOr.} = enum
+  `LineMode`* {.preservesOr, pure.} = enum
     `lf`, `crlf`
   SourceKind* {.pure.} = enum
     `sink`, `StreamError`, `credit`

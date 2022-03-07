@@ -1,4 +1,6 @@
-include_rules
+export XDG_CACHE_HOME
+
+!nim = |> nim compile -o:%o %f |>
 
 : ../../../preserves/src/preserves/preserves_schema_nim.nim |> !nim |> preserves_schema_nim
 
@@ -17,6 +19,7 @@ schemas = \
 	sturdy.nim \
 	tcp.nim \
 	timer.nim \
+	trace.nim \
 	transportAddress.nim \
 	worker.nim \
 

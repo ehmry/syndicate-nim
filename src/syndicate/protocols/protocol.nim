@@ -13,6 +13,8 @@ type
   
   Assert*[E] {.preservesRecord: "assert".} = ref object
   
+  Extension*[E] {.preservesRecord: "label".} = ref object
+  
   Sync*[E] {.preservesRecord: "sync".} = ref object
   
   TurnEvent*[E] {.preservesTuple.} = ref object
@@ -21,12 +23,14 @@ type
   Assertion*[E] = Preserve[E]
   Handle* = int
   PacketKind* {.pure.} = enum
-    `Turn`, `Error`
+    `Turn`, `Error`, `Extension`
   `Packet`*[E] {.preservesOr.} = ref object
     case orKind*: PacketKind
     of PacketKind.`Turn`:
       
     of PacketKind.`Error`:
+      
+    of PacketKind.`Extension`:
       
   
   EventKind* {.pure.} = enum
@@ -42,13 +46,15 @@ type
     of EventKind.`Sync`:
       
   
-proc `$`*[E](x: Error[E] | Turn[E] | Message[E] | Assert[E] | Sync[E] |
+proc `$`*[E](x: Error[E] | Turn[E] | Message[E] | Assert[E] | Extension[E] |
+    Sync[E] |
     TurnEvent[E] |
     Packet[E] |
     Event[E]): string =
   `$`(toPreserve(x, E))
 
-proc encode*[E](x: Error[E] | Turn[E] | Message[E] | Assert[E] | Sync[E] |
+proc encode*[E](x: Error[E] | Turn[E] | Message[E] | Assert[E] | Extension[E] |
+    Sync[E] |
     TurnEvent[E] |
     Packet[E] |
     Event[E]): seq[byte] =
