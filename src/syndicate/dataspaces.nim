@@ -1,62 +1,49 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / [hashes, macros, tables]
+  std / [hashes, tables]
 
 import
   preserves
 
 import
-  ./actors, ./bags, ./patterns, ./protocols / dataspace
+  ./actors, ./protocols / dataspace, ./skeletons
 
 from ./protocols / protocol import Handle
+
+template trace(args: varargs[untyped]): untyped =
+  stderr.writeLine(args)
 
 type
   Observe = dataspace.Observe[Ref]
   Turn = actors.Turn
-type
-  DuringProc* = proc (turn: var Turn; a: Assertion): TurnAction {.gcsafe.}
-type
-  DuringActionKind = enum
-    null, dead, act
-  DuringAction = object
-    case
-    of null, dead:
-      nil
-    of act:
-      
+  Dataspace {.final.} = ref object of Entity
   
+method publish(ds: Dataspace; turn: var Turn; v: Assertion; h: Handle) =
+  if add(ds.index, turn, v):
+    var obs: Observe
+    if obs.fromPreserve v:
+      ds.index.add(turn, obs.pattern, unembed obs.observer)
+  ds.handleMap[h] = v
+
+method retract(ds: Dataspace; turn: var Turn; h: Handle) =
+  try:
+    let v = ds.handleMap[h]
+    if remove(ds.index, turn, v):
+      ds.handleMap.del h
+      var obs: Observe
+      if obs.fromPreserve v:
+        ds.index.remove(turn, obs.pattern, unembed obs.observer)
+  except KeyError:
+    discard
+
+method message(ds: Dataspace; turn: var Turn; v: Assertion) =
+  ds.index.deliverMessage(turn, v)
+
 type
-  DuringEntity = ref object of Entity
-  
-proc duringPublish(e: Entity; turn: var Turn; a: Assertion; h: Handle) =
-  var de = DuringEntity(e)
-  let action = de.cb(turn, a)
-  let g = de.assertionMap.getOrDefault h
-  case g.kind
-  of null:
-    de.assertionMap[h] = DuringAction(kind: act, action: action)
-  of dead:
-    de.assertionMap.del h
-    freshen(turn, action)
-  of act:
-    raiseAssert("during: duplicate handle in publish: " & $h)
-
-proc duringRetract(e: Entity; turn: var Turn; h: Handle) =
-  var de = DuringEntity(e)
-  let g = de.assertionMap.getOrDefault h
-  case g.kind
-  of null:
-    de.assertionMap[h] = DuringAction(kind: dead)
-  of dead:
-    raiseAssert("during: duplicate handle in retract: " & $h)
-  of act:
-    de.assertionMap.del h
-    g.action(turn)
-
-proc during*(cb: DuringProc): DuringEntity =
-  result = DuringEntity(cb: cb)
-  result.setProcs(publish = duringPublish, retract = duringRetract)
-
-proc observe*(turn: var Turn; ds: Ref; pat: Pattern; e: Entity): Handle =
-  publish(turn, ds, Observe(pattern: pat, observer: embed newRef(turn, e)))
+  BootProc = proc (ds: Ref; turn: var Turn) {.gcsafe.}
+proc bootDataspace*(name: string; bootProc: BootProc): Actor {.discardable.} =
+  bootActor(name)do (turn: var Turn):
+    discard turn.facet.preventInertCheck()
+    let ds = newRef(turn, Dataspace(index: initIndex()))
+    bootProc(ds, turn)
