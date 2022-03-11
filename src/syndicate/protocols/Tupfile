@@ -1,28 +1,19 @@
-export XDG_CACHE_HOME
+include_rules
+outputs = \
+  dataspace.nim \
+  dataspacePatterns.nim \
+  gatekeeper.nim \
+  protocol.nim \
+  racketEvent.nim \
+  secureChatProtocol.nim \
+  service.nim \
+  simpleChatProtocol.nim \
+  stream.nim \
+  sturdy.nim \
+  tcp.nim \
+  timer.nim \
+  trace.nim \
+  transportAddress.nim \
+  worker.nim \
 
-!nim = |> nim compile -o:%o %f |>
-
-: ../../../preserves/src/preserves/preserves_schema_nim.nim |> !nim |> preserves_schema_nim
-
-!preserves_schema_nim = | ./preserves_schema_nim |> ./preserves_schema_nim %f |> %B.nim
-
-schemas = \
-	dataspace.nim \
-	dataspacePatterns.nim \
-	gatekeeper.nim \
-	protocol.nim \
-	racketEvent.nim \
-	secureChatProtocol.nim \
-	service.nim \
-	simpleChatProtocol.nim \
-	stream.nim \
-	sturdy.nim \
-	tcp.nim \
-	timer.nim \
-	trace.nim \
-	transportAddress.nim \
-	worker.nim \
-
-: ../../../protocols/schema-bundle.bin |> !preserves_schema_nim |> $(schemas)
-
-: foreach $(schemas) | $(schemas) |> nim check %f; touch %o |> .%B.nim.check
+: foreach ../../../protocols/schema-bundle.bin |> !preserves_schema_nim |> $(outputs)
