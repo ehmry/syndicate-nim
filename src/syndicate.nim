@@ -10,9 +10,25 @@ import
   syndicate / [actors, dataspaces, durings, patterns]
 
 export
-  dataspaces, patterns
+  dataspaces, patterns, Handle
 
-from syndicate / protocols / protocol import Handle
+type
+  PublishProc = proc (turn: var Turn; v: Assertion; h: Handle) {.closure.}
+  RetractProc = proc (turn: var Turn; h: Handle) {.closure.}
+  MessageProc = proc (turn: var Turn; v: Assertion) {.closure.}
+  ClosureEntity = ref object of Entity
+  
+method publish(e: ClosureEntity; turn: var Turn; v: Assertion; h: Handle) =
+  if not e.publishImpl.isNil:
+    e.publishImpl(turn, v, h)
+
+method retract(e: ClosureEntity; turn: var Turn; h: Handle) =
+  if not e.retractImpl.isNil:
+    e.retractImpl(turn, h)
+
+method message(e: ClosureEntity; turn: var Turn; v: Assertion) =
+  if not e.messageImpl.isNil:
+    e.messageImpl(turn, v)
 
 proc wrapPublishHandler(handler: NimNode): NimNode =
   handler.expectKind nnkDo
@@ -43,7 +59,7 @@ proc wrapPublishHandler(handler: NimNode): NimNode =
     handleSym = ident"handle"
     handlerSym = genSym(nskProc, "publish")
   quote:
-    proc `handlerSym`(entity: Entity; `turnSym`: var Turn; bindings: Assertion;
+    proc `handlerSym`(`turnSym`: var Turn; bindings: Assertion;
                       `handleSym`: Handle) =
       `varSectionOuter`
       if fromPreserve(`valuesSym`, bindings):
@@ -78,7 +94,7 @@ proc wrapMessageHandler(handler: NimNode): NimNode =
     turnSym = ident"turn"
     handlerSym = genSym(nskProc, "message")
   quote:
-    proc `handlerSym`(_: Entity; `turnSym`: var Turn; bindings: Assertion) =
+    proc `handlerSym`(`turnSym`: var Turn; bindings: Assertion) =
       `varSectionOuter`
       if fromPreserve(`valuesSym`, bindings):
         `body`
@@ -90,7 +106,8 @@ macro onPublish*(turn: Turn; ds: Ref; pattern: Pattern; doHandler: untyped) =
     handlerSym = handlerProc[0]
   result = quote do:
     `handlerProc`
-    discard observe(`turn`, `ds`, `pattern`, newEntity(publish = `handlerSym`))
+    discard observe(`turn`, `ds`, `pattern`,
+                    ClosureEntity(publishImpl: `handlerSym`))
 
 macro onMessage*(turn: Turn; ds: Ref; pattern: Pattern; doHandler: untyped) =
   let
@@ -98,4 +115,5 @@ macro onMessage*(turn: Turn; ds: Ref; pattern: Pattern; doHandler: untyped) =
     handlerSym = handlerProc[0]
   result = quote do:
     `handlerProc`
-    discard observe(`turn`, `ds`, `pattern`, newEntity(message = `handlerSym`))
+    discard observe(`turn`, `ds`, `pattern`,
+                    ClosureEntity(messageImpl: `handlerSym`))
