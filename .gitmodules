@@ -1,6 +1,0 @@
-[submodule "preserves"]
-	path = preserves
-	url = https://git.syndicate-lang.org/ehmry/preserves-nim.git
-[submodule "protocols"]
-	path = protocols
-	url = https://git.syndicate-lang.org/syndicate-lang/syndicate-protocols.git
