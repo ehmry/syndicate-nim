@@ -9,4 +9,4 @@ srcDir        = "src"
 
 # Dependencies
 
-requires "nim >= 1.4.8", "nimSHA2 >= 0.1.1", "preserves"
+requires "nim >= 1.4.8", "nimSHA2 >= 0.1.1", "preserves > 3.2.0"
