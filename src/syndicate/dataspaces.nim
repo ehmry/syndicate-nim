@@ -11,9 +11,6 @@ import
 
 from ./protocols / protocol import Handle
 
-template trace(args: varargs[untyped]): untyped =
-  stderr.writeLine(args)
-
 type
   Observe = dataspace.Observe[Ref]
   Turn = actors.Turn
