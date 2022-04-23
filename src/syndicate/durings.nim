@@ -15,7 +15,8 @@ type
   Observe = dataspace.Observe[Ref]
   Turn = actors.Turn
 type
-  DuringProc* = proc (turn: var Turn; a: Assertion): TurnAction {.gcsafe.}
+  DuringProc* = proc (turn: var Turn; a: Assertion; h: Handle): TurnAction {.
+      gcsafe.}
   DuringActionKind = enum
     null, dead, act
   DuringAction = object
@@ -28,7 +29,7 @@ type
   DuringEntity {.final.} = ref object of Entity
   
 method publish(de: DuringEntity; turn: var Turn; a: Assertion; h: Handle) =
-  let action = de.cb(turn, a)
+  let action = de.cb(turn, a, h)
   let g = de.assertionMap.getOrDefault h
   case g.kind
   of null:
@@ -48,7 +49,8 @@ method retract(de: DuringEntity; turn: var Turn; h: Handle) =
     raiseAssert("during: duplicate handle in retract: " & $h)
   of act:
     de.assertionMap.del h
-    g.action(turn)
+    if not g.action.isNil:
+      g.action(turn)
 
 proc during*(cb: DuringProc): DuringEntity =
   DuringEntity(cb: cb)
