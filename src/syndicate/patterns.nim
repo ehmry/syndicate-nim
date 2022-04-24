@@ -16,12 +16,12 @@ export
 
 type
   AnyAtom* = dataspacePatterns.AnyAtom[Ref]
-  DBind = dataspacePatterns.DBind[Ref]
-  DCompound = dataspacePatterns.DCompound[Ref]
-  DCompoundArr = dataspacePatterns.DCompoundArr[Ref]
-  DCompoundDict = dataspacePatterns.DCompoundDict[Ref]
-  DCompoundRec = dataspacePatterns.DCompoundRec[Ref]
-  DLit = dataspacePatterns.DLit[Ref]
+  DBind* = dataspacePatterns.DBind[Ref]
+  DCompound* = dataspacePatterns.DCompound[Ref]
+  DCompoundArr* = dataspacePatterns.DCompoundArr[Ref]
+  DCompoundDict* = dataspacePatterns.DCompoundDict[Ref]
+  DCompoundRec* = dataspacePatterns.DCompoundRec[Ref]
+  DLit* = dataspacePatterns.DLit[Ref]
   Pattern* = dataspacePatterns.Pattern[Ref]
 proc `?`*(d: DBind): Pattern =
   Pattern(orKind: PatternKind.DBind, dbind: d)
@@ -64,57 +64,6 @@ proc `? _`*(): Pattern =
 
 proc `?*`*(): Pattern =
   grab()
-
-proc `?`*(T: typedesc; bindings: sink openArray[(int, Pattern)]): Pattern =
-  ## Pattern constructor operator.
-  when T.hasPreservesRecordPragma:
-    var
-      label = T.recordLabel.tosymbol(Ref)
-      fields = newSeq[Pattern]()
-    for (i, pat) in bindings:
-      if i >= fields.high:
-        fields.setLen(succ i)
-      fields[i] = pat
-    result = ?DCompound(orKind: DCompoundKind.rec,
-                        rec: DCompoundRec(label: label, fields: fields))
-  elif T is ref:
-    `?`(pointerBase(T), bindings)
-  else:
-    {.error: "no preserves pragma on " & $T.}
-
-proc `?`*(T: static typedesc): Pattern =
-  ## Derive a `Pattern` from type `T`.
-  ## This works for `tuple` and `object` types but in the
-  ## general case will return a wildcard binding.
-  when T is ref:
-    ?pointerBase(T)
-  elif T is Preserve:
-    grab()
-  elif T.hasPreservesRecordPragma:
-    var
-      label = T.recordLabel.tosymbol(Ref)
-      fields = newSeq[Pattern]()
-    for key, val in fieldPairs(default T):
-      fields.add ?(typeOf val)
-    result = ?DCompound(orKind: DCompoundKind.rec,
-                        rec: DCompoundRec(label: label, fields: fields))
-  elif T.hasPreservesTuplePragma:
-    var arr = DCompoundArr()
-    for key, val in fieldPairs(default T):
-      arr.items.add grab()
-    ?DCompound(orKind: DCompoundKind.arr, arr: arr)
-  elif T.hasPreservesDictionaryPragma:
-    var dict = DCompoundDict()
-    for key, val in fieldPairs(default T):
-      dict.entries[key.toSymbol(Ref)] = ?(typeOf val)
-    ?DCompound(orKind: DCompoundKind.dict, dict: dict)
-  elif T is tuple:
-    var arr = DCompoundArr()
-    for key, val in fieldPairs(default T):
-      arr.items.add ?(typeOf val)
-    result = ?DCompound(orKind: DCompoundKind.arr, arr: arr)
-  else:
-    grab()
 
 type
   Value = Preserve[Ref]
