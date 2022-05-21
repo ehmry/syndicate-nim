@@ -16,4 +16,4 @@ outputs = \
   transportAddress.nim \
   worker.nim \
 
-: foreach ../../../protocols/schema-bundle.bin |> !preserves_schema_nim |> $(outputs)
+: foreach ../../../../syndicate-protocols/schema-bundle.bin |> !preserves_schema_nim |> $(outputs)
