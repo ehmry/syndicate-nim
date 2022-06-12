@@ -44,3 +44,6 @@ proc bootDataspace*(name: string; bootProc: BootProc): Actor {.discardable.} =
     discard turn.facet.preventInertCheck()
     let ds = newRef(turn, Dataspace(index: initIndex()))
     bootProc(ds, turn)
+
+proc newDataspace*(turn: var Turn): Ref =
+  newRef(turn, Dataspace(index: initIndex()))
