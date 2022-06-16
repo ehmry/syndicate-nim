@@ -1,9 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / [tables, typetraits]
-
-from std / sequtils import toSeq
+  std / [sequtils, tables, typetraits]
 
 import
   preserves
@@ -17,6 +15,7 @@ export
   dataspacePatterns.`$`, PatternKind, DCompoundKind
 
 type
+  Assertion = Preserve[Ref]
   AnyAtom* = dataspacePatterns.AnyAtom[Ref]
   DBind* = dataspacePatterns.DBind[Ref]
   DCompound* = dataspacePatterns.DCompound[Ref]
@@ -25,38 +24,101 @@ type
   DCompoundRec* = dataspacePatterns.DCompoundRec[Ref]
   DLit* = dataspacePatterns.DLit[Ref]
   Pattern* = dataspacePatterns.Pattern[Ref]
-proc `?`*(d: DBind): Pattern =
+proc `?`*(d: sink DBind): Pattern =
   Pattern(orKind: PatternKind.DBind, dbind: d)
 
-proc `?`*(d: DLit): Pattern =
+proc `?`*(d: sink DLit): Pattern =
   Pattern(orKind: PatternKind.DLit, dlit: d)
 
-proc `?`*(d: DCompound): Pattern =
+proc `?`*(aa: sink AnyAtom): Pattern =
+  ?DLit(value: aa)
+
+proc `?`*(d: sink DCompound): Pattern =
   Pattern(orKind: PatternKind.DCompound, dcompound: d)
 
-proc `?`*(d: DCompoundRec): Pattern =
+proc `?`*(d: sink DCompoundRec): Pattern =
   ?DCompound(orKind: DCompoundKind.rec, rec: d)
 
+proc `?`*(d: sink DCompoundArr): Pattern =
+  ?DCompound(orKind: DCompoundKind.arr, arr: d)
+
+proc `?`*(d: sink DCompoundDict): Pattern =
+  ?DCompound(orKind: DCompoundKind.dict, dict: d)
+
 proc `?`*(x: bool): Pattern =
-  ?DLit(value: AnyAtom(orKind: AnyAtomKind.`bool`, bool: x))
+  ?AnyAtom(orKind: AnyAtomKind.`bool`, bool: x)
 
 proc `?`*(x: float32): Pattern =
-  ?DLit(value: AnyAtom(orKind: AnyAtomKind.`float`, float: x))
+  ?AnyAtom(orKind: AnyAtomKind.`float`, float: x)
 
 proc `?`*(x: float64): Pattern =
-  ?DLit(value: AnyAtom(orKind: AnyAtomKind.`double`, double: x))
+  ?AnyAtom(orKind: AnyAtomKind.`double`, double: x)
 
 proc `?`*(x: int): Pattern =
-  ?DLit(value: AnyAtom(orKind: AnyAtomKind.`int`, int: x))
+  ?AnyAtom(orKind: AnyAtomKind.`int`, int: x)
 
-proc `?`*(s: string): Pattern =
-  ?DLit(value: AnyAtom(orKind: AnyAtomKind.`string`, string: s))
+proc `?`*(s: sink string): Pattern =
+  ?AnyAtom(orKind: AnyAtomKind.`string`, string: s)
 
-proc `?`*(x: seq[byte]): Pattern =
-  ?DLit(value: AnyAtom(orKind: AnyAtomKind.`bytes`, bytes: x))
+proc `?`*(x: sink seq[byte]): Pattern =
+  ?AnyAtom(orKind: AnyAtomKind.`bytes`, bytes: x)
 
-proc `?`*(x: Symbol): Pattern =
-  ?DLit(value: AnyAtom(orKind: AnyAtomKind.`symbol`, symbol: x))
+proc `?`*(x: sink Symbol): Pattern =
+  ?AnyAtom(orKind: AnyAtomKind.`symbol`, symbol: x)
+
+proc `?`*[T](pr: Preserve[T]): Pattern =
+  assert not pr.embedded
+  case pr.kind
+  of pkBoolean:
+    ?pr.bool
+  of pkFloat:
+    ?pr.float
+  of pkDouble:
+    ?pr.double
+  of pkSignedInteger:
+    ?(int pr.int)
+  of pkString:
+    ?pr.string
+  of pkByteString:
+    ?pr.bytes
+  of pkSymbol:
+    ?pr.symbol
+  of pkRecord:
+    ?DCompoundRec(label: pr.label,
+                  fields: map[Preserve[T], Pattern](pr.fields, `?`[T]))
+  of pkSequence:
+    ?DCompoundArr(items: map(pr.sequence, `?`[T]))
+  of pkSet:
+    raise newException(ValueError,
+                       "cannot construct a pattern over a set literal")
+  of pkDictionary:
+    var dict = DCompoundDict()
+    for key, val in pr.pairs:
+      dict.entries[key] = ?val
+    ?dict
+  of pkEmbedded:
+    raiseAssert "cannot construct a pattern over a embedded literal"
+
+proc `??`*(pat: Pattern): Pattern =
+  ## Construct a `Pattern` that matches a `Pattern`.
+  case pat.orKind
+  of PatternKind.DDiscard, PatternKind.DBind:
+    result = pat
+  of PatternKind.DLit:
+    result = ?(pat.toPreserve(Ref))
+  of PatternKind.DCompound:
+    case pat.dcompound.orKind
+    of DCompoundKind.rec:
+      var fields = move pat.dcompound.rec.fields
+      result = ?(pat.toPreserve(Ref))
+      result.dcompound.rec.fields[1].dcompound.arr.items = fields
+    of DCompoundKind.arr:
+      var items = move pat.dcompound.arr.items
+      result = ?(pat.toPreserve(Ref))
+      result.dcompound.rec.fields[0].dcompound.arr.items = items
+    of DCompoundKind.dict:
+      stderr.writeLine "pattern construction from DCompoundKind not implemented"
+      raiseAssert "not implemented"
 
 proc drop*(): Pattern =
   Pattern(orKind: PatternKind.DDiscard)
