@@ -9,7 +9,7 @@ type
   AnyAtomBool* = bool
   AnyAtomFloat* = float32
   AnyAtomDouble* = float64
-  AnyAtomInt* = int
+  AnyAtomInt* = BiggestInt
   AnyAtomString* = string
   AnyAtomBytes* = seq[byte]
   AnyAtomSymbol* = Symbol

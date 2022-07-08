@@ -94,7 +94,7 @@ type
   
   TAttenuate*[E] {.preservesRecord: "attenuate".} = ref object
   
-  Oid* = int
+  Oid* = BiggestInt
   Alts*[E] {.preservesRecord: "or".} = ref object
   
   PatternKind* {.pure.} = enum
