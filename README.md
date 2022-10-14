@@ -89,7 +89,7 @@ bootDataspace("main") do (dataspace: Ref; turn: var Turn):
 
 ## Examples
 
-- [simpleChatProtocol](tests/chat.nim)
+- [src/syndicate/unix](./src/syndicate/unix)
 - [erisresolver](https://codeberg.org/eris/nim-eris_utils#erisresolver) - dynamic configuration
 - [xdg_open_ng](https://git.syndicate-lang.org/ehmry/xdg_open_ng) - messaging, UNIX sockets, dynamic configuration, [Syndicate server](https://synit.org/book/operation/system-bus.html) interaction.
 
