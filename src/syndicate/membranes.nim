@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / [hashes, options, tables]
+  std / [hashes, tables]
 
 from ./actors import Ref, hash
 
