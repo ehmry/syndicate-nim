@@ -37,13 +37,12 @@ method retract(ds: Dataspace; turn: var Turn; h: Handle) =
 method message(ds: Dataspace; turn: var Turn; v: Assertion) =
   ds.index.deliverMessage(turn, v)
 
+proc newDataspace*(turn: var Turn): Ref =
+  newRef(turn, Dataspace(index: initIndex()))
+
 type
   BootProc = proc (ds: Ref; turn: var Turn) {.gcsafe.}
 proc bootDataspace*(name: string; bootProc: BootProc): Actor {.discardable.} =
   bootActor(name)do (turn: var Turn):
     discard turn.facet.preventInertCheck()
-    let ds = newRef(turn, Dataspace(index: initIndex()))
-    bootProc(ds, turn)
-
-proc newDataspace*(turn: var Turn): Ref =
-  newRef(turn, Dataspace(index: initIndex()))
+    bootProc(newDataspace(turn), turn)
