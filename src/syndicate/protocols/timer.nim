@@ -4,22 +4,16 @@ import
   std / typetraits, preserves
 
 type
-  TimerExpired*[E] {.preservesRecord: "timer-expired".} = ref object
+  TimerExpired* {.preservesRecord: "timer-expired".} = object
   
-  SetTimer*[E] {.preservesRecord: "set-timer".} = ref object
+  SetTimer* {.preservesRecord: "set-timer".} = object
   
   `TimerKind`* {.preservesOr, pure.} = enum
     `relative`, `absolute`, `clear`
   LaterThan* {.preservesRecord: "later-than".} = object
   
-proc `$`*[E](x: TimerExpired[E] | SetTimer[E]): string =
-  `$`(toPreserve(x, E))
-
-proc encode*[E](x: TimerExpired[E] | SetTimer[E]): seq[byte] =
-  encode(toPreserve(x, E))
-
-proc `$`*(x: LaterThan): string =
+proc `$`*(x: TimerExpired | SetTimer | LaterThan): string =
   `$`(toPreserve(x))
 
-proc encode*(x: LaterThan): seq[byte] =
+proc encode*(x: TimerExpired | SetTimer | LaterThan): seq[byte] =
   encode(toPreserve(x))

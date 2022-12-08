@@ -6,8 +6,8 @@ import
 type
   StateKind* {.pure.} = enum
     `started`, `ready`, `failed`, `complete`, `userDefined`
-  StateUserDefined*[E] = Preserve[E]
-  `State`*[E] {.preservesOr.} = ref object
+  StateUserDefined*[Cap] = Preserve[Cap]
+  `State`*[Cap] {.preservesOr.} = object
     case orKind*: StateKind
     of StateKind.`started`:
       
@@ -20,28 +20,28 @@ type
     of StateKind.`userDefined`:
       
   
-  ServiceObject*[E] {.preservesRecord: "service-object".} = ref object
+  ServiceObject*[Cap] {.preservesRecord: "service-object".} = object
   
-  RequireService*[E] {.preservesRecord: "require-service".} = ref object
+  RequireService*[Cap] {.preservesRecord: "require-service".} = object
   
-  RestartService*[E] {.preservesRecord: "restart-service".} = ref object
+  RestartService*[Cap] {.preservesRecord: "restart-service".} = object
   
-  RunService*[E] {.preservesRecord: "run-service".} = ref object
+  RunService*[Cap] {.preservesRecord: "run-service".} = object
   
-  ServiceState*[E] {.preservesRecord: "service-state".} = ref object
+  ServiceState*[Cap] {.preservesRecord: "service-state".} = object
   
-  ServiceDependency*[E] {.preservesRecord: "depends-on".} = ref object
+  ServiceDependency*[Cap] {.preservesRecord: "depends-on".} = object
   
-proc `$`*[E](x: State[E] | ServiceObject[E] | RequireService[E] |
-    RestartService[E] |
-    RunService[E] |
-    ServiceState[E] |
-    ServiceDependency[E]): string =
-  `$`(toPreserve(x, E))
+proc `$`*[Cap](x: State[Cap] | ServiceObject[Cap] | RequireService[Cap] |
+    RestartService[Cap] |
+    RunService[Cap] |
+    ServiceState[Cap] |
+    ServiceDependency[Cap]): string =
+  `$`(toPreserve(x, Cap))
 
-proc encode*[E](x: State[E] | ServiceObject[E] | RequireService[E] |
-    RestartService[E] |
-    RunService[E] |
-    ServiceState[E] |
-    ServiceDependency[E]): seq[byte] =
-  encode(toPreserve(x, E))
+proc encode*[Cap](x: State[Cap] | ServiceObject[Cap] | RequireService[Cap] |
+    RestartService[Cap] |
+    RunService[Cap] |
+    ServiceState[Cap] |
+    ServiceDependency[Cap]): seq[byte] =
+  encode(toPreserve(x, Cap))

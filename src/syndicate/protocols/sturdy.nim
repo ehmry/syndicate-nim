@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / typetraits, preserves, std / tables
+  std / typetraits, preserves, std / tables, std / tables
 
 type
   PCompoundKind* {.pure.} = enum
     `rec`, `arr`, `dict`
-  PCompoundRec*[E] {.preservesRecord: "rec".} = ref object
+  PCompoundRec*[Cap] {.preservesRecord: "rec".} = ref object
   
-  PCompoundArr*[E] {.preservesRecord: "arr".} = ref object
+  PCompoundArr*[Cap] {.preservesRecord: "arr".} = ref object
   
-  PCompoundDict*[E] {.preservesRecord: "dict".} = ref object
+  PCompoundDict*[Cap] {.preservesRecord: "dict".} = ref object
   
-  `PCompound`*[E] {.preservesOr.} = ref object
+  `PCompound`*[Cap] {.preservesOr.} = ref object
     case orKind*: PCompoundKind
     of PCompoundKind.`rec`:
       
@@ -21,25 +21,25 @@ type
     of PCompoundKind.`dict`:
       
   
-  PAnd*[E] {.preservesRecord: "and".} = ref object
+  PAnd*[Cap] {.preservesRecord: "and".} = ref object
   
-  Rewrite*[E] {.preservesRecord: "rewrite".} = ref object
+  Rewrite*[Cap] {.preservesRecord: "rewrite".} = ref object
   
   TRef* {.preservesRecord: "ref".} = object
   
-  PBind*[E] {.preservesRecord: "bind".} = ref object
+  PBind*[Cap] {.preservesRecord: "bind".} = ref object
   
-  Lit*[E] {.preservesRecord: "lit".} = ref object
+  Lit*[Cap] {.preservesRecord: "lit".} = object
   
   TCompoundKind* {.pure.} = enum
     `rec`, `arr`, `dict`
-  TCompoundRec*[E] {.preservesRecord: "rec".} = ref object
+  TCompoundRec*[Cap] {.preservesRecord: "rec".} = ref object
   
-  TCompoundArr*[E] {.preservesRecord: "arr".} = ref object
+  TCompoundArr*[Cap] {.preservesRecord: "arr".} = ref object
   
-  TCompoundDict*[E] {.preservesRecord: "dict".} = ref object
+  TCompoundDict*[Cap] {.preservesRecord: "dict".} = ref object
   
-  `TCompound`*[E] {.preservesOr.} = ref object
+  `TCompound`*[Cap] {.preservesOr.} = ref object
     case orKind*: TCompoundKind
     of TCompoundKind.`rec`:
       
@@ -51,11 +51,11 @@ type
   `PAtom`* {.preservesOr, pure.} = enum
     `Boolean`, `Float`, `Double`, `SignedInteger`, `String`, `ByteString`,
     `Symbol`
-  Attenuation*[E] = seq[Caveat[E]]
+  Attenuation*[Cap] = seq[Caveat[Cap]]
   PDiscard* {.preservesRecord: "_".} = object
   TemplateKind* {.pure.} = enum
     `TAttenuate`, `TRef`, `Lit`, `TCompound`
-  `Template`*[E] {.preservesOr.} = ref object
+  `Template`*[Cap] {.preservesOr.} = ref object
     case orKind*: TemplateKind
     of TemplateKind.`TAttenuate`:
       
@@ -68,39 +68,39 @@ type
   
   CaveatKind* {.pure.} = enum
     `Rewrite`, `Alts`
-  `Caveat`*[E] {.preservesOr.} = ref object
+  `Caveat`*[Cap] {.preservesOr.} = ref object
     case orKind*: CaveatKind
     of CaveatKind.`Rewrite`:
       
     of CaveatKind.`Alts`:
       
   
-  PNot*[E] {.preservesRecord: "not".} = ref object
+  PNot*[Cap] {.preservesRecord: "not".} = ref object
   
-  SturdyRef*[E] {.preservesRecord: "ref".} = ref object
+  SturdyRef*[Cap] {.preservesRecord: "ref".} = ref object
   
   WireRefKind* {.pure.} = enum
     `mine`, `yours`
   WireRefMine* {.preservesTuple.} = object
   
-  WireRefYours*[E] {.preservesTuple.} = ref object
+  WireRefYours*[Cap] {.preservesTuple.} = ref object
   
-  `WireRef`*[E] {.preservesOr.} = ref object
+  `WireRef`*[Cap] {.preservesOr.} = ref object
     case orKind*: WireRefKind
     of WireRefKind.`mine`:
       
     of WireRefKind.`yours`:
       
   
-  TAttenuate*[E] {.preservesRecord: "attenuate".} = ref object
+  TAttenuate*[Cap] {.preservesRecord: "attenuate".} = ref object
   
   Oid* = BiggestInt
-  Alts*[E] {.preservesRecord: "or".} = ref object
+  Alts*[Cap] {.preservesRecord: "or".} = ref object
   
   PatternKind* {.pure.} = enum
     `PDiscard`, `PAtom`, `PEmbedded`, `PBind`, `PAnd`, `PNot`, `Lit`,
     `PCompound`
-  `Pattern`*[E] {.preservesOr.} = ref object
+  `Pattern`*[Cap] {.preservesOr.} = ref object
     case orKind*: PatternKind
     of PatternKind.`PDiscard`:
       
@@ -119,31 +119,33 @@ type
     of PatternKind.`PCompound`:
       
   
-proc `$`*[E](x: PCompound[E] | PAnd[E] | Rewrite[E] | PBind[E] | Lit[E] |
-    TCompound[E] |
-    Attenuation[E] |
-    Template[E] |
-    Caveat[E] |
-    PNot[E] |
-    SturdyRef[E] |
-    WireRef[E] |
-    TAttenuate[E] |
-    Alts[E] |
-    Pattern[E]): string =
-  `$`(toPreserve(x, E))
+proc `$`*[Cap](x: PCompound[Cap] | PAnd[Cap] | Rewrite[Cap] | PBind[Cap] |
+    Lit[Cap] |
+    TCompound[Cap] |
+    Attenuation[Cap] |
+    Template[Cap] |
+    Caveat[Cap] |
+    PNot[Cap] |
+    SturdyRef[Cap] |
+    WireRef[Cap] |
+    TAttenuate[Cap] |
+    Alts[Cap] |
+    Pattern[Cap]): string =
+  `$`(toPreserve(x, Cap))
 
-proc encode*[E](x: PCompound[E] | PAnd[E] | Rewrite[E] | PBind[E] | Lit[E] |
-    TCompound[E] |
-    Attenuation[E] |
-    Template[E] |
-    Caveat[E] |
-    PNot[E] |
-    SturdyRef[E] |
-    WireRef[E] |
-    TAttenuate[E] |
-    Alts[E] |
-    Pattern[E]): seq[byte] =
-  encode(toPreserve(x, E))
+proc encode*[Cap](x: PCompound[Cap] | PAnd[Cap] | Rewrite[Cap] | PBind[Cap] |
+    Lit[Cap] |
+    TCompound[Cap] |
+    Attenuation[Cap] |
+    Template[Cap] |
+    Caveat[Cap] |
+    PNot[Cap] |
+    SturdyRef[Cap] |
+    WireRef[Cap] |
+    TAttenuate[Cap] |
+    Alts[Cap] |
+    Pattern[Cap]): seq[byte] =
+  encode(toPreserve(x, Cap))
 
 proc `$`*(x: TRef | PDiscard | Oid): string =
   `$`(toPreserve(x))

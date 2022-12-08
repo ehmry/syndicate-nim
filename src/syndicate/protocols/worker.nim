@@ -4,10 +4,10 @@ import
   std / typetraits, preserves
 
 type
-  Instance*[E] {.preservesRecord: "Instance".} = ref object
+  Instance*[Cap] {.preservesRecord: "Instance".} = object
   
-proc `$`*[E](x: Instance[E]): string =
-  `$`(toPreserve(x, E))
+proc `$`*[Cap](x: Instance[Cap]): string =
+  `$`(toPreserve(x, Cap))
 
-proc encode*[E](x: Instance[E]): seq[byte] =
-  encode(toPreserve(x, E))
+proc encode*[Cap](x: Instance[Cap]): seq[byte] =
+  encode(toPreserve(x, Cap))

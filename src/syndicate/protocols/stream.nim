@@ -16,19 +16,19 @@ type
   
   StreamError* {.preservesRecord: "error".} = object
   
-  StreamListenerError*[E] {.preservesRecord: "stream-listener-error".} = ref object
+  StreamListenerError*[Cap] {.preservesRecord: "stream-listener-error".} = object
   
-  StreamConnection*[E] {.preservesRecord: "stream-connection".} = ref object
+  StreamConnection*[Cap] {.preservesRecord: "stream-connection".} = object
   
   `LineMode`* {.preservesOr, pure.} = enum
     `lf`, `crlf`
   SourceKind* {.pure.} = enum
     `sink`, `StreamError`, `credit`
-  SourceSink*[E] {.preservesRecord: "sink".} = ref object
+  SourceSink*[Cap] {.preservesRecord: "sink".} = object
   
-  SourceCredit*[E] {.preservesRecord: "credit".} = ref object
+  SourceCredit*[Cap] {.preservesRecord: "credit".} = object
   
-  `Source`*[E] {.preservesOr.} = ref object
+  `Source`*[Cap] {.preservesOr.} = object
     case orKind*: SourceKind
     of SourceKind.`sink`:
       
@@ -39,12 +39,12 @@ type
   
   SinkKind* {.pure.} = enum
     `source`, `StreamError`, `data`, `eof`
-  SinkSource*[E] {.preservesRecord: "source".} = ref object
+  SinkSource*[Cap] {.preservesRecord: "source".} = object
   
-  SinkData*[E] {.preservesRecord: "data".} = ref object
+  SinkData*[Cap] {.preservesRecord: "data".} = object
   
   SinkEof* {.preservesRecord: "eof".} = object
-  `Sink`*[E] {.preservesOr.} = ref object
+  `Sink`*[Cap] {.preservesOr.} = object
     case orKind*: SinkKind
     of SinkKind.`source`:
       
@@ -55,15 +55,15 @@ type
     of SinkKind.`eof`:
       
   
-  StreamListenerReady*[E] {.preservesRecord: "stream-listener-ready".} = ref object
+  StreamListenerReady*[Cap] {.preservesRecord: "stream-listener-ready".} = object
   
   ModeKind* {.pure.} = enum
     `bytes`, `lines`, `packet`, `object`
   ModePacket* {.preservesRecord: "packet".} = object
   
-  ModeObject*[E] {.preservesRecord: "object".} = ref object
+  ModeObject*[Cap] {.preservesRecord: "object".} = object
   
-  `Mode`*[E] {.preservesOr.} = ref object
+  `Mode`*[Cap] {.preservesOr.} = object
     case orKind*: ModeKind
     of ModeKind.`bytes`:
       
@@ -74,17 +74,18 @@ type
     of ModeKind.`object`:
       
   
-proc `$`*[E](x: StreamListenerError[E] | StreamConnection[E] | Source[E] |
-    Sink[E] |
-    StreamListenerReady[E] |
-    Mode[E]): string =
-  `$`(toPreserve(x, E))
+proc `$`*[Cap](x: StreamListenerError[Cap] | StreamConnection[Cap] | Source[Cap] |
+    Sink[Cap] |
+    StreamListenerReady[Cap] |
+    Mode[Cap]): string =
+  `$`(toPreserve(x, Cap))
 
-proc encode*[E](x: StreamListenerError[E] | StreamConnection[E] | Source[E] |
-    Sink[E] |
-    StreamListenerReady[E] |
-    Mode[E]): seq[byte] =
-  encode(toPreserve(x, E))
+proc encode*[Cap](x: StreamListenerError[Cap] | StreamConnection[Cap] |
+    Source[Cap] |
+    Sink[Cap] |
+    StreamListenerReady[Cap] |
+    Mode[Cap]): seq[byte] =
+  encode(toPreserve(x, Cap))
 
 proc `$`*(x: CreditAmount | StreamError): string =
   `$`(toPreserve(x))

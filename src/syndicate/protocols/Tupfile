@@ -1,19 +1,22 @@
 include_rules
-outputs = \
-  dataspace.nim \
-  dataspacePatterns.nim \
-  gatekeeper.nim \
-  protocol.nim \
-  racketEvent.nim \
-  secureChatProtocol.nim \
-  service.nim \
-  simpleChatProtocol.nim \
-  stream.nim \
-  sturdy.nim \
-  tcp.nim \
-  timer.nim \
-  trace.nim \
-  transportAddress.nim \
-  worker.nim \
+modules += dataspace.nim
+modules += dataspacePatterns.nim
+modules += gatekeeper.nim
+modules += protocol.nim
+modules += racketEvent.nim
+modules += secureChatProtocol.nim
+modules += service.nim
+modules += simpleChatProtocol.nim
+modules += stream.nim
+modules += sturdy.nim
+modules += tcp.nim
+modules += timer.nim
+modules += trace.nim
+modules += transportAddress.nim
+modules += worker.nim
 
-: foreach ../../../../syndicate-protocols/schema-bundle.bin |> !preserves_schema_nim |> $(outputs)
+: ../../../../syndicate-protocols/schema-bundle.bin \
+	|> !preserves_schema_nim \
+	|> $(modules) | ../../../<protocols> {generated}
+
+: foreach {generated} | {generated} |> !nim_run |>

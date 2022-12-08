@@ -56,4 +56,4 @@ proc during*(cb: DuringProc): DuringEntity =
   DuringEntity(cb: cb)
 
 proc observe*(turn: var Turn; ds: Ref; pat: Pattern; e: Entity): Handle =
-  publish(turn, ds, Observe(pattern: pat, observer: embed newRef(turn, e)))
+  publish(turn, ds, Observe(pattern: pat, observer: newRef(turn, e)))

@@ -13,8 +13,8 @@ type
   AnyAtomString* = string
   AnyAtomBytes* = seq[byte]
   AnyAtomSymbol* = Symbol
-  AnyAtomEmbedded*[E] = Preserve[E]
-  `AnyAtom`*[E] {.preservesOr.} = ref object
+  AnyAtomEmbedded*[Cap] = Cap
+  `AnyAtom`*[Cap] {.preservesOr.} = object
     case orKind*: AnyAtomKind
     of AnyAtomKind.`bool`:
       
@@ -33,20 +33,20 @@ type
     of AnyAtomKind.`embedded`:
       
   
-  DLit*[E] {.preservesRecord: "lit".} = ref object
+  DLit*[Cap] {.preservesRecord: "lit".} = object
   
-  DBind*[E] {.preservesRecord: "bind".} = ref object
+  DBind*[Cap] {.preservesRecord: "bind".} = ref object
   
   DDiscard* {.preservesRecord: "_".} = object
   DCompoundKind* {.pure.} = enum
     `rec`, `arr`, `dict`
-  DCompoundRec*[E] {.preservesRecord: "rec".} = ref object
+  DCompoundRec*[Cap] {.preservesRecord: "rec".} = ref object
   
-  DCompoundArr*[E] {.preservesRecord: "arr".} = ref object
+  DCompoundArr*[Cap] {.preservesRecord: "arr".} = ref object
   
-  DCompoundDict*[E] {.preservesRecord: "dict".} = ref object
+  DCompoundDict*[Cap] {.preservesRecord: "dict".} = ref object
   
-  `DCompound`*[E] {.preservesOr.} = ref object
+  `DCompound`*[Cap] {.preservesOr.} = ref object
     case orKind*: DCompoundKind
     of DCompoundKind.`rec`:
       
@@ -57,7 +57,7 @@ type
   
   PatternKind* {.pure.} = enum
     `DDiscard`, `DBind`, `DLit`, `DCompound`
-  `Pattern`*[E] {.preservesOr.} = ref object
+  `Pattern`*[Cap] {.preservesOr.} = ref object
     case orKind*: PatternKind
     of PatternKind.`DDiscard`:
       
@@ -68,12 +68,13 @@ type
     of PatternKind.`DCompound`:
       
   
-proc `$`*[E](x: AnyAtom[E] | DLit[E] | DBind[E] | DCompound[E] | Pattern[E]): string =
-  `$`(toPreserve(x, E))
+proc `$`*[Cap](x: AnyAtom[Cap] | DLit[Cap] | DBind[Cap] | DCompound[Cap] |
+    Pattern[Cap]): string =
+  `$`(toPreserve(x, Cap))
 
-proc encode*[E](x: AnyAtom[E] | DLit[E] | DBind[E] | DCompound[E] | Pattern[E]): seq[
-    byte] =
-  encode(toPreserve(x, E))
+proc encode*[Cap](x: AnyAtom[Cap] | DLit[Cap] | DBind[Cap] | DCompound[Cap] |
+    Pattern[Cap]): seq[byte] =
+  encode(toPreserve(x, Cap))
 
 proc `$`*(x: DDiscard): string =
   `$`(toPreserve(x))

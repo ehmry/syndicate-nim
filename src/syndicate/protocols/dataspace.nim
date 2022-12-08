@@ -4,10 +4,10 @@ import
   std / typetraits, preserves, dataspacePatterns
 
 type
-  Observe*[E] {.preservesRecord: "Observe".} = ref object
+  Observe*[Cap] {.preservesRecord: "Observe".} = ref object
   
-proc `$`*[E](x: Observe[E]): string =
-  `$`(toPreserve(x, E))
+proc `$`*[Cap](x: Observe[Cap]): string =
+  `$`(toPreserve(x, Cap))
 
-proc encode*[E](x: Observe[E]): seq[byte] =
-  encode(toPreserve(x, E))
+proc encode*[Cap](x: Observe[Cap]): seq[byte] =
+  encode(toPreserve(x, Cap))

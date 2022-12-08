@@ -4,10 +4,10 @@ import
   std / typetraits, preserves
 
 type
-  RacketEvent*[E] {.preservesRecord: "racket-event".} = ref object
+  RacketEvent* {.preservesRecord: "racket-event".} = object
   
-proc `$`*[E](x: RacketEvent[E]): string =
-  `$`(toPreserve(x, E))
+proc `$`*(x: RacketEvent): string =
+  `$`(toPreserve(x))
 
-proc encode*[E](x: RacketEvent[E]): seq[byte] =
-  encode(toPreserve(x, E))
+proc encode*(x: RacketEvent): seq[byte] =
+  encode(toPreserve(x))

@@ -12,6 +12,7 @@ import
 from ./protocols / protocol import Handle
 
 type
+  Assertion = Preserve[Ref]
   Observe = dataspace.Observe[Ref]
   Turn = actors.Turn
   Dataspace {.final.} = ref object of Entity
@@ -20,7 +21,7 @@ method publish(ds: Dataspace; turn: var Turn; v: Assertion; h: Handle) =
   if add(ds.index, turn, v):
     var obs: Observe
     if obs.fromPreserve v:
-      ds.index.add(turn, obs.pattern, unembed obs.observer)
+      ds.index.add(turn, obs.pattern, obs.observer)
   ds.handleMap[h] = v
 
 method retract(ds: Dataspace; turn: var Turn; h: Handle) =
@@ -30,7 +31,7 @@ method retract(ds: Dataspace; turn: var Turn; h: Handle) =
       ds.handleMap.del h
       var obs: Observe
       if obs.fromPreserve v:
-        ds.index.remove(turn, obs.pattern, unembed obs.observer)
+        ds.index.remove(turn, obs.pattern, obs.observer)
   except KeyError:
     discard
 

@@ -4,12 +4,12 @@ import
   std / typetraits, preserves, sturdy
 
 type
-  Bind*[E] {.preservesRecord: "bind".} = ref object
+  Bind*[Cap] {.preservesRecord: "bind".} = object
   
-  Resolve*[E] {.preservesRecord: "resolve".} = ref object
+  Resolve*[Cap] {.preservesRecord: "resolve".} = ref object
   
-proc `$`*[E](x: Bind[E] | Resolve[E]): string =
-  `$`(toPreserve(x, E))
+proc `$`*[Cap](x: Bind[Cap] | Resolve[Cap]): string =
+  `$`(toPreserve(x, Cap))
 
-proc encode*[E](x: Bind[E] | Resolve[E]): seq[byte] =
-  encode(toPreserve(x, E))
+proc encode*[Cap](x: Bind[Cap] | Resolve[Cap]): seq[byte] =
+  encode(toPreserve(x, Cap))

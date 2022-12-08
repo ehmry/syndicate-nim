@@ -4,27 +4,27 @@ import
   std / typetraits, preserves
 
 type
-  Error*[E] {.preservesRecord: "error".} = ref object
+  Error* {.preservesRecord: "error".} = object
   
-  Turn*[E] = seq[TurnEvent[E]]
-  Message*[E] {.preservesRecord: "message".} = ref object
+  Turn* = seq[TurnEvent]
+  Message* {.preservesRecord: "message".} = object
   
   Retract* {.preservesRecord: "retract".} = object
   
-  Assert*[E] {.preservesRecord: "assert".} = ref object
+  Assert* {.preservesRecord: "assert".} = object
   
-  Extension*[E] {.preservesRecord: "label".} = ref object
+  Extension* {.preservesRecord: "label".} = object
   
-  Sync*[E] {.preservesRecord: "sync".} = ref object
+  Sync* {.preservesRecord: "sync".} = object
   
-  TurnEvent*[E] {.preservesTuple.} = ref object
+  TurnEvent* {.preservesTuple.} = object
   
   Oid* = BiggestInt
-  Assertion*[E] = Preserve[E]
+  Assertion* = Preserve[void]
   Handle* = BiggestInt
   PacketKind* {.pure.} = enum
     `Turn`, `Error`, `Extension`
-  `Packet`*[E] {.preservesOr.} = ref object
+  `Packet`* {.preservesOr.} = object
     case orKind*: PacketKind
     of PacketKind.`Turn`:
       
@@ -35,7 +35,7 @@ type
   
   EventKind* {.pure.} = enum
     `Assert`, `Retract`, `Message`, `Sync`
-  `Event`*[E] {.preservesOr.} = ref object
+  `Event`* {.preservesOr.} = object
     case orKind*: EventKind
     of EventKind.`Assert`:
       
@@ -46,22 +46,18 @@ type
     of EventKind.`Sync`:
       
   
-proc `$`*[E](x: Error[E] | Turn[E] | Message[E] | Assert[E] | Extension[E] |
-    Sync[E] |
-    TurnEvent[E] |
-    Packet[E] |
-    Event[E]): string =
-  `$`(toPreserve(x, E))
-
-proc encode*[E](x: Error[E] | Turn[E] | Message[E] | Assert[E] | Extension[E] |
-    Sync[E] |
-    TurnEvent[E] |
-    Packet[E] |
-    Event[E]): seq[byte] =
-  encode(toPreserve(x, E))
-
-proc `$`*(x: Retract | Oid | Handle): string =
+proc `$`*(x: Error | Turn | Message | Retract | Assert | Extension | Sync |
+    TurnEvent |
+    Oid |
+    Handle |
+    Packet |
+    Event): string =
   `$`(toPreserve(x))
 
-proc encode*(x: Retract | Oid | Handle): seq[byte] =
+proc encode*(x: Error | Turn | Message | Retract | Assert | Extension | Sync |
+    TurnEvent |
+    Oid |
+    Handle |
+    Packet |
+    Event): seq[byte] =
   encode(toPreserve(x))
