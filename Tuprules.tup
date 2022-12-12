@@ -1,0 +1,1 @@
+PROTOCOLS = $(TUP_CWD)/<protocols>

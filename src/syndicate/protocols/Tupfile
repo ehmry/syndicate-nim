@@ -17,6 +17,6 @@ modules += worker.nim
 
 : ../../../../syndicate-protocols/schema-bundle.bin \
 	|> !preserves_schema_nim \
-	|> $(modules) | ../../../<protocols> {generated}
+	|> $(modules) | $(PROTOCOLS) {generated}
 
 : foreach {generated} | {generated} |> !nim_run |>

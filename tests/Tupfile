@@ -1,2 +1,2 @@
 include_rules
-: test_simpleChatProtocol.nim | ../<protocols> |> !nim_run |>
+: test_simpleChatProtocol.nim | $(PROTOCOLS) |> !nim_run |>
