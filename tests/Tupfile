@@ -1,2 +1,2 @@
 include_rules
-: test_simpleChatProtocol.nim | $(PROTOCOLS) |> !nim_run |>
+: foreach test*.nim | $(PROTOCOLS) |> !nim_run |>
