@@ -51,22 +51,23 @@ export
 
 type
   Observe* = dataspace.Observe[Ref]
-  PublishProc = proc (turn: var Turn; v: Assertion; h: Handle) {.closure.}
-  RetractProc = proc (turn: var Turn; h: Handle) {.closure.}
-  MessageProc = proc (turn: var Turn; v: Assertion) {.closure.}
+  PublishProc = proc (turn: var Turn; v: Assertion; h: Handle) {.closure, gcsafe.}
+  RetractProc = proc (turn: var Turn; h: Handle) {.closure, gcsafe.}
+  MessageProc = proc (turn: var Turn; v: Assertion) {.closure, gcsafe.}
   ClosureEntity = ref object of Entity
   
-method publish(e: ClosureEntity; turn: var Turn; v: Assertion; h: Handle) =
+method publish(e: ClosureEntity; turn: var Turn; a: AssertionRef; h: Handle) {.
+    gcsafe.} =
   if not e.publishImpl.isNil:
-    e.publishImpl(turn, v, h)
+    e.publishImpl(turn, a.value, h)
 
-method retract(e: ClosureEntity; turn: var Turn; h: Handle) =
+method retract(e: ClosureEntity; turn: var Turn; h: Handle) {.gcsafe.} =
   if not e.retractImpl.isNil:
     e.retractImpl(turn, h)
 
-method message(e: ClosureEntity; turn: var Turn; v: Assertion) =
+method message(e: ClosureEntity; turn: var Turn; a: AssertionRef) {.gcsafe.} =
   if not e.messageImpl.isNil:
-    e.messageImpl(turn, v)
+    e.messageImpl(turn, a.value)
 
 proc argumentCount(handler: NimNode): int =
   handler.expectKind {nnkDo, nnkStmtList}

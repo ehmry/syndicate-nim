@@ -28,8 +28,8 @@ type
   
   DuringEntity {.final.} = ref object of Entity
   
-method publish(de: DuringEntity; turn: var Turn; a: Assertion; h: Handle) =
-  let action = de.cb(turn, a, h)
+method publish(de: DuringEntity; turn: var Turn; a: AssertionRef; h: Handle) =
+  let action = de.cb(turn, a.value, h)
   let g = de.assertionMap.getOrDefault h
   case g.kind
   of null:

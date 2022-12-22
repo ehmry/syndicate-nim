@@ -17,14 +17,15 @@ type
   Turn = actors.Turn
   Dataspace {.final.} = ref object of Entity
   
-method publish(ds: Dataspace; turn: var Turn; v: Assertion; h: Handle) =
-  if add(ds.index, turn, v):
+method publish(ds: Dataspace; turn: var Turn; a: AssertionRef; h: Handle) {.
+    gcsafe.} =
+  if add(ds.index, turn, a.value):
     var obs: Observe
-    if obs.fromPreserve v:
+    if obs.fromPreserve a.value:
       ds.index.add(turn, obs.pattern, obs.observer)
-  ds.handleMap[h] = v
+  ds.handleMap[h] = a.value
 
-method retract(ds: Dataspace; turn: var Turn; h: Handle) =
+method retract(ds: Dataspace; turn: var Turn; h: Handle) {.gcsafe.} =
   try:
     let v = ds.handleMap[h]
     if remove(ds.index, turn, v):
@@ -35,8 +36,8 @@ method retract(ds: Dataspace; turn: var Turn; h: Handle) =
   except KeyError:
     discard
 
-method message(ds: Dataspace; turn: var Turn; v: Assertion) =
-  ds.index.deliverMessage(turn, v)
+method message(ds: Dataspace; turn: var Turn; a: AssertionRef) {.gcsafe.} =
+  ds.index.deliverMessage(turn, a.value)
 
 proc newDataspace*(turn: var Turn): Ref =
   newRef(turn, Dataspace(index: initIndex()))
