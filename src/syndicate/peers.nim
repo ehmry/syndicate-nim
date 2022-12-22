@@ -34,7 +34,7 @@ proc connectNet*(turn: var Turn; remote: RemoteSpecifier; cap: SturdyRef;
     reenable = facet.preventInertCheck()
     connectionClosedRef = newRef(turn, ShutdownEntity())
     conn = connectTcp(remote)
-  conn.onReady:(discard bootActor("net")do (turn: var Turn):
+  conn.onReadydo :(discard bootActor("net")do (turn: var Turn):
     var shutdownRef: Ref
     proc tapsWriter(pkt: sink Packet): Future[void] =
       let fut = newFuture[void]("tapsWriter")
@@ -54,7 +54,7 @@ proc connectNet*(turn: var Turn; remote: RemoteSpecifier; cap: SturdyRef;
         terminate(facet, reason)
       conn.onReceiveErrordo (ctx: MessageContext; reason: ref Exception):
         terminate(facet, reason)
-      conn.onClosed:
+      conn.onCloseddo :
         run(facet)do (turn: var Turn):
           stopActor(turn)
       var wireBuf = newBufferedDecoder()
