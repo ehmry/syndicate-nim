@@ -24,8 +24,7 @@ proc connectTcp(remote: RemoteSpecifier): Connection =
   var transport = newTransportProperties()
   transport.require("reliability")
   transport.require("preserve-order")
-  var preConn = newPreConnection(transport = some transport,
-                                 remote = some remote)
+  var preConn = newPreConnection(transport = some transport, remote = @[remote])
   preconn.initiate()
 
 proc connectNet*(turn: var Turn; remote: RemoteSpecifier; cap: SturdyRef;
