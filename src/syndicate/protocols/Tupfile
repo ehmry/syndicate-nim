@@ -19,4 +19,4 @@ modules += worker.nim
 	|> !preserves_schema_nim \
 	|> $(modules) | $(SYNDICATE_PROTOCOL)
 
-: foreach $(modules) | $(modules) |> !nim_run |>
+: foreach $(modules) | $(modules) |> !nim_check |>
