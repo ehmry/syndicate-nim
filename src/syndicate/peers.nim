@@ -2,7 +2,7 @@
 
 ## Module for peering with remote dataspaces over network.
 import
-  std / [asyncdispatch, net, options, streams, tables]
+  std / [asyncdispatch, net, options, tables]
 
 import
   preserves
@@ -73,7 +73,7 @@ proc connectNet*(turn: var Turn; remote: RemoteSpecifier; cap: SturdyRef;
         reenable()
         discard publish(turn, shutdownRef, true)
         proc duringCallback(turn: var Turn; a: Assertion; h: Handle): TurnAction =
-          let facet = facet(turn)do (turn: var Turn):
+          let facet = inFacet(turn)do (turn: var Turn):
             bootProc(turn, unembed a)
           proc action(turn: var Turn) =
             stop(turn, facet)
