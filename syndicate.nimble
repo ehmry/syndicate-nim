@@ -1,11 +1,10 @@
 # Package
 
-version = "20230329"
+version = "20230405"
 author        = "Emery Hemingway"
 description   = "Syndicated actors for conversational concurrency"
 license       = "Unlicense"
 srcDir        = "src"
-bin           = @["syndicate/unix/swaybar_status_actor"]
 
 
 # Dependencies
