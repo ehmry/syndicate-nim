@@ -9,17 +9,14 @@ import
 import
   syndicate / protocols / simpleChatProtocol
 
-proc mintCap(): SturdyRef =
-  var key: array[16, byte]
-  mint(key, "syndicate")
-
 proc unixSocketPath(): string =
   result = getEnv("SYNDICATE_SOCK")
   if result == "":
     result = getEnv("XDG_RUNTIME_DIR", "/run/user/1000") / "dataspace"
 
 bootDataspace("main")do (root: Ref; turn: var Turn):
-  connectUnix(turn, unixSocketPath(), mintCap())do (turn: var Turn; ds: Ref):
+  connectUnix(turn, unixSocketPath(), capabilities.mint())do (turn: var Turn;
+      ds: Ref):
     var
       username: string
       usernameHandle: Handle

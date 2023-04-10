@@ -13,10 +13,6 @@ import
   syndicate / [actors, capabilities]
 
 randomize()
-proc mint(): SturdyRef =
-  var key: array[16, byte]
-  mint(key, "syndicate")
-
 type
   A* {.preservesRecord: "A".} = object
     str*: string
@@ -31,8 +27,8 @@ bootDataspace("x")do (ds: Ref; turn: var Turn):
   onPublish(turn, ds, ?A)do (v: Assertion):
     stderr.writeLine "received over stdio ", v
 bootDataspace("y")do (ds: Ref; turn: var Turn):
-  connectUnix(turn, "/run/user/1000/dataspace", mint())do (turn: var Turn;
-      a: Assertion) -> TurnAction:
+  connectUnix(turn, "/run/user/1000/dataspace", capabilities.mint())do (
+      turn: var Turn; a: Assertion) -> TurnAction:
     let ds = unembed a
     discard publish(turn, ds, A(str: "A unix"))
     discard publish(turn, ds, B(str: "B unix"))

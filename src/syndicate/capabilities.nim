@@ -6,6 +6,8 @@ import
 import
   ./protocols / sturdy, ./private / hmacs
 
+from ./actors import Ref
+
 export
   `$`
 
@@ -15,6 +17,10 @@ proc mint*[T](key: openarray[byte]; oid: Preserve[T]): SturdyRef[T] =
 proc mint*[T](key: openarray[byte]; oid: T; E = void): SturdyRef[E] =
   var oidPr = toPreserve(oid, E)
   SturdyRef[E](oid: oidPr, sig: hmacSha256(key, encode(oidPr), key.len))
+
+proc mint*(): SturdyRef[Ref] =
+  var key: array[16, byte]
+  cast[SturdyRef[Ref]](mint(key, "syndicate", Ref))
 
 proc attenuate*[T](r: SturdyRef[T]; caveats: Attenuation): SturdyRef[T] =
   result = SturdyRef[T](oid: r.oid, caveatChain: r.caveatChain,
