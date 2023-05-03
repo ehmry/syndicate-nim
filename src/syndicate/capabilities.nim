@@ -1,22 +1,30 @@
 # SPDX-License-Identifier: MIT
 
+from std / sequtils import toSeq
+
+import
+  hashlib / misc / blake2
+
 import
   preserves
 
 import
-  ./protocols / sturdy, ./private / hmacs
+  ./protocols / sturdy
 
 from ./actors import Ref
 
 export
   `$`
 
+proc hmac(key, data: openarray[byte]): seq[byte] =
+  count[Hmac[BLAKE2S_256]](key, data).data[0 .. 15].toSeq
+
 proc mint*[T](key: openarray[byte]; oid: Preserve[T]): SturdyRef[T] =
-  SturdyRef[T](oid: oid, sig: hmacSha256(key, encode(oid), key.len))
+  SturdyRef[T](oid: oid, sig: hmac(key, encode oid))
 
 proc mint*[T](key: openarray[byte]; oid: T; E = void): SturdyRef[E] =
   var oidPr = toPreserve(oid, E)
-  SturdyRef[E](oid: oidPr, sig: hmacSha256(key, encode(oidPr), key.len))
+  SturdyRef[E](oid: oidPr, sig: hmac(key, encode oidPr))
 
 proc mint*(): SturdyRef[Ref] =
   var key: array[16, byte]
@@ -24,13 +32,13 @@ proc mint*(): SturdyRef[Ref] =
 
 proc attenuate*[T](r: SturdyRef[T]; caveats: Attenuation): SturdyRef[T] =
   result = SturdyRef[T](oid: r.oid, caveatChain: r.caveatChain,
-                        sig: hmacSha256(r.sig, caveats.encode))
+                        sig: hmac(r.sig, encode caveats))
   result.caveatChain.add caveats
 
 proc validate*[T](key: openarray[byte]; r: SturdyRef[T]): bool =
-  var sig = hmacSha256(key, r.oid.encode, key.len)
+  var sig = hmac(key, encode r.oid)
   for a in r.caveatChain:
-    sig = hmacSha256(sig, a.encode)
+    sig = hmac(sig, encode a)
   r.sig == sig
 
 when isMainModule:

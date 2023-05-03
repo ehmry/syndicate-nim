@@ -3,6 +3,5 @@ include ../taps/depends.tup
 NIM_FLAGS += --path:$(TUP_CWD)/../nim
 NIM_FLAGS += --path:$(TUP_CWD)/../preserves-nim/src
 NIM_FLAGS += --path:$(TUP_CWD)/../taps/src
-NIM_FLAGS += --path:%<nimsha2>
-NIM_GROUPS += $(TUP_CWD)/../nimble/<nimsha2>
+NIM_FLAGS += --path:$(TUP_CWD)/../hashlib
 NIM_GROUPS += $(TUP_CWD)/<protocol>
