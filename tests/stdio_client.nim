@@ -20,7 +20,7 @@ type
   B* {.preservesRecord: "B".} = object
     str*: string
 
-bootDataspace("x")do (ds: Ref; turn: var Turn):
+runActor("x")do (ds: Ref; turn: var Turn):
   connectStdio(ds, turn)
   discard publish(turn, ds, A(str: "A stdio"))
   discard publish(turn, ds, B(str: "B stdio"))
@@ -34,4 +34,3 @@ bootDataspace("y")do (ds: Ref; turn: var Turn):
     discard publish(turn, ds, B(str: "B unix"))
     onPublish(turn, ds, ?B)do (v: Assertion):
       stderr.writeLine "received over unix ", v
-runForever()
