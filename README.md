@@ -89,10 +89,20 @@ bootDataspace("main") do (dataspace: Ref; turn: var Turn):
 
 ## Examples
 
-- [src/syndicate/unix](./src/syndicate/unix)
-- [erisresolver](https://codeberg.org/eris/nim-eris_utils#erisresolver) - dynamic configuration
-- [xdg_open_ng](https://git.syndicate-lang.org/ehmry/xdg_open_ng) - messaging, UNIX sockets, dynamic configuration, [Syndicate server](https://synit.org/book/operation/system-bus.html) interaction.
+### [test_chat](./tests/test_chat.nim)
+Simple chat demo that is compatible with [chat.py](https://git.syndicate-lang.org/syndicate-lang/syndicate-py/src/branch/main/chat.py).
+```sh
+nim c -r tests/test_chat.nim \
+	--cap:'<ref {oid: "syndicate" sig: #x"69ca300c1dbfa08fba692102dd82311a"}>' \
+	--transport:'<tcp "127.0.0.1" 666>' \
+	--user:fnord
+```
+
+### [xdg_open_ng](https://git.syndicate-lang.org/ehmry/xdg_open_ng)
+Messaging, UNIX sockets, dynamic configuration, [Syndicate server](https://synit.org/book/operation/system-bus.html) interaction.
 
 ---
 
 This work has been supported by the [NLnet Foundation](https://nlnet.nl/) and the European Commission's [Next Generation Internet programme](https://www.ngi.eu/). The [Syndicate Actor Model](https://syndicate-lang.org/projects/2021/system-layer/) through the [NGI Zero PET](https://nlnet.nl/PET/) program and this library as a part of the [ERIS project](https://eris.codeberg.page/) through [NGI Assure](https://nlnet.nl/assure/).
+
+[![NLnet](https://nlnet.nl/logo/banner.svg)](https://nlnet.nl/)
