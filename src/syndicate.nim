@@ -1,29 +1,14 @@
 # SPDX-License-Identifier: MIT
 
 ## This module implements the `Syndicate DSL <https://syndicate-lang.org/doc/syndicate/>`_.
-runnableExamples:
-  from syndicate / protocols / simpleChatProtocol import Present, Says
-
-  import
-    std / asyncdispatch
-
-  discard bootDataspace("example")do (ds: Ref; turn: var Turn):
-    let
-      me = "user"
-      presenceHandle = publish(turn, ds, Present(username: me))
-    onMessage(turn, ds, ?Says)do (who: string; what: string):
-      echo who, ": ", what
-      retract(turn, presenceHandle)
-    during(turn, ds, ?Present)do (username: string):
-      echo "[", username, " arrived]"
-      message(turn, ds, Says(who: me, what: "users are losers"))
-    do:
-      echo "[", username, "departed]"
 import
   std / [asyncdispatch, macros, tables, typetraits]
 
 import
   preserves
+
+export
+  fromPreserve, toPreserve
 
 import
   ./syndicate / [actors, dataspaces, durings, patterns]
@@ -32,16 +17,10 @@ import
   ./syndicate / protocols / dataspace
 
 when defined(posix):
-  from ./syndicate / relays import connectStdio, connectUnix, SturdyRef
+  from ./syndicate / relays import Tcp, Unix, connect, connectStdio
 
   export
-    connectStdio, connectUnix
-
-else:
-  from ./syndicate / relays import SturdyRef
-
-export
-  SturdyRef
+    Tcp, Unix, connect, connectStdio
 
 export
   Actor, Assertion, Facet, Handle, Ref, Symbol, Turn, TurnAction, `$`,

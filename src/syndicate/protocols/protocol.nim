@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / typetraits, preserves
+  preserves
 
 type
   Error* {.preservesRecord: "error".} = object
@@ -13,8 +13,7 @@ type
   
   Assert* {.preservesRecord: "assert".} = object
   
-  Extension* {.preservesRecord: "label".} = object
-  
+  Extension* = Preserve[void]
   Sync* {.preservesRecord: "sync".} = object
   
   TurnEvent* {.preservesTuple.} = object
@@ -46,16 +45,13 @@ type
     of EventKind.`Sync`:
       
   
-proc `$`*(x: Error | Turn | Message | Retract | Assert | Extension | Sync |
-    TurnEvent |
-    Oid |
+proc `$`*(x: Error | Turn | Message | Retract | Assert | Sync | TurnEvent | Oid |
     Handle |
     Packet |
     Event): string =
   `$`(toPreserve(x))
 
-proc encode*(x: Error | Turn | Message | Retract | Assert | Extension | Sync |
-    TurnEvent |
+proc encode*(x: Error | Turn | Message | Retract | Assert | Sync | TurnEvent |
     Oid |
     Handle |
     Packet |

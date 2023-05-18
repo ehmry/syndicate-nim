@@ -1,8 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / typetraits, preserves, protocol, protocol, protocol, protocol, protocol,
-  protocol
+  preserves, protocol
 
 type
   TargetedTurnEvent*[Cap] {.preservesRecord: "event".} = object

@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / typetraits, preserves, std / tables, std / tables
+  preserves, std / tables
 
 type
   PCompoundKind* {.pure.} = enum
@@ -21,10 +21,32 @@ type
     of PCompoundKind.`dict`:
       
   
+  Reject*[Cap] {.preservesRecord: "reject".} = ref object
+  
+  CaveatsFieldKind* {.pure.} = enum
+    `present`, `invalid`, `absent`
+  CaveatsFieldPresent*[Cap] {.preservesDictionary.} = ref object
+  
+  CaveatsFieldInvalid*[Cap] {.preservesDictionary.} = object
+  
+  CaveatsFieldAbsent* {.preservesDictionary.} = object
+  `CaveatsField`*[Cap] {.preservesOr.} = ref object
+    case orKind*: CaveatsFieldKind
+    of CaveatsFieldKind.`present`:
+      
+    of CaveatsFieldKind.`invalid`:
+      
+    of CaveatsFieldKind.`absent`:
+      
+  
+  SturdyDescriptionDetail*[Cap] {.preservesDictionary.} = object
+  
   PAnd*[Cap] {.preservesRecord: "and".} = ref object
   
+  SturdyStepDetail*[Cap] = Parameters[Cap]
   Rewrite*[Cap] {.preservesRecord: "rewrite".} = ref object
   
+  Parameters*[Cap] = Preserve[Cap]
   TRef* {.preservesRecord: "ref".} = object
   
   PBind*[Cap] {.preservesRecord: "bind".} = ref object
@@ -48,10 +70,10 @@ type
     of TCompoundKind.`dict`:
       
   
+  SturdyPathStepDetail*[Cap] = Parameters[Cap]
   `PAtom`* {.preservesOr, pure.} = enum
     `Boolean`, `Float`, `Double`, `SignedInteger`, `String`, `ByteString`,
     `Symbol`
-  Attenuation*[Cap] = seq[Caveat[Cap]]
   PDiscard* {.preservesRecord: "_".} = object
   TemplateKind* {.pure.} = enum
     `TAttenuate`, `TRef`, `Lit`, `TCompound`
@@ -67,12 +89,17 @@ type
       
   
   CaveatKind* {.pure.} = enum
-    `Rewrite`, `Alts`
+    `Rewrite`, `Alts`, `Reject`, `unknown`
+  CaveatUnknown*[Cap] = Preserve[Cap]
   `Caveat`*[Cap] {.preservesOr.} = ref object
     case orKind*: CaveatKind
     of CaveatKind.`Rewrite`:
       
     of CaveatKind.`Alts`:
+      
+    of CaveatKind.`Reject`:
+      
+    of CaveatKind.`unknown`:
       
   
   PNot*[Cap] {.preservesRecord: "not".} = ref object
@@ -119,10 +146,13 @@ type
     of PatternKind.`PCompound`:
       
   
-proc `$`*[Cap](x: PCompound[Cap] | PAnd[Cap] | Rewrite[Cap] | PBind[Cap] |
+proc `$`*[Cap](x: PCompound[Cap] | Reject[Cap] | CaveatsField[Cap] |
+    SturdyDescriptionDetail[Cap] |
+    PAnd[Cap] |
+    Rewrite[Cap] |
+    PBind[Cap] |
     Lit[Cap] |
     TCompound[Cap] |
-    Attenuation[Cap] |
     Template[Cap] |
     Caveat[Cap] |
     PNot[Cap] |
@@ -133,10 +163,13 @@ proc `$`*[Cap](x: PCompound[Cap] | PAnd[Cap] | Rewrite[Cap] | PBind[Cap] |
     Pattern[Cap]): string =
   `$`(toPreserve(x, Cap))
 
-proc encode*[Cap](x: PCompound[Cap] | PAnd[Cap] | Rewrite[Cap] | PBind[Cap] |
+proc encode*[Cap](x: PCompound[Cap] | Reject[Cap] | CaveatsField[Cap] |
+    SturdyDescriptionDetail[Cap] |
+    PAnd[Cap] |
+    Rewrite[Cap] |
+    PBind[Cap] |
     Lit[Cap] |
     TCompound[Cap] |
-    Attenuation[Cap] |
     Template[Cap] |
     Caveat[Cap] |
     PNot[Cap] |

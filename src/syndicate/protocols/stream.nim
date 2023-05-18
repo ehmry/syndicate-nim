@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / typetraits, preserves
+  preserves
 
 type
   CreditAmountKind* {.pure.} = enum

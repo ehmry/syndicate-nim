@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / typetraits, preserves, dataspacePatterns
+  preserves, dataspacePatterns
 
 type
   Observe*[Cap] {.preservesRecord: "Observe".} = ref object
