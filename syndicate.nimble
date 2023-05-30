@@ -1,6 +1,6 @@
 # Package
 
-version = "20230518"
+version = "20230530"
 author        = "Emery Hemingway"
 description   = "Syndicated actors for conversational concurrency"
 license       = "Unlicense"
@@ -9,4 +9,4 @@ srcDir        = "src"
 
 # Dependencies
 
-requires "hashlib", "nim >= 1.4.8", "preserves >= 20221208", "taps >= 20221119"
+requires "hashlib", "nim >= 1.4.8", "preserves >= 20230530", "taps >= 20221119"
