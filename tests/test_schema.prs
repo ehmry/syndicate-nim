@@ -1,0 +1,2 @@
+version 1 .
+Foo = <foo @x [string ...] @y int @z int> .
