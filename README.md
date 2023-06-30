@@ -49,12 +49,12 @@ assert present.fromPreserve(pr) == true
 
 ## The Syndicate DSL
 
-The Syndicate DSL can be entered using `bootDataspace` which calls a Nim body with a [dataspace](https://synit.org/book/glossary.html#dataspace) [Ref](https://synit.org/book/glossary.html#reference) and a [turn](https://synit.org/book/glossary.html#turn). The `Ref` is something that we can observe and publish assertions at, and a `Turn` is special type for temporal scoping and transactional semantics. Assertions can be published using the `Assertion` or equivalent `Preserve[Ref]` type, but using Nim types is preferred because they can be reliably consistent with schema.
+The Syndicate DSL can be entered using `runActor` which calls a Nim body with a [dataspace](https://synit.org/book/glossary.html#dataspace) [Ref](https://synit.org/book/glossary.html#reference) and a [turn](https://synit.org/book/glossary.html#turn). The `Ref` is something that we can observe and publish assertions at, and a `Turn` is special type for temporal scoping and transactional semantics. Assertions can be published using the `Assertion` or equivalent `Preserve[Ref]` type, but using Nim types is preferred because they can be reliably consistent with schema.
 
 ### Publish
 
 ``` nim
-bootDataspace("main") do (dataspace: Ref; turn: var Turn):
+runActor("main") do (dataspace: Ref; turn: var Turn):
   let presenceHandle = publish(turn, dataspace, Present(username: "Judy"))
     # publish <Present "Judy"> to the dataspace
     # the assertion can be later retracted by handle
@@ -67,7 +67,7 @@ bootDataspace("main") do (dataspace: Ref; turn: var Turn):
 We can react to assertions and messages within dataspaces using [patterns](https://synit.org/book/glossary.html#dataspace-pattern). Patterns are constructed using a Nim type and the `?` operator. Again a Nim type is used rather than a raw Preserves for schema consistency.
 
 ``` nim
-bootDataspace("main") do (dataspace: Ref; turn: var Turn):
+runActor("main") do (dataspace: Ref; turn: var Turn):
   during(turn, dataspace, ?Present) do (who: string):
     # This body is active when the ?Present pattern is matched.
     # The Present type contains two atomic values that can be matched

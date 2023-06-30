@@ -44,7 +44,7 @@ proc newDataspace*(turn: var Turn): Ref =
 
 type
   BootProc = proc (ds: Ref; turn: var Turn) {.gcsafe.}
-proc bootDataspace*(name: string; bootProc: BootProc): Actor {.discardable.} =
+proc bootDataspace*(name: string; bootProc: BootProc): Actor =
   bootActor(name)do (turn: var Turn):
     discard turn.facet.preventInertCheck()
     bootProc(newDataspace(turn), turn)
