@@ -26,15 +26,12 @@ method publish(ds: Dataspace; turn: var Turn; a: AssertionRef; h: Handle) {.
   ds.handleMap[h] = a.value
 
 method retract(ds: Dataspace; turn: var Turn; h: Handle) {.gcsafe.} =
-  try:
-    let v = ds.handleMap[h]
-    if remove(ds.index, turn, v):
-      ds.handleMap.del h
-      var obs: Observe
-      if obs.fromPreserve v:
-        ds.index.remove(turn, obs.pattern, obs.observer)
-  except KeyError:
-    discard
+  let v = ds.handleMap[h]
+  if remove(ds.index, turn, v):
+    ds.handleMap.del h
+    var obs: Observe
+    if obs.fromPreserve v:
+      ds.index.remove(turn, obs.pattern, obs.observer)
 
 method message(ds: Dataspace; turn: var Turn; a: AssertionRef) {.gcsafe.} =
   ds.index.deliverMessage(turn, a.value)
