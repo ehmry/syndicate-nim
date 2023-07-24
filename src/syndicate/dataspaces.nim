@@ -12,8 +12,8 @@ import
 from ./protocols / protocol import Handle
 
 type
-  Assertion = Preserve[Ref]
-  Observe = dataspace.Observe[Ref]
+  Assertion = Preserve[Cap]
+  Observe = dataspace.Observe[Cap]
   Turn = actors.Turn
   Dataspace {.final.} = ref object of Entity
   
@@ -36,11 +36,11 @@ method retract(ds: Dataspace; turn: var Turn; h: Handle) {.gcsafe.} =
 method message(ds: Dataspace; turn: var Turn; a: AssertionRef) {.gcsafe.} =
   ds.index.deliverMessage(turn, a.value)
 
-proc newDataspace*(turn: var Turn): Ref =
-  newRef(turn, Dataspace(index: initIndex()))
+proc newDataspace*(turn: var Turn): Cap =
+  newCap(turn, Dataspace(index: initIndex()))
 
 type
-  BootProc = proc (ds: Ref; turn: var Turn) {.gcsafe.}
+  BootProc = proc (ds: Cap; turn: var Turn) {.gcsafe.}
 proc bootDataspace*(name: string; bootProc: BootProc): Actor =
   bootActor(name)do (turn: var Turn):
     discard turn.facet.preventInertCheck()

@@ -12,7 +12,7 @@ import
 from ./protocols / protocol import Handle
 
 type
-  Observe = dataspace.Observe[Ref]
+  Observe = dataspace.Observe[Cap]
   Turn = actors.Turn
 type
   DuringProc* = proc (turn: var Turn; a: Assertion; h: Handle): TurnAction {.
@@ -55,5 +55,5 @@ method retract(de: DuringEntity; turn: var Turn; h: Handle) =
 proc during*(cb: DuringProc): DuringEntity =
   DuringEntity(cb: cb)
 
-proc observe*(turn: var Turn; ds: Ref; pat: Pattern; e: Entity): Handle =
-  publish(turn, ds, Observe(pattern: pat, observer: newRef(turn, e)))
+proc observe*(turn: var Turn; ds: Cap; pat: Pattern; e: Entity): Handle =
+  publish(turn, ds, Observe(pattern: pat, observer: newCap(turn, e)))
