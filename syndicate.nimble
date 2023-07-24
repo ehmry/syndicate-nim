@@ -1,6 +1,6 @@
 # Package
 
-version = "20230723"
+version = "20230725"
 author        = "Emery Hemingway"
 description   = "Syndicated actors for conversational concurrency"
 license       = "Unlicense"
