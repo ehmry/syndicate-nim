@@ -10,7 +10,7 @@ import
   syndicate / relays
 
 import
-  syndicate / protocols / [protocol, sturdy]
+  syndicate / protocols / sturdy
 
 type
   WireRef = sturdy.WireRef[void]
@@ -28,7 +28,7 @@ suite "protocols":
       try:
         var a = decodePreserves(str, WireRef)
         echo a
-      except:
+      except CatchableError:
         str.setPosition pos
         echo str.readAll.toHex
         break
