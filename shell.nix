@@ -2,4 +2,4 @@ let
   syndicate = builtins.getFlake "syndicate";
   pkgs =
     import <nixpkgs> { overlays = builtins.attrValues syndicate.overlays; };
-in pkgs.nimPackages.syndicate
+in pkgs.nim2Packages.syndicate

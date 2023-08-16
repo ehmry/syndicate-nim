@@ -9,4 +9,4 @@ srcDir        = "src"
 
 # Dependencies
 
-requires "hashlib", "nim >= 1.4.8", "preserves >= 20230720", "taps >= 20221119"
+requires "hashlib", "nim >= 2.0.0", "preserves >= 20230816", "taps >= 20221119"
