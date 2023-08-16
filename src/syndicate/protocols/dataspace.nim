@@ -4,7 +4,7 @@ import
   preserves, dataspacePatterns
 
 type
-  Observe*[Cap] {.preservesRecord: "Observe".} = ref object
+  Observe*[Cap] {.acyclic, preservesRecord: "Observe".} = ref object
   
 proc `$`*[Cap](x: Observe[Cap]): string =
   `$`(toPreserve(x, Cap))

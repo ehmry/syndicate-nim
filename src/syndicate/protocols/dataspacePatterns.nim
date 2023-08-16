@@ -35,18 +35,18 @@ type
   
   DLit*[Cap] {.preservesRecord: "lit".} = object
   
-  DBind*[Cap] {.preservesRecord: "bind".} = ref object
+  DBind*[Cap] {.acyclic, preservesRecord: "bind".} = ref object
   
   DDiscard* {.preservesRecord: "_".} = object
   DCompoundKind* {.pure.} = enum
     `rec`, `arr`, `dict`
-  DCompoundRec*[Cap] {.preservesRecord: "rec".} = ref object
+  DCompoundRec*[Cap] {.acyclic, preservesRecord: "rec".} = ref object
   
-  DCompoundArr*[Cap] {.preservesRecord: "arr".} = ref object
+  DCompoundArr*[Cap] {.acyclic, preservesRecord: "arr".} = ref object
   
-  DCompoundDict*[Cap] {.preservesRecord: "dict".} = ref object
+  DCompoundDict*[Cap] {.acyclic, preservesRecord: "dict".} = ref object
   
-  `DCompound`*[Cap] {.preservesOr.} = ref object
+  `DCompound`*[Cap] {.acyclic, preservesOr.} = ref object
     case orKind*: DCompoundKind
     of DCompoundKind.`rec`:
       
@@ -57,7 +57,7 @@ type
   
   PatternKind* {.pure.} = enum
     `DDiscard`, `DBind`, `DLit`, `DCompound`
-  `Pattern`*[Cap] {.preservesOr.} = ref object
+  `Pattern`*[Cap] {.acyclic, preservesOr.} = ref object
     case orKind*: PatternKind
     of PatternKind.`DDiscard`:
       
