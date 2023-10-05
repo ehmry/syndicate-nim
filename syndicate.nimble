@@ -9,4 +9,4 @@ srcDir        = "src"
 
 # Dependencies
 
-requires "hashlib", "nim >= 2.0.0", "preserves >= 20230816", "taps >= 20221119"
+requires "https://github.com/khchen/hashlib.git#84e0247555e4488594975900401baaf5bbbfb531", "nim >= 2.0.0", "https://git.syndicate-lang.org/ehmry/preserves-nim.git >= 20230816"
