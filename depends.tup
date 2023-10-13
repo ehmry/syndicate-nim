@@ -1,5 +1,3 @@
 include ../preserves-nim/depends.tup
-NIM_FLAGS += --path:$(TUP_CWD)/../nim
 NIM_FLAGS += --path:$(TUP_CWD)/../preserves-nim/src
-NIM_FLAGS += --path:$(TUP_CWD)/../hashlib
 NIM_GROUPS += $(TUP_CWD)/<protocol>

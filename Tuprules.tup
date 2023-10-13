@@ -1,1 +1,2 @@
 include depends.tup
+NIM_GROUPS += $(TUP_CWD)/<lock>

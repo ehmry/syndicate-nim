@@ -1,0 +1,2 @@
+include_rules
+: lock.json |> !nim_cfg |> | ./<lock>
