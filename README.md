@@ -92,10 +92,7 @@ runActor("main") do (dataspace: Ref; turn: var Turn):
 ### [test_chat](./tests/test_chat.nim)
 Simple chat demo that is compatible with [chat.py](https://git.syndicate-lang.org/syndicate-lang/syndicate-py/src/branch/main/chat.py).
 ```sh
-nim c -r tests/test_chat.nim \
-	--cap:'<ref {oid: "syndicate" sig: #x"69ca300c1dbfa08fba692102dd82311a"}>' \
-	--transport:'<tcp "127.0.0.1" 666>' \
-	--user:fnord
+SYNDICATE_ROUTE='<route [<unix "/run/user/1000/dataspace">] [<ref {oid: "syndicate" sig: #x"69ca300c1dbfa08fba692102dd82311a"}>]>' nim c -r tests/test_chat.nim --user:fnord
 ```
 
 ### [xdg_open_ng](https://git.syndicate-lang.org/ehmry/xdg_open_ng)

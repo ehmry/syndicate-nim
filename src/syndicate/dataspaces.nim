@@ -40,8 +40,15 @@ proc newDataspace*(turn: var Turn): Cap =
   newCap(turn, Dataspace(index: initIndex()))
 
 type
-  BootProc = proc (ds: Cap; turn: var Turn) {.gcsafe.}
+  BootProc = proc (turn: var Turn; ds: Cap) {.gcsafe.}
+type
+  DeprecatedBootProc = proc (ds: Cap; turn: var Turn) {.gcsafe.}
 proc bootDataspace*(name: string; bootProc: BootProc): Actor =
   bootActor(name)do (turn: var Turn):
     discard turn.facet.preventInertCheck()
-    bootProc(newDataspace(turn), turn)
+    bootProc(turn, newDataspace(turn))
+
+proc bootDataspace*(name: string; bootProc: DeprecatedBootProc): Actor {.
+    deprecated.} =
+  bootDataspace(name)do (turn: var Turn; ds: Cap):
+    bootProc(ds, turn)
