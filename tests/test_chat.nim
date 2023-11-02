@@ -46,6 +46,8 @@ proc main() =
       of "user", "username":
         username = val
   if username == "":
+    stderr.writeLine "--user: unspecified"
+  else:
     runActor("chat")do (turn: var Turn; root: Cap):
       resolve(turn, root, route)do (turn: var Turn; ds: Cap):
         chat(turn, ds, username)
