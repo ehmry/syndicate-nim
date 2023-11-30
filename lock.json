@@ -5,11 +5,11 @@
       "packages": [
         "hashlib"
       ],
-      "path": "/nix/store/v03nzlpdgbfxd2zhcnkfbkq01d5kqxcl-source",
-      "rev": "84e0247555e4488594975900401baaf5bbbfb531",
-      "sha256": "1pfczsv8kl36qpv543f93d2y2vgz2acckssfap7l51s2x62m6qwx",
+      "path": "/nix/store/fav82xdbicvlk34nmcbl89zx99lr3mbs-source",
+      "rev": "f9455d4be988e14e3dc7933eb7cc7d7c4820b7ac",
+      "sha256": "1sx6j952lj98629qfgr7ds5aipyw9d6lldcnnqs205wpj4pkcjb3",
       "srcDir": "",
-      "url": "https://github.com/khchen/hashlib/archive/84e0247555e4488594975900401baaf5bbbfb531.tar.gz"
+      "url": "https://github.com/ehmry/hashlib/archive/f9455d4be988e14e3dc7933eb7cc7d7c4820b7ac.tar.gz"
     },
     {
       "method": "fetchzip",
