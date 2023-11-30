@@ -1,2 +1,5 @@
 { pkgs ? import <nixpkgs> { } }:
-pkgs.nim2Packages.buildNimPackage { name = "dummy"; }
+pkgs.buildNimPackage {
+  name = "dummy";
+  lockFile = ./lock.json;
+}
