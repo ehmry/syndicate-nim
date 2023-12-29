@@ -28,11 +28,11 @@ proc readStdin(facet: Facet; ds: Cap; username: string) =
   readLine()
 
 proc chat(turn: var Turn; ds: Cap; username: string) =
-  during(turn, ds, ?Present)do (who: string):
+  during(turn, ds, ?:Present)do (who: string):
     echo who, " joined"
   do:
     echo who, " left"
-  onMessage(turn, ds, ?Says)do (who: string; what: string):
+  onMessage(turn, ds, ?:Says)do (who: string; what: string):
     echo who, ": ", what
   discard publish(turn, ds, Present(username: username))
   readStdin(turn.facet, ds, username)
