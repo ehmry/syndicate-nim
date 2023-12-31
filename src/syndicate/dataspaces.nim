@@ -12,8 +12,8 @@ import
 from ./protocols / protocol import Handle
 
 type
-  Assertion = Preserve[Cap]
-  Observe = dataspace.Observe[Cap]
+  Assertion = Value
+  Observe = dataspace.Observe
   Turn = actors.Turn
   Dataspace {.final.} = ref object of Entity
   
@@ -21,7 +21,7 @@ method publish(ds: Dataspace; turn: var Turn; a: AssertionRef; h: Handle) {.
     gcsafe.} =
   if add(ds.index, turn, a.value):
     var obs: Observe
-    if obs.fromPreserve a.value:
+    if obs.fromPreserves(a.value):
       ds.index.add(turn, obs.pattern, obs.observer)
   ds.handleMap[h] = a.value
 
@@ -30,7 +30,7 @@ method retract(ds: Dataspace; turn: var Turn; h: Handle) {.gcsafe.} =
   if remove(ds.index, turn, v):
     ds.handleMap.del h
     var obs: Observe
-    if obs.fromPreserve v:
+    if obs.fromPreserves v:
       ds.index.remove(turn, obs.pattern, obs.observer)
 
 method message(ds: Dataspace; turn: var Turn; a: AssertionRef) {.gcsafe.} =

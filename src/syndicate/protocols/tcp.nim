@@ -6,18 +6,12 @@ import
 type
   TcpLocal* {.preservesRecord: "tcp-local".} = object
   
-  TcpPeerInfo*[Cap] {.preservesRecord: "tcp-peer".} = object
+  TcpPeerInfo* {.preservesRecord: "tcp-peer".} = object
   
   TcpRemote* {.preservesRecord: "tcp-remote".} = object
   
-proc `$`*[Cap](x: TcpPeerInfo[Cap]): string =
-  `$`(toPreserve(x, Cap))
+proc `$`*(x: TcpLocal | TcpPeerInfo | TcpRemote): string =
+  `$`(toPreserves(x))
 
-proc encode*[Cap](x: TcpPeerInfo[Cap]): seq[byte] =
-  encode(toPreserve(x, Cap))
-
-proc `$`*(x: TcpLocal | TcpRemote): string =
-  `$`(toPreserve(x))
-
-proc encode*(x: TcpLocal | TcpRemote): seq[byte] =
-  encode(toPreserve(x))
+proc encode*(x: TcpLocal | TcpPeerInfo | TcpRemote): seq[byte] =
+  encode(toPreserves(x))

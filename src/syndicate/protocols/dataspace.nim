@@ -4,10 +4,10 @@ import
   preserves, dataspacePatterns
 
 type
-  Observe*[Cap] {.acyclic, preservesRecord: "Observe".} = ref object
+  Observe* {.preservesRecord: "Observe".} = object
   
-proc `$`*[Cap](x: Observe[Cap]): string =
-  `$`(toPreserve(x, Cap))
+proc `$`*(x: Observe): string =
+  `$`(toPreserves(x))
 
-proc encode*[Cap](x: Observe[Cap]): seq[byte] =
-  encode(toPreserve(x, Cap))
+proc encode*(x: Observe): seq[byte] =
+  encode(toPreserves(x))

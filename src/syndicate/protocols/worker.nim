@@ -4,10 +4,10 @@ import
   preserves
 
 type
-  Instance*[Cap] {.preservesRecord: "Instance".} = object
+  Instance* {.preservesRecord: "Instance".} = object
   
-proc `$`*[Cap](x: Instance[Cap]): string =
-  `$`(toPreserve(x, Cap))
+proc `$`*(x: Instance): string =
+  `$`(toPreserves(x))
 
-proc encode*[Cap](x: Instance[Cap]): seq[byte] =
-  encode(toPreserve(x, Cap))
+proc encode*(x: Instance): seq[byte] =
+  encode(toPreserves(x))

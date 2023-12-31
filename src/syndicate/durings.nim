@@ -12,7 +12,7 @@ import
 from ./protocols / protocol import Handle
 
 type
-  Observe = dataspace.Observe[Cap]
+  Observe = dataspace.Observe
   Turn = actors.Turn
 type
   DuringProc* = proc (turn: var Turn; a: Assertion; h: Handle): TurnAction {.

@@ -4,30 +4,30 @@ import
   preserves
 
 type
-  Bind*[Cap] {.preservesRecord: "bind".} = object
+  Bind* {.preservesRecord: "bind".} = object
   
-  Route*[Cap] {.preservesRecord: "route".} = object
+  Route* {.preservesRecord: "route".} = object
   
   BindObserverKind* {.pure.} = enum
     `present`, `absent`
-  BindObserverPresent*[Cap] = Cap
-  `BindObserver`*[Cap] {.preservesOr.} = object
+  BindObserverPresent* = Bound
+  `BindObserver`* {.preservesOr.} = object
     case orKind*: BindObserverKind
     of BindObserverKind.`present`:
       
     of BindObserverKind.`absent`:
       
   
-  TransportConnection*[Cap] {.preservesRecord: "connect-transport".} = object
+  TransportConnection* {.preservesRecord: "connect-transport".} = object
   
-  Step*[Cap] = Preserve[Cap]
-  ResolvedPathStep*[Cap] {.preservesRecord: "path-step".} = object
+  Step* = Value
+  ResolvedPathStep* {.preservesRecord: "path-step".} = object
   
   BoundKind* {.pure.} = enum
     `bound`, `Rejected`
-  BoundBound*[Cap] {.preservesRecord: "bound".} = object
+  BoundBound* {.preservesRecord: "bound".} = object
   
-  `Bound`*[Cap] {.preservesOr.} = object
+  `Bound`* {.preservesOr.} = object
     case orKind*: BoundKind
     of BoundKind.`bound`:
       
@@ -35,16 +35,16 @@ type
       
   
   ForceDisconnect* {.preservesRecord: "force-disconnect".} = object
-  Description*[Cap] = Preserve[Cap]
-  Rejected*[Cap] {.preservesRecord: "rejected".} = object
+  Description* = Value
+  Rejected* {.preservesRecord: "rejected".} = object
   
-  Resolve*[Cap] {.preservesRecord: "resolve".} = object
+  Resolve* {.preservesRecord: "resolve".} = object
   
   ResolvedKind* {.pure.} = enum
     `accepted`, `Rejected`
-  ResolvedAccepted*[Cap] {.preservesRecord: "accepted".} = object
+  ResolvedAccepted* {.preservesRecord: "accepted".} = object
   
-  `Resolved`*[Cap] {.preservesOr.} = object
+  `Resolved`* {.preservesOr.} = object
     case orKind*: ResolvedKind
     of ResolvedKind.`accepted`:
       
@@ -52,31 +52,27 @@ type
       
   
   TransportControl* = ForceDisconnect
-  ResolvePath*[Cap] {.preservesRecord: "resolve-path".} = object
+  ResolvePath* {.preservesRecord: "resolve-path".} = object
   
-  PathStep*[Cap] = Preserve[Cap]
-proc `$`*[Cap](x: Bind[Cap] | Route[Cap] | BindObserver[Cap] |
-    TransportConnection[Cap] |
-    ResolvedPathStep[Cap] |
-    Bound[Cap] |
-    Rejected[Cap] |
-    Resolve[Cap] |
-    Resolved[Cap] |
-    ResolvePath[Cap]): string =
-  `$`(toPreserve(x, Cap))
+  PathStep* = Value
+proc `$`*(x: Bind | Route | BindObserver | TransportConnection |
+    ResolvedPathStep |
+    Bound |
+    ForceDisconnect |
+    Rejected |
+    Resolve |
+    Resolved |
+    TransportControl |
+    ResolvePath): string =
+  `$`(toPreserves(x))
 
-proc encode*[Cap](x: Bind[Cap] | Route[Cap] | BindObserver[Cap] |
-    TransportConnection[Cap] |
-    ResolvedPathStep[Cap] |
-    Bound[Cap] |
-    Rejected[Cap] |
-    Resolve[Cap] |
-    Resolved[Cap] |
-    ResolvePath[Cap]): seq[byte] =
-  encode(toPreserve(x, Cap))
-
-proc `$`*(x: ForceDisconnect | TransportControl): string =
-  `$`(toPreserve(x))
-
-proc encode*(x: ForceDisconnect | TransportControl): seq[byte] =
-  encode(toPreserve(x))
+proc encode*(x: Bind | Route | BindObserver | TransportConnection |
+    ResolvedPathStep |
+    Bound |
+    ForceDisconnect |
+    Rejected |
+    Resolve |
+    Resolved |
+    TransportControl |
+    ResolvePath): seq[byte] =
+  encode(toPreserves(x))

@@ -4,18 +4,18 @@ import
   preserves, protocol
 
 type
-  TargetedTurnEvent*[Cap] {.preservesRecord: "event".} = object
+  TargetedTurnEvent* {.preservesRecord: "event".} = object
   
   `LinkedTaskReleaseReason`* {.preservesOr, pure.} = enum
     `cancelled`, `normal`
-  TurnId*[Cap] = Preserve[Cap]
+  TurnId* = Value
   AssertionDescriptionKind* {.pure.} = enum
     `value`, `opaque`
-  AssertionDescriptionValue*[Cap] {.preservesRecord: "value".} = object
+  AssertionDescriptionValue* {.preservesRecord: "value".} = object
   
-  AssertionDescriptionOpaque*[Cap] {.preservesRecord: "opaque".} = object
+  AssertionDescriptionOpaque* {.preservesRecord: "opaque".} = object
   
-  `AssertionDescription`*[Cap] {.preservesOr.} = object
+  `AssertionDescription`* {.preservesOr.} = object
     case orKind*: AssertionDescriptionKind
     of AssertionDescriptionKind.`value`:
       
@@ -25,27 +25,27 @@ type
   NameKind* {.pure.} = enum
     `anonymous`, `named`
   NameAnonymous* {.preservesRecord: "anonymous".} = object
-  NameNamed*[Cap] {.preservesRecord: "named".} = object
+  NameNamed* {.preservesRecord: "named".} = object
   
-  `Name`*[Cap] {.preservesOr.} = object
+  `Name`* {.preservesOr.} = object
     case orKind*: NameKind
     of NameKind.`anonymous`:
       
     of NameKind.`named`:
       
   
-  ActorId*[Cap] = Preserve[Cap]
-  FacetId*[Cap] = Preserve[Cap]
+  ActorId* = Value
+  FacetId* = Value
   `FacetStopReason`* {.preservesOr, pure.} = enum
     `explicitAction`, `inert`, `parentStopping`, `actorStopping`
-  TaskId*[Cap] = Preserve[Cap]
+  TaskId* = Value
   ActorActivationKind* {.pure.} = enum
     `start`, `turn`, `stop`
-  ActorActivationStart*[Cap] {.preservesRecord: "start".} = object
+  ActorActivationStart* {.preservesRecord: "start".} = object
   
   ActorActivationStop* {.preservesRecord: "stop".} = object
   
-  `ActorActivation`*[Cap] {.preservesOr.} = object
+  `ActorActivation`* {.preservesOr.} = object
     case orKind*: ActorActivationKind
     of ActorActivationKind.`start`:
       
@@ -54,23 +54,23 @@ type
     of ActorActivationKind.`stop`:
       
   
-  Target*[Cap] {.preservesRecord: "entity".} = object
+  Target* {.preservesRecord: "entity".} = object
   
   TurnCauseKind* {.pure.} = enum
     `turn`, `cleanup`, `linkedTaskRelease`, `periodicActivation`, `delay`,
     `external`
-  TurnCauseTurn*[Cap] {.preservesRecord: "caused-by".} = object
+  TurnCauseTurn* {.preservesRecord: "caused-by".} = object
   
   TurnCauseCleanup* {.preservesRecord: "cleanup".} = object
-  TurnCauseLinkedTaskRelease*[Cap] {.preservesRecord: "linked-task-release".} = object
+  TurnCauseLinkedTaskRelease* {.preservesRecord: "linked-task-release".} = object
   
   TurnCausePeriodicActivation* {.preservesRecord: "periodic-activation".} = object
   
-  TurnCauseDelay*[Cap] {.preservesRecord: "delay".} = object
+  TurnCauseDelay* {.preservesRecord: "delay".} = object
   
-  TurnCauseExternal*[Cap] {.preservesRecord: "external".} = object
+  TurnCauseExternal* {.preservesRecord: "external".} = object
   
-  `TurnCause`*[Cap] {.preservesOr.} = object
+  `TurnCause`* {.preservesOr.} = object
     case orKind*: TurnCauseKind
     of TurnCauseKind.`turn`:
       
@@ -87,17 +87,17 @@ type
   
   TurnEventKind* {.pure.} = enum
     `assert`, `retract`, `message`, `sync`, `breakLink`
-  TurnEventAssert*[Cap] {.preservesRecord: "assert".} = object
+  TurnEventAssert* {.preservesRecord: "assert".} = object
   
   TurnEventRetract* {.preservesRecord: "retract".} = object
   
-  TurnEventMessage*[Cap] {.preservesRecord: "message".} = object
+  TurnEventMessage* {.preservesRecord: "message".} = object
   
-  TurnEventSync*[Cap] {.preservesRecord: "sync".} = object
+  TurnEventSync* {.preservesRecord: "sync".} = object
   
-  TurnEventBreakLink*[Cap] {.preservesRecord: "break-link".} = object
+  TurnEventBreakLink* {.preservesRecord: "break-link".} = object
   
-  `TurnEvent`*[Cap] {.preservesOr.} = object
+  `TurnEvent`* {.preservesOr.} = object
     case orKind*: TurnEventKind
     of TurnEventKind.`assert`:
       
@@ -110,7 +110,7 @@ type
     of TurnEventKind.`breakLink`:
       
   
-  TurnDescription*[Cap] {.preservesRecord: "turn".} = object
+  TurnDescription* {.preservesRecord: "turn".} = object
   
   ExitStatusKind* {.pure.} = enum
     `ok`, `Error`
@@ -121,31 +121,31 @@ type
     of ExitStatusKind.`Error`:
       
   
-  TraceEntry*[Cap] {.preservesRecord: "trace".} = object
+  TraceEntry* {.preservesRecord: "trace".} = object
   
-  Oid*[Cap] = Preserve[Cap]
+  Oid* = Value
   ActionDescriptionKind* {.pure.} = enum
     `dequeue`, `enqueue`, `dequeueInternal`, `enqueueInternal`, `spawn`, `link`,
     `facetStart`, `facetStop`, `linkedTaskStart`
-  ActionDescriptionDequeue*[Cap] {.preservesRecord: "dequeue".} = object
+  ActionDescriptionDequeue* {.preservesRecord: "dequeue".} = object
   
-  ActionDescriptionEnqueue*[Cap] {.preservesRecord: "enqueue".} = object
+  ActionDescriptionEnqueue* {.preservesRecord: "enqueue".} = object
   
-  ActionDescriptionDequeueInternal*[Cap] {.preservesRecord: "dequeue-internal".} = object
+  ActionDescriptionDequeueInternal* {.preservesRecord: "dequeue-internal".} = object
   
-  ActionDescriptionEnqueueInternal*[Cap] {.preservesRecord: "enqueue-internal".} = object
+  ActionDescriptionEnqueueInternal* {.preservesRecord: "enqueue-internal".} = object
   
-  ActionDescriptionSpawn*[Cap] {.preservesRecord: "spawn".} = object
+  ActionDescriptionSpawn* {.preservesRecord: "spawn".} = object
   
-  ActionDescriptionLink*[Cap] {.preservesRecord: "link".} = object
+  ActionDescriptionLink* {.preservesRecord: "link".} = object
   
-  ActionDescriptionFacetStart*[Cap] {.preservesRecord: "facet-start".} = object
+  ActionDescriptionFacetStart* {.preservesRecord: "facet-start".} = object
   
-  ActionDescriptionFacetStop*[Cap] {.preservesRecord: "facet-stop".} = object
+  ActionDescriptionFacetStop* {.preservesRecord: "facet-stop".} = object
   
-  ActionDescriptionLinkedTaskStart*[Cap] {.preservesRecord: "linked-task-start".} = object
+  ActionDescriptionLinkedTaskStart* {.preservesRecord: "linked-task-start".} = object
   
-  `ActionDescription`*[Cap] {.preservesOr.} = object
+  `ActionDescription`* {.preservesOr.} = object
     case orKind*: ActionDescriptionKind
     of ActionDescriptionKind.`dequeue`:
       
@@ -166,29 +166,23 @@ type
     of ActionDescriptionKind.`linkedTaskStart`:
       
   
-proc `$`*[Cap](x: TargetedTurnEvent[Cap] | AssertionDescription[Cap] | Name[Cap] |
-    ActorActivation[Cap] |
-    Target[Cap] |
-    TurnCause[Cap] |
-    TurnEvent[Cap] |
-    TurnDescription[Cap] |
-    TraceEntry[Cap] |
-    ActionDescription[Cap]): string =
-  `$`(toPreserve(x, Cap))
+proc `$`*(x: TargetedTurnEvent | AssertionDescription | Name | ActorActivation |
+    Target |
+    TurnCause |
+    TurnEvent |
+    TurnDescription |
+    ExitStatus |
+    TraceEntry |
+    ActionDescription): string =
+  `$`(toPreserves(x))
 
-proc encode*[Cap](x: TargetedTurnEvent[Cap] | AssertionDescription[Cap] |
-    Name[Cap] |
-    ActorActivation[Cap] |
-    Target[Cap] |
-    TurnCause[Cap] |
-    TurnEvent[Cap] |
-    TurnDescription[Cap] |
-    TraceEntry[Cap] |
-    ActionDescription[Cap]): seq[byte] =
-  encode(toPreserve(x, Cap))
-
-proc `$`*(x: ExitStatus): string =
-  `$`(toPreserve(x))
-
-proc encode*(x: ExitStatus): seq[byte] =
-  encode(toPreserve(x))
+proc encode*(x: TargetedTurnEvent | AssertionDescription | Name |
+    ActorActivation |
+    Target |
+    TurnCause |
+    TurnEvent |
+    TurnDescription |
+    ExitStatus |
+    TraceEntry |
+    ActionDescription): seq[byte] =
+  encode(toPreserves(x))

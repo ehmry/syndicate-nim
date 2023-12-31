@@ -13,13 +13,13 @@ type
   
   Assert* {.preservesRecord: "assert".} = object
   
-  Extension* = Preserve[void]
+  Extension* = Value
   Sync* {.preservesRecord: "sync".} = object
   
   TurnEvent* {.preservesTuple.} = object
   
   Oid* = BiggestInt
-  Assertion* = Preserve[void]
+  Assertion* = Value
   Handle* = BiggestInt
   PacketKind* {.pure.} = enum
     `Turn`, `Error`, `Extension`
@@ -49,11 +49,11 @@ proc `$`*(x: Error | Turn | Message | Retract | Assert | Sync | TurnEvent | Oid 
     Handle |
     Packet |
     Event): string =
-  `$`(toPreserve(x))
+  `$`(toPreserves(x))
 
 proc encode*(x: Error | Turn | Message | Retract | Assert | Sync | TurnEvent |
     Oid |
     Handle |
     Packet |
     Event): seq[byte] =
-  encode(toPreserve(x))
+  encode(toPreserves(x))

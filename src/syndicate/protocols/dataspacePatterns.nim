@@ -13,8 +13,8 @@ type
   AnyAtomString* = string
   AnyAtomBytes* = seq[byte]
   AnyAtomSymbol* = Symbol
-  AnyAtomEmbedded*[Cap] = Cap
-  `AnyAtom`*[Cap] {.preservesOr.} = object
+  AnyAtomEmbedded* = Value
+  `AnyAtom`* {.preservesOr.} = object
     case orKind*: AnyAtomKind
     of AnyAtomKind.`bool`:
       
@@ -33,20 +33,20 @@ type
     of AnyAtomKind.`embedded`:
       
   
-  DLit*[Cap] {.preservesRecord: "lit".} = object
+  DLit* {.preservesRecord: "lit".} = object
   
-  DBind*[Cap] {.acyclic, preservesRecord: "bind".} = ref object
+  DBind* {.preservesRecord: "bind".} = object
   
   DDiscard* {.preservesRecord: "_".} = object
   DCompoundKind* {.pure.} = enum
     `rec`, `arr`, `dict`
-  DCompoundRec*[Cap] {.acyclic, preservesRecord: "rec".} = ref object
+  DCompoundRec* {.preservesRecord: "rec".} = object
   
-  DCompoundArr*[Cap] {.acyclic, preservesRecord: "arr".} = ref object
+  DCompoundArr* {.preservesRecord: "arr".} = object
   
-  DCompoundDict*[Cap] {.acyclic, preservesRecord: "dict".} = ref object
+  DCompoundDict* {.preservesRecord: "dict".} = object
   
-  `DCompound`*[Cap] {.acyclic, preservesOr.} = ref object
+  `DCompound`* {.preservesOr.} = object
     case orKind*: DCompoundKind
     of DCompoundKind.`rec`:
       
@@ -57,7 +57,7 @@ type
   
   PatternKind* {.pure.} = enum
     `DDiscard`, `DBind`, `DLit`, `DCompound`
-  `Pattern`*[Cap] {.acyclic, preservesOr.} = ref object
+  `Pattern`* {.acyclic, preservesOr.} = ref object
     case orKind*: PatternKind
     of PatternKind.`DDiscard`:
       
@@ -68,16 +68,9 @@ type
     of PatternKind.`DCompound`:
       
   
-proc `$`*[Cap](x: AnyAtom[Cap] | DLit[Cap] | DBind[Cap] | DCompound[Cap] |
-    Pattern[Cap]): string =
-  `$`(toPreserve(x, Cap))
+proc `$`*(x: AnyAtom | DLit | DBind | DDiscard | DCompound | Pattern): string =
+  `$`(toPreserves(x))
 
-proc encode*[Cap](x: AnyAtom[Cap] | DLit[Cap] | DBind[Cap] | DCompound[Cap] |
-    Pattern[Cap]): seq[byte] =
-  encode(toPreserve(x, Cap))
-
-proc `$`*(x: DDiscard): string =
-  `$`(toPreserve(x))
-
-proc encode*(x: DDiscard): seq[byte] =
-  encode(toPreserve(x))
+proc encode*(x: AnyAtom | DLit | DBind | DDiscard | DCompound | Pattern): seq[
+    byte] =
+  encode(toPreserves(x))

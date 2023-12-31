@@ -6,13 +6,13 @@ import
 type
   PCompoundKind* {.pure.} = enum
     `rec`, `arr`, `dict`
-  PCompoundRec*[Cap] {.acyclic, preservesRecord: "rec".} = ref object
+  PCompoundRec* {.preservesRecord: "rec".} = object
   
-  PCompoundArr*[Cap] {.acyclic, preservesRecord: "arr".} = ref object
+  PCompoundArr* {.preservesRecord: "arr".} = object
   
-  PCompoundDict*[Cap] {.acyclic, preservesRecord: "dict".} = ref object
+  PCompoundDict* {.preservesRecord: "dict".} = object
   
-  `PCompound`*[Cap] {.acyclic, preservesOr.} = ref object
+  `PCompound`* {.preservesOr.} = object
     case orKind*: PCompoundKind
     of PCompoundKind.`rec`:
       
@@ -21,16 +21,16 @@ type
     of PCompoundKind.`dict`:
       
   
-  Reject*[Cap] {.acyclic, preservesRecord: "reject".} = ref object
+  Reject* {.preservesRecord: "reject".} = object
   
   CaveatsFieldKind* {.pure.} = enum
     `present`, `invalid`, `absent`
-  CaveatsFieldPresent*[Cap] {.acyclic, preservesDictionary.} = ref object
+  CaveatsFieldPresent* {.preservesDictionary.} = object
   
-  CaveatsFieldInvalid*[Cap] {.preservesDictionary.} = object
+  CaveatsFieldInvalid* {.preservesDictionary.} = object
   
   CaveatsFieldAbsent* {.preservesDictionary.} = object
-  `CaveatsField`*[Cap] {.acyclic, preservesOr.} = ref object
+  `CaveatsField`* {.preservesOr.} = object
     case orKind*: CaveatsFieldKind
     of CaveatsFieldKind.`present`:
       
@@ -39,29 +39,29 @@ type
     of CaveatsFieldKind.`absent`:
       
   
-  SturdyDescriptionDetail*[Cap] {.preservesDictionary.} = object
+  SturdyDescriptionDetail* {.preservesDictionary.} = object
   
-  PAnd*[Cap] {.acyclic, preservesRecord: "and".} = ref object
+  PAnd* {.preservesRecord: "and".} = object
   
-  SturdyStepDetail*[Cap] = Parameters[Cap]
-  Rewrite*[Cap] {.acyclic, preservesRecord: "rewrite".} = ref object
+  SturdyStepDetail* = Parameters
+  Rewrite* {.preservesRecord: "rewrite".} = object
   
-  Parameters*[Cap] = Preserve[Cap]
+  `Parameters`* = Table[Symbol, Value]
   TRef* {.preservesRecord: "ref".} = object
   
-  PBind*[Cap] {.acyclic, preservesRecord: "bind".} = ref object
+  PBind* {.preservesRecord: "bind".} = object
   
-  Lit*[Cap] {.preservesRecord: "lit".} = object
+  Lit* {.preservesRecord: "lit".} = object
   
   TCompoundKind* {.pure.} = enum
     `rec`, `arr`, `dict`
-  TCompoundRec*[Cap] {.acyclic, preservesRecord: "rec".} = ref object
+  TCompoundRec* {.preservesRecord: "rec".} = object
   
-  TCompoundArr*[Cap] {.acyclic, preservesRecord: "arr".} = ref object
+  TCompoundArr* {.preservesRecord: "arr".} = object
   
-  TCompoundDict*[Cap] {.acyclic, preservesRecord: "dict".} = ref object
+  TCompoundDict* {.preservesRecord: "dict".} = object
   
-  `TCompound`*[Cap] {.acyclic, preservesOr.} = ref object
+  `TCompound`* {.preservesOr.} = object
     case orKind*: TCompoundKind
     of TCompoundKind.`rec`:
       
@@ -70,14 +70,14 @@ type
     of TCompoundKind.`dict`:
       
   
-  SturdyPathStepDetail*[Cap] = Parameters[Cap]
+  SturdyPathStepDetail* = Parameters
   `PAtom`* {.preservesOr, pure.} = enum
     `Boolean`, `Float`, `Double`, `SignedInteger`, `String`, `ByteString`,
     `Symbol`
   PDiscard* {.preservesRecord: "_".} = object
   TemplateKind* {.pure.} = enum
     `TAttenuate`, `TRef`, `Lit`, `TCompound`
-  `Template`*[Cap] {.acyclic, preservesOr.} = ref object
+  `Template`* {.acyclic, preservesOr.} = ref object
     case orKind*: TemplateKind
     of TemplateKind.`TAttenuate`:
       
@@ -90,8 +90,8 @@ type
   
   CaveatKind* {.pure.} = enum
     `Rewrite`, `Alts`, `Reject`, `unknown`
-  CaveatUnknown*[Cap] = Preserve[Cap]
-  `Caveat`*[Cap] {.acyclic, preservesOr.} = ref object
+  CaveatUnknown* = Value
+  `Caveat`* {.preservesOr.} = object
     case orKind*: CaveatKind
     of CaveatKind.`Rewrite`:
       
@@ -102,32 +102,32 @@ type
     of CaveatKind.`unknown`:
       
   
-  PNot*[Cap] {.acyclic, preservesRecord: "not".} = ref object
+  PNot* {.preservesRecord: "not".} = object
   
-  SturdyRef*[Cap] {.acyclic, preservesRecord: "ref".} = ref object
+  SturdyRef* {.preservesRecord: "ref".} = object
   
   WireRefKind* {.pure.} = enum
     `mine`, `yours`
   WireRefMine* {.preservesTuple.} = object
   
-  WireRefYours*[Cap] {.acyclic, preservesTuple.} = ref object
+  WireRefYours* {.preservesTuple.} = object
   
-  `WireRef`*[Cap] {.acyclic, preservesOr.} = ref object
+  `WireRef`* {.preservesOr.} = object
     case orKind*: WireRefKind
     of WireRefKind.`mine`:
       
     of WireRefKind.`yours`:
       
   
-  TAttenuate*[Cap] {.acyclic, preservesRecord: "attenuate".} = ref object
+  TAttenuate* {.preservesRecord: "attenuate".} = object
   
   Oid* = BiggestInt
-  Alts*[Cap] {.acyclic, preservesRecord: "or".} = ref object
+  Alts* {.preservesRecord: "or".} = object
   
   PatternKind* {.pure.} = enum
     `PDiscard`, `PAtom`, `PEmbedded`, `PBind`, `PAnd`, `PNot`, `Lit`,
     `PCompound`
-  `Pattern`*[Cap] {.acyclic, preservesOr.} = ref object
+  `Pattern`* {.acyclic, preservesOr.} = ref object
     case orKind*: PatternKind
     of PatternKind.`PDiscard`:
       
@@ -146,42 +146,45 @@ type
     of PatternKind.`PCompound`:
       
   
-proc `$`*[Cap](x: PCompound[Cap] | Reject[Cap] | CaveatsField[Cap] |
-    SturdyDescriptionDetail[Cap] |
-    PAnd[Cap] |
-    Rewrite[Cap] |
-    PBind[Cap] |
-    Lit[Cap] |
-    TCompound[Cap] |
-    Template[Cap] |
-    Caveat[Cap] |
-    PNot[Cap] |
-    SturdyRef[Cap] |
-    WireRef[Cap] |
-    TAttenuate[Cap] |
-    Alts[Cap] |
-    Pattern[Cap]): string =
-  `$`(toPreserve(x, Cap))
+proc `$`*(x: PCompound | Reject | CaveatsField | SturdyDescriptionDetail | PAnd |
+    SturdyStepDetail |
+    Rewrite |
+    Parameters |
+    TRef |
+    PBind |
+    Lit |
+    TCompound |
+    SturdyPathStepDetail |
+    PDiscard |
+    Template |
+    Caveat |
+    PNot |
+    SturdyRef |
+    WireRef |
+    TAttenuate |
+    Oid |
+    Alts |
+    Pattern): string =
+  `$`(toPreserves(x))
 
-proc encode*[Cap](x: PCompound[Cap] | Reject[Cap] | CaveatsField[Cap] |
-    SturdyDescriptionDetail[Cap] |
-    PAnd[Cap] |
-    Rewrite[Cap] |
-    PBind[Cap] |
-    Lit[Cap] |
-    TCompound[Cap] |
-    Template[Cap] |
-    Caveat[Cap] |
-    PNot[Cap] |
-    SturdyRef[Cap] |
-    WireRef[Cap] |
-    TAttenuate[Cap] |
-    Alts[Cap] |
-    Pattern[Cap]): seq[byte] =
-  encode(toPreserve(x, Cap))
-
-proc `$`*(x: TRef | PDiscard | Oid): string =
-  `$`(toPreserve(x))
-
-proc encode*(x: TRef | PDiscard | Oid): seq[byte] =
-  encode(toPreserve(x))
+proc encode*(x: PCompound | Reject | CaveatsField | SturdyDescriptionDetail |
+    PAnd |
+    SturdyStepDetail |
+    Rewrite |
+    Parameters |
+    TRef |
+    PBind |
+    Lit |
+    TCompound |
+    SturdyPathStepDetail |
+    PDiscard |
+    Template |
+    Caveat |
+    PNot |
+    SturdyRef |
+    WireRef |
+    TAttenuate |
+    Oid |
+    Alts |
+    Pattern): seq[byte] =
+  encode(toPreserves(x))

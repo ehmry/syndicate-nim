@@ -7,7 +7,7 @@ type
   Foo* {.preservesRecord: "foo".} = object
   
 proc `$`*(x: Foo): string =
-  `$`(toPreserve(x))
+  `$`(toPreserves(x))
 
 proc encode*(x: Foo): seq[byte] =
-  encode(toPreserve(x))
+  encode(toPreserves(x))

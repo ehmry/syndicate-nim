@@ -6,8 +6,8 @@ import
 type
   StateKind* {.pure.} = enum
     `started`, `ready`, `failed`, `complete`, `userDefined`
-  StateUserDefined*[Cap] = Preserve[Cap]
-  `State`*[Cap] {.preservesOr.} = object
+  StateUserDefined* = Value
+  `State`* {.preservesOr.} = object
     case orKind*: StateKind
     of StateKind.`started`:
       
@@ -20,28 +20,26 @@ type
     of StateKind.`userDefined`:
       
   
-  ServiceObject*[Cap] {.preservesRecord: "service-object".} = object
+  ServiceObject* {.preservesRecord: "service-object".} = object
   
-  RequireService*[Cap] {.preservesRecord: "require-service".} = object
+  RequireService* {.preservesRecord: "require-service".} = object
   
-  RestartService*[Cap] {.preservesRecord: "restart-service".} = object
+  RestartService* {.preservesRecord: "restart-service".} = object
   
-  RunService*[Cap] {.preservesRecord: "run-service".} = object
+  RunService* {.preservesRecord: "run-service".} = object
   
-  ServiceState*[Cap] {.preservesRecord: "service-state".} = object
+  ServiceState* {.preservesRecord: "service-state".} = object
   
-  ServiceDependency*[Cap] {.preservesRecord: "depends-on".} = object
+  ServiceDependency* {.preservesRecord: "depends-on".} = object
   
-proc `$`*[Cap](x: State[Cap] | ServiceObject[Cap] | RequireService[Cap] |
-    RestartService[Cap] |
-    RunService[Cap] |
-    ServiceState[Cap] |
-    ServiceDependency[Cap]): string =
-  `$`(toPreserve(x, Cap))
+proc `$`*(x: State | ServiceObject | RequireService | RestartService |
+    RunService |
+    ServiceState |
+    ServiceDependency): string =
+  `$`(toPreserves(x))
 
-proc encode*[Cap](x: State[Cap] | ServiceObject[Cap] | RequireService[Cap] |
-    RestartService[Cap] |
-    RunService[Cap] |
-    ServiceState[Cap] |
-    ServiceDependency[Cap]): seq[byte] =
-  encode(toPreserve(x, Cap))
+proc encode*(x: State | ServiceObject | RequireService | RestartService |
+    RunService |
+    ServiceState |
+    ServiceDependency): seq[byte] =
+  encode(toPreserves(x))

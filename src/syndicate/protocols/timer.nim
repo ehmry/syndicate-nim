@@ -13,7 +13,7 @@ type
   LaterThan* {.preservesRecord: "later-than".} = object
   
 proc `$`*(x: TimerExpired | SetTimer | LaterThan): string =
-  `$`(toPreserve(x))
+  `$`(toPreserves(x))
 
 proc encode*(x: TimerExpired | SetTimer | LaterThan): seq[byte] =
-  encode(toPreserve(x))
+  encode(toPreserves(x))

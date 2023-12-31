@@ -13,7 +13,7 @@ import
   syndicate / protocols / sturdy
 
 type
-  WireRef = sturdy.WireRef[void]
+  WireRef = sturdy.WireRef
 suite "protocols":
   test "PDiscard":
     var pd: PDiscard

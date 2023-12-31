@@ -12,7 +12,7 @@ type
   Tcp* {.preservesRecord: "tcp".} = object
   
 proc `$`*(x: WebSocket | Stdio | Unix | Tcp): string =
-  `$`(toPreserve(x))
+  `$`(toPreserves(x))
 
 proc encode*(x: WebSocket | Stdio | Unix | Tcp): seq[byte] =
-  encode(toPreserve(x))
+  encode(toPreserves(x))
