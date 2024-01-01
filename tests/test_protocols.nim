@@ -26,7 +26,7 @@ suite "protocols":
       var pos = str.getPosition
       echo "decode position: ", pos
       try:
-        var a = decodePreserves(str, WireRef)
+        var a = decodePreserves(str)
         echo a
       except CatchableError:
         str.setPosition pos
