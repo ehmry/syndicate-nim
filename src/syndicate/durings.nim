@@ -15,8 +15,7 @@ type
   Observe = dataspace.Observe
   Turn = actors.Turn
 type
-  DuringProc* = proc (turn: var Turn; a: Assertion; h: Handle): TurnAction {.
-      gcsafe.}
+  DuringProc* = proc (turn: var Turn; a: Value; h: Handle): TurnAction {.gcsafe.}
   DuringActionKind = enum
     null, dead, act
   DuringAction = object
@@ -56,4 +55,4 @@ proc during*(cb: DuringProc): DuringEntity =
   DuringEntity(cb: cb)
 
 proc observe*(turn: var Turn; ds: Cap; pat: Pattern; e: Entity): Handle =
-  publish(turn, ds, Observe(pattern: pat, observer: newCap(turn, e)))
+  publish(turn, ds, Observe(pattern: pat, observer: newCap(turn, e).embed))

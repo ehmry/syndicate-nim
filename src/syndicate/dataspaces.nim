@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / [hashes, tables]
+  std / [hashes, options, tables]
 
 import
   preserves
@@ -20,18 +20,21 @@ type
 method publish(ds: Dataspace; turn: var Turn; a: AssertionRef; h: Handle) {.
     gcsafe.} =
   if add(ds.index, turn, a.value):
-    var obs: Observe
-    if obs.fromPreserves(a.value):
-      ds.index.add(turn, obs.pattern, obs.observer)
+    var obs = a.value.preservesTo(Observe)
+    if obs.isSome:
+      var cap = obs.get.observer.unembed(Cap)
+      if cap.isSome:
+        ds.index.add(turn, obs.get.pattern, cap.get)
   ds.handleMap[h] = a.value
 
 method retract(ds: Dataspace; turn: var Turn; h: Handle) {.gcsafe.} =
   let v = ds.handleMap[h]
   if remove(ds.index, turn, v):
     ds.handleMap.del h
-    var obs: Observe
-    if obs.fromPreserves v:
-      ds.index.remove(turn, obs.pattern, obs.observer)
+    var obs = v.preservesTo(Observe)
+    if obs.isSome:
+      var cap = obs.get.observer.unembed(Cap)
+      ds.index.remove(turn, obs.get.pattern, cap.get)
 
 method message(ds: Dataspace; turn: var Turn; a: AssertionRef) {.gcsafe.} =
   ds.index.deliverMessage(turn, a.value)
