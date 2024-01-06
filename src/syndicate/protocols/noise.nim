@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  preserves, std / tables
+  preserves, std / options
 
 type
   NoiseDescriptionDetail* = NoiseServiceSpec
@@ -54,10 +54,19 @@ type
       
   
   NoisePathStepDetail* = NoiseSpec
-  `NoiseServiceSpec`* = Table[Symbol, Value]
+  NoiseServiceSpecKey* = seq[byte]
+  NoiseServiceSpecPreSharedKeys* = Option[Value]
+  NoiseServiceSpecProtocol* = Option[Value]
+  NoiseServiceSpecSecretKey* = Option[Value]
+  `NoiseServiceSpec`* {.preservesDictionary.} = object
+  
   ServiceSelector* = Value
   NoiseStepDetail* = ServiceSelector
-  `NoiseSpec`* = Table[Symbol, Value]
+  NoiseSpecKey* = seq[byte]
+  NoiseSpecPreSharedKeys* = Option[Value]
+  NoiseSpecProtocol* = Option[Value]
+  `NoiseSpec`* {.preservesDictionary.} = object
+  
   PacketKind* {.pure.} = enum
     `complete`, `fragmented`
   PacketComplete* = seq[byte]

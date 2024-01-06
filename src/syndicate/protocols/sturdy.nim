@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  preserves, std / tables
+  preserves, std / tables, std / options
 
 type
   PCompoundKind* {.pure.} = enum
@@ -46,7 +46,11 @@ type
   SturdyStepDetail* = Parameters
   Rewrite* {.preservesRecord: "rewrite".} = object
   
-  `Parameters`* = Table[Symbol, Value]
+  ParametersCaveats* = Option[Value]
+  ParametersOid* = Value
+  ParametersSig* = seq[byte]
+  `Parameters`* {.preservesDictionary.} = object
+  
   TRef* {.preservesRecord: "ref".} = object
   
   PBind* {.preservesRecord: "bind".} = object
