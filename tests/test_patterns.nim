@@ -69,3 +69,8 @@ suite "later-than":
   test $patB:
     checkpoint $obsA
     check patB.matches obsA
+suite "Observe":
+  let pat = ?:Observe
+  const
+    text = """<rec Observe [<bind <_>> <bind <_>>]>"""
+  check $pat == text

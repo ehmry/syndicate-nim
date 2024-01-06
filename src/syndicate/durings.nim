@@ -9,11 +9,6 @@ import
 import
   ./actors, ./patterns, ./protocols / dataspace
 
-from ./protocols / protocol import Handle
-
-type
-  Observe = dataspace.Observe
-  Turn = actors.Turn
 type
   DuringProc* = proc (turn: var Turn; a: Value; h: Handle): TurnAction {.gcsafe.}
   DuringActionKind = enum
