@@ -4,7 +4,7 @@ import
   std / [options, tables, unittest]
 
 import
-  preserves, syndicate
+  preserves, syndicate, syndicate / protocols / gatekeeper
 
 import
   ./test_schema
@@ -55,22 +55,28 @@ suite "captures":
         pat = grab pr
       checkpoint $pat
       check pat.matches pr
-suite "later-than":
-  let
-    obsA = parsePreserves"""<Observe <rec later-than [<lit 1704113731.419243>]> #!#f>"""
-    obsB = parsePreserves"""<Observe <rec Observe [<rec rec [<lit later-than> <arr [<rec lit [<bind <_>>]>]>]> <_>]> #!#f>"""
-    patA = """<rec later-than [<lit 1704113731.419243>]>""".parsePreserves.preservesTo(
-        Pattern).get
-    patB = """<rec Observe [<rec rec [<lit later-than> <arr [<rec lit [<bind <_>>]>]>]> <_>]>""".parsePreserves.preservesTo(
-        Pattern).get
-    patC = grab obsA
-  test $patC:
-    check patC.matches obsA
-  test $patB:
-    checkpoint $obsA
-    check patB.matches obsA
-suite "Observe":
-  let pat = ?:Observe
-  const
-    text = """<rec Observe [<bind <_>> <bind <_>>]>"""
-  check $pat == text
+suite "protocol":
+  test "Observe":
+    let pat = ?:Observe
+    const
+      text = """<rec Observe [<bind <_>> <bind <_>>]>"""
+    check $pat == text
+  test "later-than":
+    let
+      obsA = parsePreserves"""<Observe <rec later-than [<lit 1704113731.419243>]> #!#f>"""
+      obsB = parsePreserves"""<Observe <rec Observe [<rec rec [<lit later-than> <arr [<rec lit [<bind <_>>]>]>]> <_>]> #!#f>"""
+      patA = """<rec later-than [<lit 1704113731.419243>]>""".parsePreserves.preservesTo(
+          Pattern).get
+      patB = """<rec Observe [<rec rec [<lit later-than> <arr [<rec lit [<bind <_>>]>]>]> <_>]>""".parsePreserves.preservesTo(
+          Pattern).get
+      patC = grab obsA
+    test $patC:
+      check patC.matches obsA
+    test $patB:
+      checkpoint $obsA
+      check patB.matches obsA
+  test "TransportConnection":
+    let
+      pat = TransportConnection ?: {2: ?:Rejected}
+      text = """<rec connect-transport [<_> <_> <rec rejected [<bind <_>>]>]>"""
+    check $pat == text
