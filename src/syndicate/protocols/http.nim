@@ -6,7 +6,6 @@ import
 type
   HostPatternKind* {.pure.} = enum
     `host`, `any`
-  HostPatternHost* = string
   `HostPattern`* {.preservesOr.} = object
     case orKind*: HostPatternKind
     of HostPatternKind.`host`:
@@ -18,7 +17,6 @@ type
   
   MethodPatternKind* {.pure.} = enum
     `any`, `specific`
-  MethodPatternSpecific* = Symbol
   `MethodPattern`* {.preservesOr.} = object
     case orKind*: MethodPatternKind
     of MethodPatternKind.`any`:
@@ -29,7 +27,6 @@ type
   MimeType* = Symbol
   QueryValueKind* {.pure.} = enum
     `string`, `file`
-  QueryValueString* = string
   QueryValueFile* {.preservesRecord: "file".} = object
   
   `QueryValue`* {.preservesOr.} = object
@@ -43,7 +40,6 @@ type
   
   RequestBodyKind* {.pure.} = enum
     `present`, `absent`
-  RequestBodyPresent* = seq[byte]
   `RequestBody`* {.preservesOr.} = object
     case orKind*: RequestBodyKind
     of RequestBodyKind.`present`:
@@ -81,7 +77,6 @@ type
   
   PathPatternElementKind* {.pure.} = enum
     `label`, `wildcard`, `rest`
-  PathPatternElementLabel* = string
   `PathPatternElement`* {.preservesOr.} = object
     case orKind*: PathPatternElementKind
     of PathPatternElementKind.`label`:
@@ -93,8 +88,6 @@ type
   
   ChunkKind* {.pure.} = enum
     `string`, `bytes`
-  ChunkString* = string
-  ChunkBytes* = seq[byte]
   `Chunk`* {.preservesOr.} = object
     case orKind*: ChunkKind
     of ChunkKind.`string`:

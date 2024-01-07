@@ -69,8 +69,6 @@ type
   
   PacketKind* {.pure.} = enum
     `complete`, `fragmented`
-  PacketComplete* = seq[byte]
-  PacketFragmented* = seq[seq[byte]]
   `Packet`* {.preservesOr.} = object
     case orKind*: PacketKind
     of PacketKind.`complete`:

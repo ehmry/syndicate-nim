@@ -94,7 +94,6 @@ type
   
   CaveatKind* {.pure.} = enum
     `Rewrite`, `Alts`, `Reject`, `unknown`
-  CaveatUnknown* = Value
   `Caveat`* {.preservesOr.} = object
     case orKind*: CaveatKind
     of CaveatKind.`Rewrite`:

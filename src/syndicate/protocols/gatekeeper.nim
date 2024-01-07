@@ -10,7 +10,6 @@ type
   
   BindObserverKind* {.pure.} = enum
     `present`, `absent`
-  BindObserverPresent* = Bound
   `BindObserver`* {.preservesOr.} = object
     case orKind*: BindObserverKind
     of BindObserverKind.`present`:

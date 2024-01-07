@@ -6,7 +6,6 @@ import
 type
   StateKind* {.pure.} = enum
     `started`, `ready`, `failed`, `complete`, `userDefined`
-  StateUserDefined* = Value
   `State`* {.preservesOr.} = object
     case orKind*: StateKind
     of StateKind.`started`:

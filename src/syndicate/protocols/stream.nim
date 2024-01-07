@@ -6,7 +6,6 @@ import
 type
   CreditAmountKind* {.pure.} = enum
     `count`, `unbounded`
-  CreditAmountCount* = BiggestInt
   `CreditAmount`* {.preservesOr.} = object
     case orKind*: CreditAmountKind
     of CreditAmountKind.`count`:

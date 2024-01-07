@@ -6,14 +6,6 @@ import
 type
   AnyAtomKind* {.pure.} = enum
     `bool`, `float`, `double`, `int`, `string`, `bytes`, `symbol`, `embedded`
-  AnyAtomBool* = bool
-  AnyAtomFloat* = float32
-  AnyAtomDouble* = float64
-  AnyAtomInt* = BiggestInt
-  AnyAtomString* = string
-  AnyAtomBytes* = seq[byte]
-  AnyAtomSymbol* = Symbol
-  AnyAtomEmbedded* = Value
   `AnyAtom`* {.preservesOr.} = object
     case orKind*: AnyAtomKind
     of AnyAtomKind.`bool`:
