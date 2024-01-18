@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / [asyncdispatch, asyncfile, os, parseopt]
+  std / [asyncdispatch, asyncfile, parseopt]
 
 import
   preserves, syndicate, syndicate / relays
@@ -49,6 +49,7 @@ proc main() =
     stderr.writeLine "--user: unspecified"
   else:
     runActor("chat")do (turn: var Turn; root: Cap):
+      spawnRelays(turn, root)
       resolve(turn, root, route)do (turn: var Turn; ds: Cap):
         chat(turn, ds, username)
 
