@@ -5,12 +5,10 @@ import
 
 type
   AnyAtomKind* {.pure.} = enum
-    `bool`, `float`, `double`, `int`, `string`, `bytes`, `symbol`, `embedded`
+    `bool`, `double`, `int`, `string`, `bytes`, `symbol`, `embedded`
   `AnyAtom`* {.preservesOr.} = object
     case orKind*: AnyAtomKind
     of AnyAtomKind.`bool`:
-      
-    of AnyAtomKind.`float`:
       
     of AnyAtomKind.`double`:
       

@@ -76,8 +76,7 @@ type
   
   SturdyPathStepDetail* = Parameters
   `PAtom`* {.preservesOr, pure.} = enum
-    `Boolean`, `Float`, `Double`, `SignedInteger`, `String`, `ByteString`,
-    `Symbol`
+    `Boolean`, `Double`, `SignedInteger`, `String`, `ByteString`, `Symbol`
   PDiscard* {.preservesRecord: "_".} = object
   TemplateKind* {.pure.} = enum
     `TAttenuate`, `TRef`, `Lit`, `TCompound`
