@@ -6,6 +6,7 @@ modules += http.nim
 modules += noise.nim
 modules += protocol.nim
 modules += service.nim
+modules += stdenv.nim
 modules += stream.nim
 modules += sturdy.nim
 modules += tcp.nim

@@ -7,14 +7,14 @@ type
   Error* {.preservesRecord: "error".} = object
   
   Turn* = seq[TurnEvent]
-  Message* {.preservesRecord: "message".} = object
+  Message* {.preservesRecord: "M".} = object
   
-  Retract* {.preservesRecord: "retract".} = object
+  Retract* {.preservesRecord: "R".} = object
   
-  Assert* {.preservesRecord: "assert".} = object
+  Assert* {.preservesRecord: "A".} = object
   
   Extension* = Value
-  Sync* {.preservesRecord: "sync".} = object
+  Sync* {.preservesRecord: "S".} = object
   
   TurnEvent* {.preservesTuple.} = object
   
