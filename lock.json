@@ -52,12 +52,12 @@
       "packages": [
         "preserves"
       ],
-      "path": "/nix/store/fpkhfxnfbdcri6k7mac21r3byg738bs4-source",
-      "ref": "20240108",
-      "rev": "a01ba8c96d65f670862ba074bf82b50cbda6ed99",
-      "sha256": "0n8pghy2qfywx0psr54yzjvhdhi5av204150jyyzfxhigczd8sr4",
+      "path": "/nix/store/6nnn5di5vip1vladlb7z56rbw18d1y7j-source",
+      "ref": "20240208",
+      "rev": "2825bceecf33a15b9b7942db5331a32cbc39b281",
+      "sha256": "145vf46fy3wc52j6vs509fm9bi5lx7c53gskbkpcfbkv82l86dgk",
       "srcDir": "src",
-      "url": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/a01ba8c96d65f670862ba074bf82b50cbda6ed99.tar.gz"
+      "url": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/2825bceecf33a15b9b7942db5331a32cbc39b281.tar.gz"
     }
   ]
 }
