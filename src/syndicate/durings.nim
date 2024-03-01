@@ -10,7 +10,7 @@ import
   ./actors, ./patterns, ./protocols / dataspace
 
 type
-  DuringProc* = proc (turn: var Turn; a: Value; h: Handle): TurnAction {.gcsafe.}
+  DuringProc* = proc (turn: var Turn; a: Value; h: Handle): TurnAction
   DuringActionKind = enum
     null, dead, act
   DuringAction = object
