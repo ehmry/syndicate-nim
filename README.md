@@ -54,7 +54,7 @@ The Syndicate DSL can be entered using `runActor` which calls a Nim body with a 
 ### Publish
 
 ``` nim
-runActor("main") do (dataspace: Ref; turn: var Turn):
+runActor("main") do (dataspace: Ref; turn: Turn):
   let presenceHandle = publish(turn, dataspace, Present(username: "Judy"))
     # publish <Present "Judy"> to the dataspace
     # the assertion can be later retracted by handle
@@ -67,7 +67,7 @@ runActor("main") do (dataspace: Ref; turn: var Turn):
 We can react to assertions and messages within dataspaces using [patterns](https://synit.org/book/glossary.html#dataspace-pattern). Patterns are constructed using a Nim type and the `?` operator. Again a Nim type is used rather than a raw Preserves for schema consistency.
 
 ``` nim
-runActor("main") do (dataspace: Ref; turn: var Turn):
+runActor("main") do (dataspace: Ref; turn: Turn):
   during(turn, dataspace, ?Present) do (who: string):
     # This body is active when the ?Present pattern is matched.
     # The Present type contains two atomic values that can be matched
