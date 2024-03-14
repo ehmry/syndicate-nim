@@ -11,7 +11,7 @@ import
 
 let actor = bootActor("timer-test")do (turn: var Turn):
   let timers = newDataspace(turn)
-  spawnTimerActor(timers, turn)
+  spawnTimerActor(turn, timers)
   onPublish(turn, timers, ?LaterThan(seconds: 1356100000)):
     echo "now in 13th bʼakʼtun"
   after(turn, timers, initDuration(seconds = 3))do (turn: var Turn):
