@@ -60,11 +60,11 @@
       "packages": [
         "preserves"
       ],
-      "path": "/nix/store/6nnn5di5vip1vladlb7z56rbw18d1y7j-source",
-      "rev": "2825bceecf33a15b9b7942db5331a32cbc39b281",
-      "sha256": "145vf46fy3wc52j6vs509fm9bi5lx7c53gskbkpcfbkv82l86dgk",
+      "path": "/nix/store/2hy124xgabz134dxj3wji7mp47fdwy3w-source",
+      "rev": "9ae435a83c6d5028405538af5d24a023af625b6e",
+      "sha256": "1k7ywcp1a53x2fpc6wc2b0qzb264dkifash0s1wcp66rw3lx15k2",
       "srcDir": "src",
-      "url": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/2825bceecf33a15b9b7942db5331a32cbc39b281.tar.gz"
+      "url": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/9ae435a83c6d5028405538af5d24a023af625b6e.tar.gz"
     },
     {
       "method": "fetchzip",
