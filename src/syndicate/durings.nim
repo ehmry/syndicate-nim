@@ -23,16 +23,17 @@ type
   DuringEntity {.final.} = ref object of Entity
   
 method publish(de: DuringEntity; turn: var Turn; a: AssertionRef; h: Handle) =
-  let action = de.cb(turn, a.value, h)
-  let g = de.assertionMap.getOrDefault h
-  case g.kind
-  of null:
-    de.assertionMap[h] = DuringAction(kind: act, action: action)
-  of dead:
-    de.assertionMap.del h
-    freshen(turn, action)
-  of act:
-    raiseAssert("during: duplicate handle in publish: " & $h)
+  discard inFacet(turn)do (turn: var Turn):
+    let action = de.cb(turn, a.value, h)
+    let g = de.assertionMap.getOrDefault h
+    case g.kind
+    of null:
+      de.assertionMap[h] = DuringAction(kind: act, action: action)
+    of dead:
+      de.assertionMap.del h
+      action(turn)
+    of act:
+      raiseAssert("during: duplicate handle in publish: " & $h)
 
 method retract(de: DuringEntity; turn: var Turn; h: Handle) =
   let g = de.assertionMap.getOrDefault h
