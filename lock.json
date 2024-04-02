@@ -16,11 +16,33 @@
       "packages": [
         "cps"
       ],
-      "path": "/nix/store/452hfhasrn3gl6vijfmzs69djl099j0j-source",
-      "rev": "b7c179f172e3a256a482a9daee3c0815ea423206",
-      "sha256": "1sn9s7iv83sw1jl5jgi2h7b0xpgsn13f9icp5124jvbp0qkxskx2",
+      "path": "/nix/store/8gbhwni0akqskdb3qhn5nfgv6gkdz0vz-source",
+      "rev": "c90530ac57f98a842b7be969115c6ef08bdcc564",
+      "sha256": "0h8ghs2fqg68j3jdcg7grnxssmllmgg99kym2w0a3vlwca1zvr62",
       "srcDir": "",
-      "url": "https://github.com/nim-works/cps/archive/b7c179f172e3a256a482a9daee3c0815ea423206.tar.gz"
+      "url": "https://github.com/ehmry/cps/archive/c90530ac57f98a842b7be969115c6ef08bdcc564.tar.gz"
+    },
+    {
+      "method": "fetchzip",
+      "packages": [
+        "getdns"
+      ],
+      "path": "/nix/store/x9xmn7w4k6jg8nv5bnx148ibhnsfh362-source",
+      "rev": "c73cbe288d9f9480586b8fa87f6d794ffb6a6ce6",
+      "sha256": "1sbgx2x51szr22i72n7c8jglnfmr8m7y7ga0v85d58fwadiv7g6b",
+      "srcDir": "src",
+      "url": "https://git.sr.ht/~ehmry/getdns-nim/archive/c73cbe288d9f9480586b8fa87f6d794ffb6a6ce6.tar.gz"
+    },
+    {
+      "method": "fetchzip",
+      "packages": [
+        "getdns"
+      ],
+      "path": "/nix/store/x9xmn7w4k6jg8nv5bnx148ibhnsfh362-source",
+      "rev": "c73cbe288d9f9480586b8fa87f6d794ffb6a6ce6",
+      "sha256": "1sbgx2x51szr22i72n7c8jglnfmr8m7y7ga0v85d58fwadiv7g6b",
+      "srcDir": "src",
+      "url": "https://git.sr.ht/~ehmry/getdns-nim/archive/c73cbe288d9f9480586b8fa87f6d794ffb6a6ce6.tar.gz"
     },
     {
       "method": "fetchzip",
@@ -38,22 +60,22 @@
       "packages": [
         "nimcrypto"
       ],
-      "path": "/nix/store/jwz8pqbv6rsm8w4fjzdb37r0wzjn5hv0-source",
-      "rev": "d58da671799c69c0b3208b96c154e13c8b1a9e90",
-      "sha256": "12dm0gsy10ppga7zf7hpf4adaqjrd9b740n2w926xyazq1njf6k9",
+      "path": "/nix/store/fkrcpp8lzj2yi21na79xm63xk0ggnqsp-source",
+      "rev": "f147d30c69bc1c9bcf0e37f7699bcf0fbaab97b5",
+      "sha256": "1h3dzdbc9kacwpi10mj73yjglvn7kbizj1x8qc9099ax091cj5xn",
       "srcDir": "",
-      "url": "https://github.com/cheatfate/nimcrypto/archive/d58da671799c69c0b3208b96c154e13c8b1a9e90.tar.gz"
+      "url": "https://github.com/cheatfate/nimcrypto/archive/f147d30c69bc1c9bcf0e37f7699bcf0fbaab97b5.tar.gz"
     },
     {
       "method": "fetchzip",
       "packages": [
         "npeg"
       ],
-      "path": "/nix/store/ffkxmjmigfs7zhhiiqm0iw2c34smyciy-source",
-      "rev": "26d62fdc40feb84c6533956dc11d5ee9ea9b6c09",
-      "sha256": "0xpzifjkfp49w76qmaylan8q181bs45anmp46l4bwr3lkrr7bpwh",
+      "path": "/nix/store/xpn694ibgipj8xak3j4bky6b3k0vp7hh-source",
+      "rev": "ec0cc6e64ea4c62d2aa382b176a4838474238f8d",
+      "sha256": "1fi9ls3xl20bmv1ikillxywl96i9al6zmmxrbffx448gbrxs86kg",
       "srcDir": "src",
-      "url": "https://github.com/zevv/npeg/archive/26d62fdc40feb84c6533956dc11d5ee9ea9b6c09.tar.gz"
+      "url": "https://github.com/zevv/npeg/archive/ec0cc6e64ea4c62d2aa382b176a4838474238f8d.tar.gz"
     },
     {
       "method": "fetchzip",
@@ -87,6 +109,67 @@
       "sha256": "1q4qgw4an4mmmcbx48l6xk1jig1vc8p9cq9dbx39kpnb0890j32q",
       "srcDir": "src",
       "url": "https://github.com/ehmry/nim-sys/archive/4ef3b624db86e331ba334e705c1aa235d55b05e1.tar.gz"
+    },
+    {
+      "method": "fetchzip",
+      "packages": [
+        "sys"
+      ],
+      "path": "/nix/store/vf9ls2wip6d8xhsi3rjh0dqsqg597i6b-source",
+      "rev": "c117ee60542f084525f254e6ade590675a6a2ed6",
+      "sha256": "12qzx2lnh84xqfgypy0pka8nflq0y8n1izfwx8mb4zya5nzawmyf",
+      "srcDir": "src",
+      "url": "https://github.com/alaviss/nim-sys/archive/c117ee60542f084525f254e6ade590675a6a2ed6.tar.gz"
+    },
+    {
+      "method": "fetchzip",
+      "packages": [
+        "taps"
+      ],
+      "path": "/nix/store/n86g5fw60z1k53bn35zvrwlwmyk3ixdn-source",
+      "rev": "756cb07b4f874181ad34c370cad6082ee65f646d",
+      "sha256": "0dp7ml3kj2fi6isvjkkxf02hwj0gshx6qra0ghnk2cbfykbcgfp8",
+      "srcDir": "src",
+      "url": "https://git.sr.ht/~ehmry/nim_taps/archive/756cb07b4f874181ad34c370cad6082ee65f646d.tar.gz"
+    },
+    {
+      "date": "2024-04-02T15:38:57+01:00",
+      "deepClone": false,
+      "fetchLFS": false,
+      "fetchSubmodules": true,
+      "hash": "sha256-iZb9aAgYr4FGkqfIg49QWiCqeizIi047kFhugHiP8o0=",
+      "leaveDotGit": false,
+      "method": "git",
+      "packages": [
+        "solo5_dispatcher"
+      ],
+      "path": "/nix/store/sf5dgj2ljvahcm6my7d61ibda51vnrii-solo5_dispatcher",
+      "rev": "a7a894a96a2221284012800e6fd32923d83d20bd",
+      "sha256": "13gjixw80vjqj0xlx2y85ixal82sa27q7j57j9383bqq11lgv5l9",
+      "srcDir": "pkg",
+      "url": "https://git.sr.ht/~ehmry/solo5_dispatcher"
+    },
+    {
+      "method": "fetchzip",
+      "packages": [
+        "cps"
+      ],
+      "path": "/nix/store/phdf6siqbhj7vx4qq507lzla81si60iz-source",
+      "rev": "58772ff9ddb38a4b2ec52da142d8532ba2fe7039",
+      "sha256": "1lph7v27nqwgm3a0ssi8q348gjrkjwgqc50agw38j7xif6wj80cw",
+      "srcDir": "",
+      "url": "https://github.com/ehmry/cps/archive/58772ff9ddb38a4b2ec52da142d8532ba2fe7039.tar.gz"
+    },
+    {
+      "method": "fetchzip",
+      "packages": [
+        "stew"
+      ],
+      "path": "/nix/store/mqg8qzsbcc8xqabq2yzvlhvcyqypk72c-source",
+      "rev": "3c91b8694e15137a81ec7db37c6c58194ec94a6a",
+      "sha256": "17lfhfxp5nxvld78xa83p258y80ks5jb4n53152cdr57xk86y07w",
+      "srcDir": "",
+      "url": "https://github.com/status-im/nim-stew/archive/3c91b8694e15137a81ec7db37c6c58194ec94a6a.tar.gz"
     }
   ]
 }

@@ -1,3 +1,4 @@
 include_rules
 : foreach *.prs |> !preserves_schema_nim |> | {schema}
 : foreach t*.nim | ../../preserves-nim/<tests> {schema} $(SYNDICATE_PROTOCOL) |> !nim_run |> | ../<test>
+: foreach solo5*.nim | ../../taps/<sources> ../../preserves-nim/<tests> {schema} $(SYNDICATE_PROTOCOL) |> !nim_solo5_spt |> | ../<test>

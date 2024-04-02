@@ -4,12 +4,9 @@ import
   std / times
 
 import
-  pkg / sys / ioqueue
-
-import
   syndicate, syndicate / actors / timers
 
-let actor = bootActor("timer-test")do (turn: var Turn):
+runActor("timer-test")do (turn: var Turn):
   let timers = newDataspace(turn)
   spawnTimerActor(turn, timers)
   onPublish(turn, timers, ?LaterThan(seconds: 1356100000)):
@@ -21,5 +18,3 @@ let actor = bootActor("timer-test")do (turn: var Turn):
     echo "first timer expired"
   after(turn, timers, initDuration(seconds = 2))do (turn: var Turn):
     echo "second timer expired"
-echo "single run of ioqueue"
-ioqueue.run()
