@@ -4,11 +4,11 @@ import
   std / times
 
 import
-  syndicate, syndicate / actors / timers
+  syndicate, syndicate / drivers / timers
 
 runActor("timer-test")do (turn: var Turn):
   let timers = newDataspace(turn)
-  spawnTimerActor(turn, timers)
+  spawnTimerDriver(turn, timers)
   onPublish(turn, timers, ?LaterThan(seconds: 1356100000)):
     echo "now in 13th bʼakʼtun"
   after(turn, timers, initDuration(seconds = 3))do (turn: var Turn):
