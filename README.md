@@ -54,7 +54,8 @@ The Syndicate DSL can be entered using `runActor` which calls a Nim body with a 
 ### Publish
 
 ``` nim
-runActor("main") do (dataspace: Ref; turn: Turn):
+runActor("main") do (turn: Turn):
+  let dataspace = newDataspace()
   let presenceHandle = publish(turn, dataspace, Present(username: "Judy"))
     # publish <Present "Judy"> to the dataspace
     # the assertion can be later retracted by handle
@@ -67,7 +68,8 @@ runActor("main") do (dataspace: Ref; turn: Turn):
 We can react to assertions and messages within dataspaces using [patterns](https://synit.org/book/glossary.html#dataspace-pattern). Patterns are constructed using a Nim type and the `?` operator. Again a Nim type is used rather than a raw Preserves for schema consistency.
 
 ``` nim
-runActor("main") do (dataspace: Ref; turn: Turn):
+runActor("main") do (turn: Turn):
+  let dataspace = newDataspace()
   during(turn, dataspace, ?Present) do (who: string):
     # This body is active when the ?Present pattern is matched.
     # The Present type contains two atomic values that can be matched
@@ -89,17 +91,15 @@ runActor("main") do (dataspace: Ref; turn: Turn):
 
 ## Examples
 
-### [test_chat](./tests/test_chat.nim)
+ ### [test_chat](./tests/test_chat.nim)
 Simple chat demo that is compatible with [chat.py](https://git.syndicate-lang.org/syndicate-lang/syndicate-py/src/branch/main/chat.py).
 ```sh
 SYNDICATE_ROUTE='<route [<unix "/run/user/1000/dataspace">] [<ref {oid: "syndicate" sig: #x"69ca300c1dbfa08fba692102dd82311a"}>]>' nim c -r tests/test_chat.nim --user:fnord
 ```
-
-### [xdg_open_ng](https://git.syndicate-lang.org/ehmry/xdg_open_ng)
-Messaging, UNIX sockets, dynamic configuration, [Syndicate server](https://synit.org/book/operation/system-bus.html) interaction.
+### [syndicate_utils](https://git.syndicate-lang.org/ehmry/syndicate_utils)
 
 ---
 
 This work has been supported by the [NLnet Foundation](https://nlnet.nl/) and the European Commission's [Next Generation Internet programme](https://www.ngi.eu/). The [Syndicate Actor Model](https://syndicate-lang.org/projects/2021/system-layer/) through the [NGI Zero PET](https://nlnet.nl/PET/) program and this library as a part of the [ERIS project](https://eris.codeberg.page/) through [NGI Assure](https://nlnet.nl/assure/).
 
-[![NLnet](https://nlnet.nl/logo/banner.svg)](https://nlnet.nl/)
+[![NLnet](./nlnet.svg)](https://nlnet.nl/)
