@@ -126,11 +126,11 @@
       "packages": [
         "taps"
       ],
-      "path": "/nix/store/n86g5fw60z1k53bn35zvrwlwmyk3ixdn-source",
-      "rev": "6ec1491c178bd37491ca55c012675bd525391e29",
-      "sha256": "0dp7ml3kj2fi6isvjkkxf02hwj0gshx6qra0ghnk2cbfykbcgfp8",
+      "path": "/nix/store/6y14ia52kr7jyaa0izx37mlablmq9s65-source",
+      "rev": "8c8572cd971d1283e6621006b310993c632da247",
+      "sha256": "1dp166bv9x773jmfqppg5i3v3rilgff013vb11yzwcid9l7s3iy8",
       "srcDir": "src",
-      "url": "https://git.sr.ht/~ehmry/nim_taps/archive/6ec1491c178bd37491ca55c012675bd525391e29.tar.gz"
+      "url": "https://git.sr.ht/~ehmry/nim_taps/archive/8c8572cd971d1283e6621006b310993c632da247.tar.gz"
     },
     {
       "date": "2024-04-02T15:38:57+01:00",
