@@ -23,44 +23,43 @@ type
     of AnyAtomKind.`embedded`:
       
   
-  DLit* {.preservesRecord: "lit".} = object
-  
-  DBind* {.preservesRecord: "bind".} = object
-  
-  DDiscard* {.preservesRecord: "_".} = object
-  DCompoundKind* {.pure.} = enum
+  GroupTypeKind* {.pure.} = enum
     `rec`, `arr`, `dict`
-  DCompoundRec* {.preservesRecord: "rec".} = object
+  GroupTypeRec* {.preservesRecord: "rec".} = object
   
-  DCompoundArr* {.preservesRecord: "arr".} = object
-  
-  DCompoundDict* {.preservesRecord: "dict".} = object
-  
-  `DCompound`* {.preservesOr.} = object
-    case orKind*: DCompoundKind
-    of DCompoundKind.`rec`:
+  GroupTypeArr* {.preservesRecord: "arr".} = object
+  GroupTypeDict* {.preservesRecord: "dict".} = object
+  `GroupType`* {.preservesOr.} = object
+    case orKind*: GroupTypeKind
+    of GroupTypeKind.`rec`:
       
-    of DCompoundKind.`arr`:
+    of GroupTypeKind.`arr`:
       
-    of DCompoundKind.`dict`:
+    of GroupTypeKind.`dict`:
       
   
   PatternKind* {.pure.} = enum
-    `DDiscard`, `DBind`, `DLit`, `DCompound`
+    `discard`, `bind`, `lit`, `group`
+  PatternDiscard* {.preservesRecord: "_".} = object
+  PatternBind* {.preservesRecord: "bind".} = object
+  
+  PatternLit* {.preservesRecord: "lit".} = object
+  
+  PatternGroup* {.preservesRecord: "group".} = object
+  
   `Pattern`* {.acyclic, preservesOr.} = ref object
     case orKind*: PatternKind
-    of PatternKind.`DDiscard`:
+    of PatternKind.`discard`:
       
-    of PatternKind.`DBind`:
+    of PatternKind.`bind`:
       
-    of PatternKind.`DLit`:
+    of PatternKind.`lit`:
       
-    of PatternKind.`DCompound`:
+    of PatternKind.`group`:
       
   
-proc `$`*(x: AnyAtom | DLit | DBind | DDiscard | DCompound | Pattern): string =
+proc `$`*(x: AnyAtom | GroupType | Pattern): string =
   `$`(toPreserves(x))
 
-proc encode*(x: AnyAtom | DLit | DBind | DDiscard | DCompound | Pattern): seq[
-    byte] =
+proc encode*(x: AnyAtom | GroupType | Pattern): seq[byte] =
   encode(toPreserves(x))
