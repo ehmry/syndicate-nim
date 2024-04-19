@@ -37,6 +37,15 @@ type
     of SecretKeyFieldKind.`absent`:
       
   
+  SessionItemKind* {.pure.} = enum
+    `Initiator`, `Packet`
+  `SessionItem`* {.preservesOr.} = object
+    case orKind*: SessionItemKind
+    of SessionItemKind.`Initiator`:
+      
+    of SessionItemKind.`Packet`:
+      
+  
   NoiseProtocolKind* {.pure.} = enum
     `present`, `invalid`, `absent`
   NoiseProtocolPresent* {.preservesDictionary.} = object
@@ -61,6 +70,8 @@ type
   `NoiseServiceSpec`* {.preservesDictionary.} = object
   
   ServiceSelector* = Value
+  Initiator* {.preservesRecord: "initiator".} = object
+  
   NoiseStepDetail* = ServiceSelector
   NoiseSpecKey* = seq[byte]
   NoiseSpecPreSharedKeys* = Option[Value]
@@ -77,17 +88,21 @@ type
       
   
 proc `$`*(x: NoiseDescriptionDetail | NoisePreSharedKeys | SecretKeyField |
+    SessionItem |
     NoiseProtocol |
     NoisePathStepDetail |
     NoiseServiceSpec |
+    Initiator |
     NoiseSpec |
     Packet): string =
   `$`(toPreserves(x))
 
 proc encode*(x: NoiseDescriptionDetail | NoisePreSharedKeys | SecretKeyField |
+    SessionItem |
     NoiseProtocol |
     NoisePathStepDetail |
     NoiseServiceSpec |
+    Initiator |
     NoiseSpec |
     Packet): seq[byte] =
   encode(toPreserves(x))
