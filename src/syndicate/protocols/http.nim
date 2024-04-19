@@ -75,6 +75,15 @@ type
   
   HttpContext* {.preservesRecord: "request".} = object
   
+  RequestHostKind* {.pure.} = enum
+    `present`, `absent`
+  `RequestHost`* {.preservesOr.} = object
+    case orKind*: RequestHostKind
+    of RequestHostKind.`present`:
+      
+    of RequestHostKind.`absent`:
+      
+  
   PathPatternElementKind* {.pure.} = enum
     `label`, `wildcard`, `rest`
   `PathPatternElement`* {.preservesOr.} = object
@@ -104,6 +113,7 @@ proc `$`*(x: HostPattern | HttpListener | MethodPattern | MimeType | QueryValue 
     HttpService |
     HttpBinding |
     HttpContext |
+    RequestHost |
     PathPatternElement |
     Chunk |
     PathPattern): string =
@@ -118,6 +128,7 @@ proc encode*(x: HostPattern | HttpListener | MethodPattern | MimeType |
     HttpService |
     HttpBinding |
     HttpContext |
+    RequestHost |
     PathPatternElement |
     Chunk |
     PathPattern): seq[byte] =
