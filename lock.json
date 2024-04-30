@@ -56,23 +56,6 @@
       "url": "https://github.com/ehmry/hashlib/archive/f9455d4be988e14e3dc7933eb7cc7d7c4820b7ac.tar.gz"
     },
     {
-      "date": "2024-04-22T13:22:01+02:00",
-      "deepClone": false,
-      "fetchLFS": false,
-      "fetchSubmodules": true,
-      "hash": "sha256-ROpWQYIhgDRJAOJd1dAGkJCVxI2Tz8xoHYjLTQDfXaA=",
-      "leaveDotGit": false,
-      "method": "git",
-      "packages": [
-        "preserves"
-      ],
-      "path": "/nix/store/ichqy1plhjd6yql7y3dh540cshq07xv7-preserves-nim",
-      "rev": "fd498c6457cb9ad2f3179daa40da69eec00326dd",
-      "sha256": "182xvw04vjw83mlcrkwkip29b44h0v8dapg2014k9011h90mdsj4",
-      "srcDir": "src",
-      "url": "https://git.syndicate-lang.org/ehmry/preserves-nim.git"
-    },
-    {
       "method": "fetchzip",
       "packages": [
         "nimcrypto"
@@ -93,6 +76,17 @@
       "sha256": "1fi9ls3xl20bmv1ikillxywl96i9al6zmmxrbffx448gbrxs86kg",
       "srcDir": "src",
       "url": "https://github.com/zevv/npeg/archive/ec0cc6e64ea4c62d2aa382b176a4838474238f8d.tar.gz"
+    },
+    {
+      "method": "fetchzip",
+      "packages": [
+        "preserves"
+      ],
+      "path": "/nix/store/hzb7af7lbd4kgd5y4hbgxv1lswig36yj-source",
+      "rev": "fd498c6457cb9ad2f3179daa40da69eec00326dd",
+      "sha256": "182xvw04vjw83mlcrkwkip29b44h0v8dapg2014k9011h90mdsj4",
+      "srcDir": "src",
+      "url": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/fd498c6457cb9ad2f3179daa40da69eec00326dd.tar.gz"
     },
     {
       "method": "fetchzip",

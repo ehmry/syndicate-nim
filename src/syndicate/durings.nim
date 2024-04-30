@@ -10,7 +10,7 @@ import
   ./actors, ./patterns, ./protocols / dataspace
 
 type
-  DuringProc* = proc (turn: var Turn; a: Value; h: Handle): TurnAction
+  DuringProc* = proc (turn: Turn; a: Value; h: Handle): TurnAction
   DuringActionKind = enum
     null, dead, act
   DuringAction = object
@@ -22,8 +22,8 @@ type
   
   DuringEntity {.final.} = ref object of Entity
   
-method publish(de: DuringEntity; turn: var Turn; a: AssertionRef; h: Handle) =
-  discard inFacet(turn)do (turn: var Turn):
+method publish(de: DuringEntity; turn: Turn; a: AssertionRef; h: Handle) =
+  discard inFacet(turn)do (turn: Turn):
     let action = de.cb(turn, a.value, h)
     let g = de.assertionMap.getOrDefault h
     case g.kind
@@ -35,7 +35,7 @@ method publish(de: DuringEntity; turn: var Turn; a: AssertionRef; h: Handle) =
     of act:
       raiseAssert("during: duplicate handle in publish: " & $h)
 
-method retract(de: DuringEntity; turn: var Turn; h: Handle) =
+method retract(de: DuringEntity; turn: Turn; h: Handle) =
   let g = de.assertionMap.getOrDefault h
   case g.kind
   of null:
@@ -50,5 +50,5 @@ method retract(de: DuringEntity; turn: var Turn; h: Handle) =
 proc during*(cb: DuringProc): DuringEntity =
   DuringEntity(cb: cb)
 
-proc observe*(turn: var Turn; ds: Cap; pat: Pattern; e: Entity): Handle =
+proc observe*(turn: Turn; ds: Cap; pat: Pattern; e: Entity): Handle =
   publish(turn, ds, Observe(pattern: pat, observer: newCap(turn, e)))
