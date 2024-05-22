@@ -39,12 +39,12 @@ type
   HttpRequest* {.preservesRecord: "http-request".} = object
   
   RequestBodyKind* {.pure.} = enum
-    `present`, `absent`
+    `absent`, `present`
   `RequestBody`* {.preservesOr.} = object
     case orKind*: RequestBodyKind
-    of RequestBodyKind.`present`:
-      
     of RequestBodyKind.`absent`:
+      
+    of RequestBodyKind.`present`:
       
   
   Headers* = Table[Symbol, string]
@@ -76,12 +76,12 @@ type
   HttpContext* {.preservesRecord: "request".} = object
   
   RequestHostKind* {.pure.} = enum
-    `present`, `absent`
+    `absent`, `present`
   `RequestHost`* {.preservesOr.} = object
     case orKind*: RequestHostKind
-    of RequestHostKind.`present`:
-      
     of RequestHostKind.`absent`:
+      
+    of RequestHostKind.`present`:
       
   
   PathPatternElementKind* {.pure.} = enum

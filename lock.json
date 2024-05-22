@@ -82,11 +82,11 @@
       "packages": [
         "preserves"
       ],
-      "path": "/nix/store/hzb7af7lbd4kgd5y4hbgxv1lswig36yj-source",
-      "rev": "fd498c6457cb9ad2f3179daa40da69eec00326dd",
-      "sha256": "182xvw04vjw83mlcrkwkip29b44h0v8dapg2014k9011h90mdsj4",
+      "path": "/nix/store/9zl4s2did00725n8ygbp37agvkskdhcx-source",
+      "rev": "1fee87590940761e288cf9ab3c7270832403b719",
+      "sha256": "1ny42rwr3yx52zwvkdg4lh54nxaxrmxdj9dlw3qarvvp2grfq4j2",
       "srcDir": "src",
-      "url": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/fd498c6457cb9ad2f3179daa40da69eec00326dd.tar.gz"
+      "url": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/1fee87590940761e288cf9ab3c7270832403b719.tar.gz"
     },
     {
       "method": "fetchzip",
@@ -133,19 +133,19 @@
       "url": "https://git.sr.ht/~ehmry/nim_taps/archive/8c8572cd971d1283e6621006b310993c632da247.tar.gz"
     },
     {
-      "date": "2024-04-02T15:38:57+01:00",
+      "date": "2024-05-22T06:09:38+02:00",
       "deepClone": false,
       "fetchLFS": false,
       "fetchSubmodules": true,
-      "hash": "sha256-iZb9aAgYr4FGkqfIg49QWiCqeizIi047kFhugHiP8o0=",
+      "hash": "sha256-B3fMwgBpO2Ty8143k9V1cnHXa5K8i1+zN+eF/rBLMe0=",
       "leaveDotGit": false,
       "method": "git",
       "packages": [
         "solo5_dispatcher"
       ],
-      "path": "/nix/store/sf5dgj2ljvahcm6my7d61ibda51vnrii-solo5_dispatcher",
-      "rev": "a7a894a96a2221284012800e6fd32923d83d20bd",
-      "sha256": "13gjixw80vjqj0xlx2y85ixal82sa27q7j57j9383bqq11lgv5l9",
+      "path": "/nix/store/xqj48v4rqlffl1l94hi02szazj5gla8g-solo5_dispatcher",
+      "rev": "cc64ef99416b22b12e4a076d33de9e25a163e57d",
+      "sha256": "1v9i9fqgx1g76yrmz2xwj9mxfwbjfpar6dsyygr68fv9031cqxq7",
       "srcDir": "pkg",
       "url": "https://git.sr.ht/~ehmry/solo5_dispatcher"
     },

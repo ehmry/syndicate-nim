@@ -1,4 +1,4 @@
-# Package
+# auto-update-version
 
 version = "20240522"
 author        = "Emery Hemingway"
