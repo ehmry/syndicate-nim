@@ -7,7 +7,7 @@
       "bom-ref": "pkg:nim/syndicate",
       "name": "syndicate",
       "description": "Syndicated actors for conversational concurrency",
-      "version": "20240531",
+      "version": "20240604",
       "authors": [
         {
           "name": "Emery Hemingway"
@@ -75,7 +75,7 @@
       "type": "library",
       "bom-ref": "pkg:nim/preserves",
       "name": "preserves",
-      "version": "20240522",
+      "version": "20240604",
       "externalReferences": [
         {
           "url": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/1fee87590940761e288cf9ab3c7270832403b719.tar.gz",
@@ -93,23 +93,23 @@
         },
         {
           "name": "nix:fod:path",
-          "value": "/nix/store/9zl4s2did00725n8ygbp37agvkskdhcx-source"
+          "value": "/nix/store/pc5iajzkvjji78yw67y2axy80812zv3v-source"
         },
         {
           "name": "nix:fod:rev",
-          "value": "1fee87590940761e288cf9ab3c7270832403b719"
+          "value": "51d591d865ef13d92b02084b492768ec89728a7c"
         },
         {
           "name": "nix:fod:sha256",
-          "value": "1ny42rwr3yx52zwvkdg4lh54nxaxrmxdj9dlw3qarvvp2grfq4j2"
+          "value": "1qkmldwnbpw3mf9c9js3r2lfv5hnhy408dxnh4dziix75dxzb3w7"
         },
         {
           "name": "nix:fod:url",
-          "value": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/1fee87590940761e288cf9ab3c7270832403b719.tar.gz"
+          "value": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/51d591d865ef13d92b02084b492768ec89728a7c.tar.gz"
         },
         {
           "name": "nix:fod:ref",
-          "value": "20240522"
+          "value": "20240604"
         },
         {
           "name": "nix:fod:srcDir",
