@@ -38,15 +38,6 @@ type
   
   HttpRequest* {.preservesRecord: "http-request".} = object
   
-  RequestBodyKind* {.pure.} = enum
-    `absent`, `present`
-  `RequestBody`* {.preservesOr.} = object
-    case orKind*: RequestBodyKind
-    of RequestBodyKind.`absent`:
-      
-    of RequestBodyKind.`present`:
-      
-  
   Headers* = Table[Symbol, string]
   HttpResponseKind* {.pure.} = enum
     `status`, `header`, `chunk`, `done`
@@ -107,7 +98,6 @@ type
   PathPattern* = seq[PathPatternElement]
 proc `$`*(x: HostPattern | HttpListener | MethodPattern | MimeType | QueryValue |
     HttpRequest |
-    RequestBody |
     Headers |
     HttpResponse |
     HttpService |
@@ -122,7 +112,6 @@ proc `$`*(x: HostPattern | HttpListener | MethodPattern | MimeType | QueryValue 
 proc encode*(x: HostPattern | HttpListener | MethodPattern | MimeType |
     QueryValue |
     HttpRequest |
-    RequestBody |
     Headers |
     HttpResponse |
     HttpService |
