@@ -9,12 +9,12 @@ type
   Route* {.preservesRecord: "route".} = object
   
   BindObserverKind* {.pure.} = enum
-    `present`, `absent`
+    `absent`, `present`
   `BindObserver`* {.preservesOr.} = object
     case orKind*: BindObserverKind
-    of BindObserverKind.`present`:
-      
     of BindObserverKind.`absent`:
+      
+    of BindObserverKind.`present`:
       
   
   TransportConnection* {.preservesRecord: "connect-transport".} = object
@@ -23,14 +23,14 @@ type
   ResolvedPathStep* {.preservesRecord: "path-step".} = object
   
   BoundKind* {.pure.} = enum
-    `bound`, `Rejected`
+    `Rejected`, `bound`
   BoundBound* {.preservesRecord: "bound".} = object
   
   `Bound`* {.preservesOr.} = object
     case orKind*: BoundKind
-    of BoundKind.`bound`:
-      
     of BoundKind.`Rejected`:
+      
+    of BoundKind.`bound`:
       
   
   ForceDisconnect* {.preservesRecord: "force-disconnect".} = object
@@ -40,14 +40,14 @@ type
   Resolve* {.preservesRecord: "resolve".} = object
   
   ResolvedKind* {.pure.} = enum
-    `accepted`, `Rejected`
+    `Rejected`, `accepted`
   ResolvedAccepted* {.preservesRecord: "accepted".} = object
   
   `Resolved`* {.preservesOr.} = object
     case orKind*: ResolvedKind
-    of ResolvedKind.`accepted`:
-      
     of ResolvedKind.`Rejected`:
+      
+    of ResolvedKind.`accepted`:
       
   
   TransportControl* = ForceDisconnect

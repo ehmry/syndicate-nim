@@ -22,16 +22,16 @@ type
   Assertion* = Value
   Handle* = BiggestInt
   PacketKind* {.pure.} = enum
-    `Turn`, `Error`, `Extension`, `Nop`
+    `Nop`, `Turn`, `Error`, `Extension`
   `Packet`* {.preservesOr.} = object
     case orKind*: PacketKind
+    of PacketKind.`Nop`:
+      
     of PacketKind.`Turn`:
       
     of PacketKind.`Error`:
       
     of PacketKind.`Extension`:
-      
-    of PacketKind.`Nop`:
       
   
   EventKind* {.pure.} = enum
