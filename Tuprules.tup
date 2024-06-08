@@ -1,5 +1,4 @@
-include depends.tup
+PROJECT_DIR = $(TUP_CWD)
 NIM_GROUPS += $(TUP_CWD)/<lock>
-NIM_FLAGS += --path:$(TUP_CWD)/../cps
-NIM_FLAGS += --path:$(TUP_CWD)/../solo5_dispatcher/pkg
-NIM_FLAGS += --path:$(TUP_CWD)/../taps/src
+
+include depends.tup

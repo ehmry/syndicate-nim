@@ -1,13 +1,8 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / [options, sequtils, tables, unittest]
-
-import
-  preserves, syndicate, syndicate / protocols / [gatekeeper, timer]
-
-import
-  ./test_schema
+  std / [options, sequtils, tables, unittest], pkg / preserves, syndicate,
+  syndicate / protocols / [gatekeeper, timer], ./test_schema
 
 suite "example":
   var pat: Pattern

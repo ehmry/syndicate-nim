@@ -1,16 +1,7 @@
 # SPDX-License-Identifier: MIT
 
 import
-  taps
-
-import
-  solo5
-
-import
-  syndicate, syndicate / relays
-
-import
-  preserves
+  std / solo5, pkg / taps, pkg / preserves, syndicate, syndicate / relays
 
 acquireDevices([("relay", netBasic)], netAcquireHook)
 type

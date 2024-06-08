@@ -1,13 +1,8 @@
 # SPDX-License-Identifier: MIT
 
 import
-  std / [hashes, tables]
-
-import
-  preserves
-
-import
-  ./actors, ./patterns, ./protocols / dataspace
+  std / [hashes, tables], pkg / preserves, ./actors, ./patterns,
+  ./protocols / dataspace
 
 type
   DuringProc* = proc (turn: Turn; a: Value; h: Handle): TurnAction
