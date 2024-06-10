@@ -26,7 +26,8 @@ method publish(de: DuringEntity; turn: Turn; a: AssertionRef; h: Handle) =
       de.assertionMap[h] = DuringAction(kind: act, action: action)
     of dead:
       de.assertionMap.del h
-      action(turn)
+      if not action.isNil:
+        action(turn)
     of act:
       raiseAssert("during: duplicate handle in publish: " & $h)
 
