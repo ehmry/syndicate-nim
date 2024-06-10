@@ -1,2 +1,2 @@
 include_rules
-: foreach *.nim |> !nim_check |>
+: foreach *.nim |> !nim-doc |>

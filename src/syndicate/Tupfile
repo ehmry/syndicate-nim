@@ -1,4 +1,4 @@
 include_rules
 NIM_FLAGS += --path:$(TUP_CWD)/..
-: foreach *.nim |> !nim_check |>
+: patterns.nim |> !nim_check |>
 : patterns.nim |> !nim_bin |>

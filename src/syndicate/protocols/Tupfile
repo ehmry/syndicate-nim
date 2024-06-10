@@ -16,7 +16,7 @@ modules += transportAddress.nim
 modules += worker.nim
 
 : ../../../../syndicate-protocols/schema-bundle.bin \
-	|> !preserves_schema_nim \
+	|> !preserves-schema-nim \
 	|> $(modules) | $(SYNDICATE_PROTOCOL)
 
 : foreach $(modules) | $(modules) |> !nim_check |>
