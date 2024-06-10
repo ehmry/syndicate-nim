@@ -7,7 +7,7 @@
       "bom-ref": "pkg:nim/syndicate",
       "name": "syndicate",
       "description": "Syndicated actors for conversational concurrency",
-      "version": "20240608",
+      "version": "20240610",
       "authors": [
         {
           "name": "Emery Hemingway"
