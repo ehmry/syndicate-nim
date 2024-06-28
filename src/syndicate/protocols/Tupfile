@@ -5,6 +5,7 @@ modules += gatekeeper.nim
 modules += http.nim
 modules += noise.nim
 modules += protocol.nim
+modules += rpc.nim
 modules += service.nim
 modules += stdenv.nim
 modules += stream.nim
