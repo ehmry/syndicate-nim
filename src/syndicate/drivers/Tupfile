@@ -1,3 +1,2 @@
 include_rules
 NIM_FLAGS += --path:$(TUP_CWD)/../..
-: http_driver.nim |> !nim_check |>
