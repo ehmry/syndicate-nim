@@ -75,10 +75,10 @@
       "type": "library",
       "bom-ref": "pkg:nim/preserves",
       "name": "preserves",
-      "version": "20240610",
+      "version": "20240802",
       "externalReferences": [
         {
-          "url": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/560a6417a30a2dff63f24b62498e9fcac2de8354.tar.gz",
+          "url": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/7ecc8cec3e119476a560d0c529b902a180852faa.tar.gz",
           "type": "source-distribution"
         },
         {
@@ -93,23 +93,23 @@
         },
         {
           "name": "nix:fod:path",
-          "value": "/nix/store/0sszsmz84ppwqsgda8cmli4lfh2mjmin-source"
+          "value": "/nix/store/3927dikh3a73gdmag890908kip1ali30-source"
         },
         {
           "name": "nix:fod:rev",
-          "value": "560a6417a30a2dff63f24b62498e9fcac2de8354"
+          "value": "7ecc8cec3e119476a560d0c529b902a180852faa"
         },
         {
           "name": "nix:fod:sha256",
-          "value": "19r983fy7m54mlaj0adxdp8pxi1x8dp6phkcnr8rz5y5cwndfjx2"
+          "value": "1151y09qbq3b7cn1rh39ln8kh22fq3vdic6vbsmdbc7vfyhnlyg0"
         },
         {
           "name": "nix:fod:url",
-          "value": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/560a6417a30a2dff63f24b62498e9fcac2de8354.tar.gz"
+          "value": "https://git.syndicate-lang.org/ehmry/preserves-nim/archive/7ecc8cec3e119476a560d0c529b902a180852faa.tar.gz"
         },
         {
           "name": "nix:fod:ref",
-          "value": "20240610"
+          "value": "20240802"
         },
         {
           "name": "nix:fod:srcDir",
