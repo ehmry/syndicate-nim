@@ -1,5 +1,4 @@
 include ../preserves-nim/depends.tup
-NIM = $(DIRENV) $(NIM)
 NIM_FLAGS += --path:$(TUP_CWD)/src
 NIM_GROUPS += $(TUP_CWD)/<protocol>
 NIM_GROUPS += $(TUP_CWD)/<schema>
